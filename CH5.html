@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Memory Review Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #e74c3c;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .option label:hover {
+            border-color: #e74c3c;
+            background: #fdf2f2;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .option.correct label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect label {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #e74c3c;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .final-stats.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .final-stats h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stat-item {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Internal Memory Review Quiz</h1>
+            <p>Test your knowledge of cache memory and internal memory systems</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Progress:</strong> <span id="progress">0/20</span>
+            </div>
+            <div class="stat-item">
+                <strong>Correct:</strong> <span id="correct">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Incorrect:</strong> <span id="incorrect">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Score:</strong> <span id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content" id="quizContent">
+            <!-- Quiz content will be generated by JavaScript -->
+        </div>
+
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <p id="finalMessage">Great job completing the quiz!</p>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                section: "Cache Memory Fundamentals",
+                questions: [
+                    {
+                        id: 1,
+                        text: "What is the primary purpose of cache memory in a computer system?",
+                        options: [
+                            "To serve as the main storage for all system data.",
+                            "To provide a slower, but larger, storage alternative to main memory.",
+                            "To reduce the average time to access data from the main memory.",
+                            "To directly connect to input/output devices for data transfer."
+                        ],
+                        correct: 2,
+                        explanation: "Cache memory is designed to be faster than main memory, and its primary function is to store frequently accessed data so that the CPU can retrieve it more quickly, thereby reducing the average memory access time."
+                    },
+                    {
+                        id: 2,
+                        text: "In cache memory principles, what is defined as the minimum unit of transfer between cache and main memory?",
+                        options: [
+                            "Line",
+                            "Frame",
+                            "Tag",
+                            "Block"
+                        ],
+                        correct: 3,
+                        explanation: "The document states that a \"Block\" is the minimum unit of transfer between cache and main memory."
+                    },
+                    {
+                        id: 3,
+                        text: "What is a \"Line\" in the context of cache memory?",
+                        options: [
+                            "A logical address used for memory management.",
+                            "A portion of cache memory capable of holding one block.",
+                            "The total capacity of the main memory.",
+                            "A physical connection between the CPU and main memory."
+                        ],
+                        correct: 1,
+                        explanation: "A \"Line\" is defined as a portion of cache memory capable of holding one block."
+                    },
+                    {
+                        id: 4,
+                        text: "Which of the following is NOT listed as an element of cache design in the provided material?",
+                        options: [
+                            "Cache Size",
+                            "Write Policy",
+                            "Processor Speed",
+                            "Replacement Algorithm"
+                        ],
+                        correct: 2,
+                        explanation: "Table 5.1, \"Elements of Cache Design,\" lists Cache Addresses, Cache Size, Write Policy, Mapping Function, Replacement Algorithm, Line Size, and Number of Caches. Processor Speed is not explicitly listed as an element of cache design."
+                    },
+                    {
+                        id: 5,
+                        text: "What is \"Virtual memory\" as described in the document?",
+                        options: [
+                            "Physical memory directly accessible by the CPU.",
+                            "A facility that allows programs to address memory from a logical point of view.",
+                            "A type of cache used for very fast data access.",
+                            "Memory specifically designed for I/O operations."
+                        ],
+                        correct: 1,
+                        explanation: "Virtual memory is described as a \"Facility that allows programs to address memory from a logical point of view, without regard to the amount of main memory physically available\"."
+                    },
+                    {
+                        id: 6,
+                        text: "In a system utilizing virtual memory, what component translates each virtual address into a physical address in main memory?",
+                        options: [
+                            "Cache Controller",
+                            "System Bus",
+                            "Memory Management Unit (MMU)",
+                            "Processor Register"
+                        ],
+                        correct: 2,
+                        explanation: "The document states that when virtual memory is used, a \"hardware memory management unit (MMU) translates each virtual address into a physical address in main memory\"."
+                    },
+                    {
+                        id: 7,
+                        text: "According to the document, what is one of the motivations for minimizing cache size?",
+                        options: [
+                            "To increase the overall average access time.",
+                            "Larger caches are slightly slower than small ones due to more gates involved in addressing.",
+                            "To reduce the hit ratio of the cache.",
+                            "To make the overall average cost per bit closer to that of the cache alone."
+                        ],
+                        correct: 1,
+                        explanation: "The document states that \"The larger the cache, the larger the number of gates involved in addressing the cache resulting in large caches being slightly slower than small ones\"."
+                    }
+                ]
+            },
+            {
+                section: "Cache Mapping and Organization",
+                questions: [
+                    {
+                        id: 8,
+                        text: "Which cache mapping method allows each block of main memory to map to one unique line of cache, where the line portion of the address is used to access the cache line and the tag portion is used to check for a hit?",
+                        options: [
+                            "Fully Associative",
+                            "Set Associative",
+                            "Direct Mapped",
+                            "Content-Addressable Memory"
+                        ],
+                        correct: 2,
+                        explanation: "Table 5.3 describes Direct Mapped cache as having \"Each block of main memory maps to one unique line of cache,\" and the \"Line portion of address used to access cache line; Tag portion used to check for hit on that line\"."
+                    },
+                    {
+                        id: 9,
+                        text: "In which cache mapping method can each block of main memory map to any line of cache, and the tag portion of the address is used to check every line for a hit?",
+                        options: [
+                            "Direct Mapped",
+                            "Fully Associative",
+                            "Set Associative",
+                            "Way Prediction"
+                        ],
+                        correct: 1,
+                        explanation: "Table 5.3 states that in \"Fully Associative\" mapping, \"Each block of main memory can map to any line of cache\" and the \"Tag portion of address used to check every line for hit on that line\"."
+                    },
+                    {
+                        id: 10,
+                        text: "What is a key characteristic of Content-Addressable Memory (CAM) as described?",
+                        options: [
+                            "It is less expensive than regular SRAM chips.",
+                            "It searches its entire memory in parallel for a match when a bit string is supplied.",
+                            "It requires multiple clock cycles to find a match.",
+                            "It holds more data than regular SRAM chips."
+                        ],
+                        correct: 1,
+                        explanation: "The document states that \"A CAM is designed such that when a bit string is supplied, the CAM searches its entire memory in parallel for a match\"."
+                    },
+                    {
+                        id: 11,
+                        text: "Which cache replacement algorithm is described as the \"most effective\" and \"most popular\" due to its simplicity of implementation, replacing the block in the set that has been in the cache longest with no reference to it?",
+                        options: [
+                            "First-in-first-out (FIFO)",
+                            "Least frequently used (LFU)",
+                            "Random",
+                            "Least recently used (LRU)"
+                        ],
+                        correct: 3,
+                        explanation: "LRU is described as the \"Most effective\" and \"most popular replacement algorithm\" due to its simplicity, replacing the block in the set that has been in the cache longest with no reference to it."
+                    },
+                    {
+                        id: 12,
+                        text: "What is an advantage of a split cache design (one dedicated to instructions, one to data)?",
+                        options: [
+                            "Higher hit rate",
+                            "Simplifies searching for data with multiple processors.",
+                            "Eliminates cache contention between instruction fetch/decode unit and execution unit.",
+                            "Only one cache needs to be designed and implemented."
+                        ],
+                        correct: 2,
+                        explanation: "The advantage of split caches is that they \"Eliminates cache contention between instruction fetch/decode unit and execution unit,\" which is \"Important in pipelining\"."
+                    }
+                ]
+            },
+            {
+                section: "Cache Performance and Policies",
+                questions: [
+                    {
+                        id: 13,
+                        text: "When a block in the cache has been altered, and it is to be replaced, what action must occur before bringing in a new block, according to the write policy discussion?",
+                        options: [
+                            "The old block can be overwritten directly without any prior action.",
+                            "The old block is moved to a separate buffer.",
+                            "Main memory must be updated by writing the line of cache out to the block of memory.",
+                            "The cache simply discards the old block."
+                        ],
+                        correct: 2,
+                        explanation: "The document states: \"If at least one write operation has been performed on a word in that line of the cache then main memory must be updated by writing the line of cache out to the block of memory before bringing in the new block\"."
+                    },
+                    {
+                        id: 14,
+                        text: "What is the main disadvantage of the \"Write through\" write policy?",
+                        options: [
+                            "It is complex to implement.",
+                            "It minimizes memory writes.",
+                            "It generates substantial memory traffic and may create a bottleneck.",
+                            "It makes portions of main memory invalid."
+                        ],
+                        correct: 2,
+                        explanation: "The document states that \"The main disadvantage of this technique is that it generates substantial memory traffic and may create a bottleneck\"."
+                    },
+                    {
+                        id: 15,
+                        text: "Which write miss alternative involves fetching the block containing the word to be written from main memory (or next level cache) into the cache, and the processor proceeds with the write cycle?",
+                        options: [
+                            "No write allocate",
+                            "Write back",
+                            "Write through",
+                            "Write allocate"
+                        ],
+                        correct: 3,
+                        explanation: "\"Write allocate\" is defined as the alternative where \"The block containing the word to be written is fetched from main memory (or next level cache) into the cache and the processor proceeds with the write cycle\"."
+                    },
+                    {
+                        id: 16,
+                        text: "What problem is introduced in a bus organization where more than one device has a cache and main memory is shared, especially if data in one cache are altered?",
+                        options: [
+                            "Bus congestion",
+                            "Memory fragmentation",
+                            "Cache coherency",
+                            "Processor overheating"
+                        ],
+                        correct: 2,
+                        explanation: "The document introduces \"Cache Coherency\" as the new problem in such a scenario, where \"If data in one cache are altered, this invalidates not only the corresponding word in main memory, but also that same word in other caches\"."
+                    },
+                    {
+                        id: 17,
+                        text: "As block size increases in a cache, what is the initial effect on the hit ratio, and what happens eventually?",
+                        options: [
+                            "The hit ratio decreases at first, then increases.",
+                            "The hit ratio remains constant.",
+                            "The hit ratio will at first increase, then begin to decrease.",
+                            "The hit ratio continuously increases."
+                        ],
+                        correct: 2,
+                        explanation: "The document explains that \"As the block size increases the hit ratio will at first increase because of the principle of locality\" but then \"The hit ratio will begin to decrease as the block becomes bigger and the probability of using the newly fetched information becomes less than the probability of reusing the information that has to be replaced\"."
+                    },
+                    {
+                        id: 18,
+                        text: "Consider a cache timing model equation for a Direct-Mapped cache: thit = trl + txb. If trl (read latency) is 5ns and txb (transfer block time) is 15ns, what is the thit (hit time)?",
+                        options: [
+                            "5ns",
+                            "15ns",
+                            "20ns",
+                            "10ns"
+                        ],
+                        correct: 2,
+                        explanation: "The formula for thit in a Direct-Mapped cache is thit = trl + txb. Given trl = 5ns and txb = 15ns, thit = 5ns + 15ns = 20ns."
+                    },
+                    {
+                        id: 19,
+                        text: "For a Fully Associative cache, the miss time is simply the tag comparison time (tct). If tct is 8ns, what is the tmiss (miss time) for a Fully Associative cache?",
+                        options: [
+                            "0ns",
+                            "8ns",
+                            "16ns",
+                            "4ns"
+                        ],
+                        correct: 1,
+                        explanation: "The document states that for a Fully Associative cache, \"the miss time is simply the tag comparison time\" (tct). Therefore, if tct = 8ns, tmiss = 8ns."
+                    },
+                    {
+                        id: 20,
+                        text: "Which of the following is a technique for cache performance improvement mentioned in Table 5.7?",
+                        options: [
+                            "Decreasing the degree of associativity.",
+                            "Using a unified cache.",
+                            "Implementing Way Prediction.",
+                            "Reducing the line size."
+                        ],
+                        correct: 2,
+                        explanation: "Table 5.7, \"Cache Performance Improvement Techniques,\" lists \"Way Prediction\" as a technique to reduce tmiss. Other options like \"Decreasing the degree of associativity\" and \"Reducing the line size\" are listed under techniques that reduce cache performance, while \"Unified cache\" is a type of cache organization, not an improvement technique in the context of the table."
+                    }
+                ]
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            totalQuestions: 20
+        };
+
+        function generateQuiz() {
+            const content = document.getElementById('quizContent');
+            content.innerHTML = '';
+
+            quizData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.section;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <div class="question-header">Question ${question.id}</div>
+                        <div class="question-content">
+                            <div class="question-text">${question.text}</div>
+                            <ul class="options">
+                                ${question.options.map((option, index) => `
+                                    <li class="option" data-index="${index}">
+                                        <label>
+                                            <input type="radio" name="q${question.id}" value="${index}">
+                                            ${String.fromCharCode(65 + index)}. ${option}
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="explanation">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                    
+                    sectionDiv.appendChild(questionDiv);
+                });
+
+                content.appendChild(sectionDiv);
+            });
+
+            // Add event listeners to all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            const questionId = parseInt(event.target.name.replace('q', ''));
+            const selectedIndex = parseInt(event.target.value);
+            
+            // Find the question data
+            let questionData = null;
+            for (let section of quizData) {
+                questionData = section.questions.find(q => q.id === questionId);
+                if (questionData) break;
+            }
+
+            if (!questionData) return;
+
+            // Get the question element
+            const questionElement = event.target.closest('.question');
+            const options = questionElement.querySelectorAll('.option');
+            const explanation = questionElement.querySelector('.explanation');
+
+            // Disable all radio buttons for this question
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                if (index === questionData.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update stats
+            if (selectedIndex === questionData.correct) {
+                stats.correct++;
+            } else {
+                stats.incorrect++;
+            }
+            stats.answered++;
+
+            updateStats();
+            
+            // Check if quiz is complete
+            if (stats.answered === stats.totalQuestions) {
+                setTimeout(showFinalStats, 1000);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${stats.answered}/${stats.totalQuestions}`;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+            
+            const percentage = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+            document.getElementById('score').textContent = `${percentage}%`;
+            
+            const progressPercentage = (stats.answered / stats.totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        }
+
+        function showFinalStats() {
+            const finalScore = Math.round((stats.correct / stats.totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = `${finalScore}%`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🎉 Excellent! You have mastered the internal memory concepts!';
+            } else if (finalScore >= 80) {
+                message = '👍 Great job! You have a good understanding of cache memory!';
+            } else if (finalScore >= 70) {
+                message = '👌 Good work! Consider reviewing some concepts to improve further.';
+            } else if (finalScore >= 60) {
+                message = '📚 Keep studying! You\'re on the right track but need more practice.';
+            } else {
+                message = '💪 Don\'t give up! Review the material and try again.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalStats').classList.add('show');
+        }
+
+        function restartQuiz() {
+            stats = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                totalQuestions: 20
+            };
+            
+            document.getElementById('finalStats').classList.remove('show');
+            updateStats();
+            generateQuiz();
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            updateStats();
+        });
+    </script>
+</body>
+</html>

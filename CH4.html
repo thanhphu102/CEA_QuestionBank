@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Hierarchy Review Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #3498db;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .option label:hover {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .option.correct label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect label {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .final-stats.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .final-stats h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stat-item {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Memory Hierarchy Review Quiz</h1>
+            <p>Test your knowledge of computer memory systems</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Progress:</strong> <span id="progress">0/32</span>
+            </div>
+            <div class="stat-item">
+                <strong>Correct:</strong> <span id="correct">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Incorrect:</strong> <span id="incorrect">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Score:</strong> <span id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content" id="quizContent">
+            <!-- Quiz content will be generated by JavaScript -->
+        </div>
+
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <p id="finalMessage">Great job completing the quiz!</p>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                section: "Principle of Locality",
+                questions: [
+                    {
+                        id: 1,
+                        text: "The Principle of Locality, also known as locality of reference, reflects which observation during program execution?",
+                        options: [
+                            "Memory references by the processor are uniformly distributed.",
+                            "Memory references by the processor tend to cluster.",
+                            "Memory references are unpredictable over time.",
+                            "Memory references are independent of past access patterns."
+                        ],
+                        correct: 1,
+                        explanation: "The Principle of Locality states that during the execution of a program, memory references by the processor tend to cluster, meaning certain memory locations are referenced repeatedly within a short period."
+                    },
+                    {
+                        id: 2,
+                        text: "Which of the following is NOT one of the three assertions on which the Principle of Locality is based?",
+                        options: [
+                            "During any interval of time, a program references memory locations non-uniformly.",
+                            "As a function of time, the probability that a given unit of memory is referenced tends to change slowly.",
+                            "The correlation between immediate past and immediate future memory reference patterns is low.",
+                            "The correlation between immediate past and immediate future memory reference patterns is high and tapers off as the time interval increases."
+                        ],
+                        correct: 2,
+                        explanation: "One of the assertions of the Principle of Locality is that the correlation between immediate past and immediate future memory reference patterns is high and tapers off as the time interval increases, not low."
+                    },
+                    {
+                        id: 3,
+                        text: "What are the two forms of locality mentioned in the context of memory hierarchy?",
+                        options: [
+                            "Read locality and Write locality",
+                            "CPU locality and I/O locality",
+                            "Temporal locality and Spatial locality",
+                            "Cache locality and Main memory locality"
+                        ],
+                        correct: 2,
+                        explanation: "The two forms of locality are temporal locality and spatial locality."
+                    },
+                    {
+                        id: 4,
+                        text: "Temporal locality refers to which tendency of a program?",
+                        options: [
+                            "To reference units of memory whose addresses are near one another in the near future.",
+                            "To reference in the near future those units of memory referenced in the recent past.",
+                            "To access data locations sequentially, such as when processing a table of data.",
+                            "To reference memory locations randomly without any pattern."
+                        ],
+                        correct: 1,
+                        explanation: "Temporal locality refers to the tendency of a program to reference in the near future those units of memory referenced in the recent past."
+                    },
+                    {
+                        id: 5,
+                        text: "What constructs can lead to the principle of temporal locality?",
+                        options: [
+                            "Large arrays and linked lists.",
+                            "Constants, temporary variables, and working stacks.",
+                            "Network protocols and device drivers.",
+                            "Graphics processing units and sound cards."
+                        ],
+                        correct: 1,
+                        explanation: "Constants, temporary variables, and working stacks are constructs that lead to the principle of temporal locality."
+                    },
+                    {
+                        id: 6,
+                        text: "Spatial locality reflects which tendency of a program?",
+                        options: [
+                            "To reference the same memory location repeatedly over time.",
+                            "To reference units of memory whose addresses are near one another.",
+                            "To access memory locations in an unpredictable order.",
+                            "To reference memory only from external storage devices."
+                        ],
+                        correct: 1,
+                        explanation: "Spatial locality refers to the tendency of a program to reference units of memory whose addresses are near one another. It also reflects the tendency to access data locations sequentially."
+                    }
+                ]
+            },
+            {
+                section: "Characteristics of Memory Systems",
+                questions: [
+                    {
+                        id: 7,
+                        text: "What does \"Location\" refer to regarding memory systems?",
+                        options: [
+                            "The physical address of a memory unit.",
+                            "Whether memory is internal or external to the computer.",
+                            "The specific room where the memory modules are installed.",
+                            "The type of semiconductor used in the memory."
+                        ],
+                        correct: 1,
+                        explanation: "\"Location\" refers to whether memory is internal (e.g., processor registers, cache, main memory) or external (e.g., optical disks, magnetic disks, tapes) to the computer."
+                    },
+                    {
+                        id: 8,
+                        text: "How is memory capacity typically expressed?",
+                        options: [
+                            "In terms of words.",
+                            "In terms of bits per second.",
+                            "In terms of bytes.",
+                            "In terms of access time."
+                        ],
+                        correct: 2,
+                        explanation: "Memory capacity is typically expressed in terms of bytes."
+                    },
+                    {
+                        id: 9,
+                        text: "For internal memory, what is the unit of transfer equal to?",
+                        options: [
+                            "The number of bytes that can be transferred in one second.",
+                            "The number of electrical lines into and out of the memory module.",
+                            "The total capacity of the memory module.",
+                            "The number of memory locations accessed in a single operation."
+                        ],
+                        correct: 1,
+                        explanation: "For internal memory, the unit of transfer is equal to the number of electrical lines into and out of the memory module."
+                    },
+                    {
+                        id: 10,
+                        text: "Which access method organizes memory into units of data called records and requires access to be made in a specific linear sequence?",
+                        options: [
+                            "Random access",
+                            "Direct access",
+                            "Associative access",
+                            "Sequential access"
+                        ],
+                        correct: 3,
+                        explanation: "In sequential access, memory is organized into units of data called records, and access must be made in a specific linear sequence."
+                    },
+                    {
+                        id: 11,
+                        text: "In which access method does each addressable location in memory have a unique, physically wired-in addressing mechanism, and the time to access a given location is independent of prior accesses?",
+                        options: [
+                            "Sequential access",
+                            "Direct access",
+                            "Random access",
+                            "Associative access"
+                        ],
+                        correct: 2,
+                        explanation: "Random access means each addressable location has a unique, physically wired-in addressing mechanism, and access time is constant regardless of prior access sequences. Main memory and some cache systems use this."
+                    },
+                    {
+                        id: 12,
+                        text: "Which access method involves a shared read-write mechanism and individual blocks having a unique address based on physical location, resulting in variable access time?",
+                        options: [
+                            "Sequential access",
+                            "Direct access",
+                            "Random access",
+                            "Associative access"
+                        ],
+                        correct: 1,
+                        explanation: "Direct access involves a shared read-write mechanism where individual blocks or records have a unique address based on physical location, and access time is variable."
+                    },
+                    {
+                        id: 13,
+                        text: "In which access method is a word retrieved based on a portion of its contents rather than its address, and retrieval time is constant?",
+                        options: [
+                            "Sequential access",
+                            "Direct access",
+                            "Random access",
+                            "Associative access"
+                        ],
+                        correct: 3,
+                        explanation: "Associative access retrieves a word based on a portion of its contents, not its address, and each location has its own addressing mechanism, leading to constant retrieval time. Cache memories may employ this method."
+                    },
+                    {
+                        id: 14,
+                        text: "What are the two most important characteristics of memory in terms of capacity and performance?",
+                        options: [
+                            "Cost and Volatility.",
+                            "Access time and Transfer rate.",
+                            "Capacity and Performance.",
+                            "Organization and Physical Type."
+                        ],
+                        correct: 2,
+                        explanation: "Capacity and performance are identified as the two most important characteristics of memory."
+                    },
+                    {
+                        id: 15,
+                        text: "For random-access memory, what is \"Access time (latency)\" defined as?",
+                        options: [
+                            "The time it takes to transfer a block of data.",
+                            "The time it takes to position the read-write mechanism at the desired location.",
+                            "The time it takes to perform a read or write operation.",
+                            "The time required before a second access can commence."
+                        ],
+                        correct: 2,
+                        explanation: "For random-access memory, access time (latency) is defined as the time it takes to perform a read or write operation."
+                    },
+                    {
+                        id: 16,
+                        text: "What is \"Memory cycle time\" defined as?",
+                        options: [
+                            "The time it takes to complete a single memory access, including any transients.",
+                            "The rate at which data can be transferred into or out of a memory unit.",
+                            "The time it takes to position the read-write mechanism at the desired location.",
+                            "The time for a read or write operation plus any additional time required before a second access can commence."
+                        ],
+                        correct: 3,
+                        explanation: "Memory cycle time is defined as access time plus any additional time required before a second access can commence, which may include time for transients to die out or to regenerate data."
+                    },
+                    {
+                        id: 17,
+                        text: "For random-access memory, what is the transfer rate equal to?",
+                        options: [
+                            "Access time.",
+                            "Memory cycle time.",
+                            "1 / (cycle time).",
+                            "The number of electrical lines into and out of the memory module."
+                        ],
+                        correct: 2,
+                        explanation: "For random-access memory, the transfer rate is equal to 1/(cycle time)."
+                    },
+                    {
+                        id: 18,
+                        text: "Which type of memory loses information naturally or when electrical power is switched off?",
+                        options: [
+                            "Nonvolatile memory.",
+                            "Erasable memory.",
+                            "Volatile memory.",
+                            "Read-only memory (ROM)."
+                        ],
+                        correct: 2,
+                        explanation: "Volatile memory is characterized by information decaying naturally or being lost when electrical power is switched off."
+                    },
+                    {
+                        id: 19,
+                        text: "Which type of memory, once recorded, retains information without deterioration until deliberately changed, and needs no electrical power to retain information?",
+                        options: [
+                            "Volatile memory.",
+                            "Semiconductor memory.",
+                            "Nonvolatile memory.",
+                            "Random-access memory."
+                        ],
+                        correct: 2,
+                        explanation: "Nonvolatile memory retains information without deterioration until deliberately changed and does not require electrical power to retain information."
+                    },
+                    {
+                        id: 20,
+                        text: "What is semiconductor memory of the nonerasable type known as?",
+                        options: [
+                            "RAM.",
+                            "Cache.",
+                            "ROM (Read-Only Memory).",
+                            "Magnetic disk."
+                        ],
+                        correct: 2,
+                        explanation: "Semiconductor memory of the nonerasable type, which cannot be altered except by destroying the storage unit, is known as read-only memory (ROM)."
+                    }
+                ]
+            },
+            {
+                section: "Memory Hierarchy",
+                questions: [
+                    {
+                        id: 21,
+                        text: "What are the three design constraints on a computer's memory that are summed up by questions \"How much, how fast, how expensive\"?",
+                        options: [
+                            "Capacity, access time, and cost.",
+                            "Speed, reliability, and security.",
+                            "Volatility, erasability, and organization.",
+                            "Location, unit of transfer, and physical type."
+                        ],
+                        correct: 0,
+                        explanation: "The design constraints on a computer's memory are summed up by \"How much, how fast, how expensive,\" referring to capacity, access time, and cost, respectively."
+                    },
+                    {
+                        id: 22,
+                        text: "What is the trade-off relationship between faster access time and cost per bit in a memory hierarchy?",
+                        options: [
+                            "Faster access time, smaller cost per bit.",
+                            "Faster access time, greater cost per bit.",
+                            "Faster access time, no change in cost per bit.",
+                            "Faster access time, irrelevant to cost per bit."
+                        ],
+                        correct: 1,
+                        explanation: "In a memory hierarchy, there is a trade-off where faster access time correlates with a greater cost per bit."
+                    },
+                    {
+                        id: 23,
+                        text: "How does greater capacity relate to cost per bit and access time in a memory hierarchy?",
+                        options: [
+                            "Greater capacity, greater cost per bit, faster access time.",
+                            "Greater capacity, smaller cost per bit, faster access time.",
+                            "Greater capacity, greater cost per bit, slower access time.",
+                            "Greater capacity, smaller cost per bit, slower access time."
+                        ],
+                        correct: 3,
+                        explanation: "A greater capacity in a memory hierarchy typically means a smaller cost per bit and slower access time."
+                    },
+                    {
+                        id: 24,
+                        text: "What manages the unit of transfer for the \"Registers\" level in a memory architecture?",
+                        options: [
+                            "Operating system (OS)",
+                            "Processor hardware",
+                            "Compiler",
+                            "OS/user"
+                        ],
+                        correct: 2,
+                        explanation: "For the Registers memory level, the unit of transfer (Word - 32 bits) is managed by the Compiler."
+                    },
+                    {
+                        id: 25,
+                        text: "What manages the unit of transfer for the \"Cache\" level in a memory architecture?",
+                        options: [
+                            "Compiler",
+                            "Processor hardware",
+                            "Operating system (OS)",
+                            "OS/user"
+                        ],
+                        correct: 1,
+                        explanation: "For the Cache memory level, the unit of transfer (Cache block - 32 bytes) is managed by the Processor hardware."
+                    },
+                    {
+                        id: 26,
+                        text: "What is \"secondary memory\" or \"auxiliary memory\" also referred to as?",
+                        options: [
+                            "Internal volatile memory.",
+                            "External nonvolatile memory.",
+                            "Primary memory.",
+                            "Processor registers."
+                        ],
+                        correct: 1,
+                        explanation: "External, nonvolatile memory is also referred to as secondary memory or auxiliary memory."
+                    },
+                    {
+                        id: 27,
+                        text: "Which design principle for a memory hierarchy dictates that all information items are originally stored in the level most remote from the processor?",
+                        options: [
+                            "Locality.",
+                            "Coherence.",
+                            "Inclusion.",
+                            "Performance."
+                        ],
+                        correct: 2,
+                        explanation: "The Inclusion principle dictates that all information items are originally stored in level Mn, where n is the level most remote from the processor."
+                    },
+                    {
+                        id: 28,
+                        text: "Which design principle states that copies of the same data unit in adjacent memory levels must be consistent, and if a word is modified in the cache, its copies must be updated at higher levels?",
+                        options: [
+                            "Locality.",
+                            "Inclusion.",
+                            "Coherence.",
+                            "Hierarchy."
+                        ],
+                        correct: 2,
+                        explanation: "Coherence states that copies of the same data unit in adjacent memory levels must be consistent, requiring updates at higher levels if a word is modified in the cache."
+                    },
+                    {
+                        id: 29,
+                        text: "What is the principle that makes effective use of a memory hierarchy possible?",
+                        options: [
+                            "Coherence.",
+                            "Inclusion.",
+                            "Locality.",
+                            "Random access."
+                        ],
+                        correct: 2,
+                        explanation: "Locality is the principle that makes effective use of a memory hierarchy possible."
+                    },
+                    {
+                        id: 30,
+                        text: "A cache acts as a buffer between which two components, creating a two-level internal memory?",
+                        options: [
+                            "CPU and hard disk.",
+                            "Main memory and processor.",
+                            "I/O controller and external memory.",
+                            "Registers and main memory."
+                        ],
+                        correct: 1,
+                        explanation: "A cache acts as a buffer between main memory and the processor, creating a two-level internal memory."
+                    },
+                    {
+                        id: 31,
+                        text: "Which of the following are other instances of a two-level memory approach that exploit locality and are at least partially implemented in the operating system?",
+                        options: [
+                            "Processor registers and cache.",
+                            "Main memory and ROM.",
+                            "Virtual memory and disk cache.",
+                            "Magnetic disks and optical disks."
+                        ],
+                        correct: 2,
+                        explanation: "Virtual memory and disk cache are two other instances of a two-level memory approach that exploit locality and are at least partially implemented in the operating system."
+                    },
+                    {
+                        id: 32,
+                        text: "In the operation of a two-level memory, what happens if an attempt to access an item in the upper-level memory (M1) fails?",
+                        options: [
+                            "The system reports an error.",
+                            "The item is directly accessed from M2 without copying.",
+                            "A block of memory locations is copied from M2 to M1, and the access then takes place via M1.",
+                            "The processor waits until M1 is available."
+                        ],
+                        correct: 2,
+                        explanation: "If an access attempt in M1 fails, a block of memory locations is copied from M2 to M1, and the access then occurs via M1."
+                    }
+                ]
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            totalQuestions: 32
+        };
+
+        function generateQuiz() {
+            const content = document.getElementById('quizContent');
+            content.innerHTML = '';
+
+            quizData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.section;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <div class="question-header">Question ${question.id}</div>
+                        <div class="question-content">
+                            <div class="question-text">${question.text}</div>
+                            <ul class="options">
+                                ${question.options.map((option, index) => `
+                                    <li class="option" data-index="${index}">
+                                        <label>
+                                            <input type="radio" name="q${question.id}" value="${index}">
+                                            ${String.fromCharCode(65 + index)}. ${option}
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="explanation">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                    
+                    sectionDiv.appendChild(questionDiv);
+                });
+
+                content.appendChild(sectionDiv);
+            });
+
+            // Add event listeners to all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            const questionId = parseInt(event.target.name.replace('q', ''));
+            const selectedIndex = parseInt(event.target.value);
+            
+            // Find the question data
+            let questionData = null;
+            for (let section of quizData) {
+                questionData = section.questions.find(q => q.id === questionId);
+                if (questionData) break;
+            }
+
+            if (!questionData) return;
+
+            // Get the question element
+            const questionElement = event.target.closest('.question');
+            const options = questionElement.querySelectorAll('.option');
+            const explanation = questionElement.querySelector('.explanation');
+
+            // Disable all radio buttons for this question
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                if (index === questionData.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update stats
+            if (selectedIndex === questionData.correct) {
+                stats.correct++;
+            } else {
+                stats.incorrect++;
+            }
+            stats.answered++;
+
+            updateStats();
+            
+            // Check if quiz is complete
+            if (stats.answered === stats.totalQuestions) {
+                setTimeout(showFinalStats, 1000);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${stats.answered}/${stats.totalQuestions}`;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+            
+            const percentage = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+            document.getElementById('score').textContent = `${percentage}%`;
+            
+            const progressPercentage = (stats.answered / stats.totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        }
+
+        function showFinalStats() {
+            const finalScore = Math.round((stats.correct / stats.totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = `${finalScore}%`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🎉 Excellent! You have mastered the memory hierarchy concepts!';
+            } else if (finalScore >= 80) {
+                message = '👍 Great job! You have a good understanding of memory hierarchy!';
+            } else if (finalScore >= 70) {
+                message = '👌 Good work! Consider reviewing some concepts to improve further.';
+            } else if (finalScore >= 60) {
+                message = '📚 Keep studying! You\'re on the right track but need more practice.';
+            } else {
+                message = '💪 Don\'t give up! Review the material and try again.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalStats').classList.add('show');
+        }
+
+        function restartQuiz() {
+            stats = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                totalQuestions: 32
+            };
+            
+            document.getElementById('finalStats').classList.remove('show');
+            updateStats();
+            generateQuiz();
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            updateStats();
+        });
+    </script>
+</body>
+</html>

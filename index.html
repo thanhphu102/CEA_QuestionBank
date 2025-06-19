@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEA Question Bank - Computer Engineering Architecture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .header .description {
+            font-size: 1.1em;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 50px 30px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .intro h2 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .intro p {
+            font-size: 1.2em;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .quiz-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+
+        .quiz-card .icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .quiz-card h3 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .quiz-card .topics {
+            margin-bottom: 20px;
+        }
+
+        .quiz-card .topics h4 {
+            font-size: 1.1em;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        .quiz-card .topics ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .quiz-card .topics li {
+            padding: 5px 0;
+            color: #666;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .quiz-card .topics li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .quiz-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .quiz-info .info-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quiz-button {
+            display: block;
+            width: 100%;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .quiz-button:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #1f5f8b 100%);
+            transform: translateY(-2px);
+        }
+
+        .coming-soon {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .coming-soon .quiz-button {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            cursor: not-allowed;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        .github-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+
+        .github-link:hover {
+            background: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .quiz-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .quiz-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖥️ CEA Question Bank</h1>
+            <div class="subtitle">Computer Engineering Architecture</div>
+            <div class="description">
+                Interactive quizzes and practice questions to help you master computer architecture concepts
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <h2>Available Practice Quizzes</h2>
+                <p>Test your knowledge with our interactive quizzes featuring immediate feedback, detailed explanations, and comprehensive statistics tracking.</p>
+            </div>
+
+            <div class="quiz-grid">
+                <div class="quiz-card">
+                    <div class="icon">🧠</div>
+                    <h3>Chapter 4: Memory Hierarchy</h3>
+                    
+                    <div class="topics">
+                        <h4>Topics Covered:</h4>
+                        <ul>
+                            <li>Principle of Locality</li>
+                            <li>Characteristics of Memory Systems</li>
+                            <li>Memory Hierarchy Design</li>
+                            <li>Cache Memory Concepts</li>
+                            <li>Virtual Memory Systems</li>
+                        </ul>
+                    </div>
+
+                    <div class="quiz-info">
+                        <div class="info-item">
+                            <span>📝</span>
+                            <span>32 Questions</span>
+                        </div>
+                        <div class="info-item">
+                            <span>⏱️</span>
+                            <span>~20 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <span>📊</span>
+                            <span>Instant Feedback</span>
+                        </div>
+                    </div>
+
+                    <a href="CH4.html" class="quiz-button">
+                        Start Memory Hierarchy Quiz
+                    </a>
+                </div>
+
+                <div class="quiz-card">
+                    <div class="icon">⚡</div>
+                    <h3>Chapter 5: Internal Memory</h3>
+                    
+                    <div class="topics">
+                        <h4>Topics Covered:</h4>
+                        <ul>
+                            <li>Cache Memory Fundamentals</li>
+                            <li>Cache Mapping Techniques</li>
+                            <li>Cache Performance Optimization</li>
+                            <li>Virtual Memory Systems</li>
+                            <li>Memory Management Unit</li>
+                        </ul>
+                    </div>
+
+                    <div class="quiz-info">
+                        <div class="info-item">
+                            <span>📝</span>
+                            <span>20 Questions</span>
+                        </div>
+                        <div class="info-item">
+                            <span>⏱️</span>
+                            <span>~15 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <span>📊</span>
+                            <span>Instant Feedback</span>
+                        </div>
+                    </div>
+
+                    <a href="CH5.html" class="quiz-button">
+                        Start Internal Memory Quiz
+                    </a>
+                </div>
+
+                <div class="quiz-card coming-soon">
+                    <div class="icon">💾</div>
+                    <h3>Chapter 6: External Memory</h3>
+                    
+                    <div class="topics">
+                        <h4>Topics Covered:</h4>
+                        <ul>
+                            <li>Magnetic Disk Storage</li>
+                            <li>Optical Storage Systems</li>
+                            <li>Solid State Drives</li>
+                            <li>RAID Technology</li>
+                            <li>Storage Performance</li>
+                        </ul>
+                    </div>
+
+                    <div class="quiz-info">
+                        <div class="info-item">
+                            <span>📝</span>
+                            <span>Coming Soon</span>
+                        </div>
+                        <div class="info-item">
+                            <span>⏱️</span>
+                            <span>~18 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <span>📊</span>
+                            <span>Instant Feedback</span>
+                        </div>
+                    </div>
+
+                    <button class="quiz-button">
+                        Coming Soon
+                    </button>
+                </div>
+
+                <div class="quiz-card coming-soon">
+                    <div class="icon">🚀</div>
+                    <h3>Chapter 7: I/O Systems</h3>
+                    
+                    <div class="topics">
+                        <h4>Topics Covered:</h4>
+                        <ul>
+                            <li>I/O Modules and Functions</li>
+                            <li>Programmed I/O</li>
+                            <li>Interrupt-Driven I/O</li>
+                            <li>Direct Memory Access</li>
+                            <li>I/O Channels and Processors</li>
+                        </ul>
+                    </div>
+
+                    <div class="quiz-info">
+                        <div class="info-item">
+                            <span>📝</span>
+                            <span>Coming Soon</span>
+                        </div>
+                        <div class="info-item">
+                            <span>⏱️</span>
+                            <span>~25 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <span>📊</span>
+                            <span>Instant Feedback</span>
+                        </div>
+                    </div>
+
+                    <button class="quiz-button">
+                        Coming Soon
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 CEA Question Bank - Computer Engineering Architecture Practice Quizzes</p>
+            <p>Designed for FPTU students to enhance their understanding of computer architecture concepts</p>
+            <a href="https://github.com" class="github-link" target="_blank">
+                🌟 View on GitHub
+            </a>
+        </div>
+    </div>
+</body>
+</html>
