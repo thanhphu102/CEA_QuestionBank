@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating Systems Review Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #20b2aa 0%, #008b8b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #20b2aa;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #20b2aa;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .option label:hover {
+            border-color: #20b2aa;
+            background: #f0fdfd;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .option.correct label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect label {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e0f7fa;
+            border-left: 4px solid #20b2aa;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #20b2aa, #008b8b);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .final-stats.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .final-stats h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stat-item {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Operating Systems Review Quiz</h1>
+            <p>Test your knowledge of operating system concepts and memory management</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Progress:</strong> <span id="progress">0/20</span>
+            </div>
+            <div class="stat-item">
+                <strong>Correct:</strong> <span id="correct">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Incorrect:</strong> <span id="incorrect">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Score:</strong> <span id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content" id="quizContent">
+            <!-- Quiz content will be generated by JavaScript -->
+        </div>
+
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <p id="finalMessage">Great job completing the quiz!</p>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                section: "Operating System Fundamentals",
+                questions: [
+                    {
+                        id: 1,
+                        text: "Which of the following is NOT a primary service area provided by an Operating System?",
+                        options: [
+                            "Program creation",
+                            "Hardware design and manufacturing",
+                            "Access to I/O devices",
+                            "Error detection and response"
+                        ],
+                        correct: 1,
+                        explanation: "The document lists \"Program creation,\" \"Program execution,\" \"Access to I/O devices,\" \"Controlled access to files,\" \"System access,\" \"Error detection and response,\" and \"Accounting\" as typical service areas provided by an Operating System. Hardware design and manufacturing is not an OS service."
+                    },
+                    {
+                        id: 2,
+                        text: "What is the main purpose of an Application Binary Interface (ABI) in a computer system?",
+                        options: [
+                            "To define the machine language instructions a computer can follow.",
+                            "To give a program access to hardware resources and services through high-level language library calls.",
+                            "To define a standard for binary portability across programs.",
+                            "To provide a boundary between hardware and software."
+                        ],
+                        correct: 2,
+                        explanation: "The document states that the Application Binary Interface (ABI) \"Defines a standard for binary portability across programs\"."
+                    },
+                    {
+                        id: 3,
+                        text: "An Operating System functions as a control mechanism. In which unusual respect does it behave compared to ordinary computer software?",
+                        options: [
+                            "It is entirely hardware-based and does not execute as a program.",
+                            "It always retains continuous control of the processor.",
+                            "It frequently relinquishes control and depends on the processor to regain control.",
+                            "It only manages memory resources, not processing or I/O."
+                        ],
+                        correct: 2,
+                        explanation: "The document highlights that the OS as a control mechanism is unusual because \"The OS frequently relinquishes control and must depend on the processor to allow it to regain control\"."
+                    },
+                    {
+                        id: 4,
+                        text: "In an \"Early System\" without an Operating System (late 1940s to mid-1950s), what was a common problem related to \"Setup time\"?",
+                        options: [
+                            "Excessive use of the internet for program downloads.",
+                            "The need to load compilers, source programs, and link object programs for each single program.",
+                            "Frequent system crashes due to OS conflicts.",
+                            "Automatic configuration of peripherals."
+                        ],
+                        correct: 1,
+                        explanation: "For \"Early Systems,\" the document explains that \"A single program could involve Loading the compiler plus the source program into memory Saving the compiled program Loading and linking together the object program and common functions\" as part of the \"Setup time\" problem."
+                    },
+                    {
+                        id: 5,
+                        text: "What is the primary function of a \"Timer\" as a desirable hardware feature for an Operating System?",
+                        options: [
+                            "To measure the execution time of individual instructions.",
+                            "To prevent a user job from monopolizing the system by triggering an interrupt if it expires.",
+                            "To synchronize data transfer between the CPU and I/O devices.",
+                            "To provide real-time clock functionality for applications."
+                        ],
+                        correct: 1,
+                        explanation: "The document states that a \"Timer\" is \"Used to prevent a job from monopolizing the system\" and that \"If the timer expires an interrupt occurs and control returns to monitor\"."
+                    }
+                ]
+            },
+            {
+                section: "Multiprogramming and Process Management",
+                questions: [
+                    {
+                        id: 6,
+                        text: "Based on Table 9.2, if a system shifts from Uniprogramming to Multiprogramming, how does the Processor Use (%) change?",
+                        options: [
+                            "It decreases from 40% to 20%.",
+                            "It increases from 20% to 40%.",
+                            "It remains constant at 33%.",
+                            "It increases from 33% to 67%."
+                        ],
+                        correct: 1,
+                        explanation: "According to \"Table 9.2: Effects of Multiprogramming on Resource Utilization,\" Processor use (%) changes from 20% in Uniprogramming to 40% in Multiprogramming."
+                    },
+                    {
+                        id: 7,
+                        text: "What is the principal objective of a \"Time Sharing\" system, as compared to \"Batch Multiprogramming\"?",
+                        options: [
+                            "Maximize processor use.",
+                            "Minimize response time.",
+                            "Process jobs sequentially.",
+                            "Reduce memory consumption."
+                        ],
+                        correct: 1,
+                        explanation: "\"Table 9.3: Batch Multiprogramming versus Time Sharing\" indicates that the \"Principal objective\" for \"Time Sharing\" is to \"Minimize response time,\" whereas for \"Batch Multiprogramming\" it is to \"Maximize processor use\"."
+                    },
+                    {
+                        id: 8,
+                        text: "Which type of scheduling is responsible for the decision to add processes that are partially or fully in main memory?",
+                        options: [
+                            "Long-term scheduling",
+                            "Medium-term scheduling",
+                            "Short-term scheduling",
+                            "I/O scheduling"
+                        ],
+                        correct: 1,
+                        explanation: "\"Table 9.4: Types of Scheduling\" defines \"Medium-term scheduling\" as \"The decision to add to the number of processes that are partially or fully in main memory\"."
+                    },
+                    {
+                        id: 9,
+                        text: "In the Five-State Process Model (Figure 9.7), what transition occurs when a process in the \"Ready\" state is chosen to be executed by the processor?",
+                        options: [
+                            "Admit",
+                            "Timeout",
+                            "Dispatch",
+                            "Event Wait"
+                        ],
+                        correct: 2,
+                        explanation: "Figure 9.7, \"Five-State Process Model,\" shows that the transition from \"Ready\" to \"Running\" is labeled \"Dispatch\"."
+                    },
+                    {
+                        id: 10,
+                        text: "Which of the following is typically NOT found in a Process Control Block (PCB)?",
+                        options: [
+                            "Program counter",
+                            "Priority",
+                            "Manufacturer's serial number",
+                            "Memory pointers"
+                        ],
+                        correct: 2,
+                        explanation: "Figure 9.8, \"Process Control Block,\" lists \"Identifier,\" \"State,\" \"Priority,\" \"Program counter,\" \"Memory pointers,\" \"Context data,\" \"I/O status information,\" and \"Accounting information\" as elements of a PCB. A manufacturer's serial number is not listed."
+                    }
+                ]
+            },
+            {
+                section: "Memory Management and Virtual Memory",
+                questions: [
+                    {
+                        id: 11,
+                        text: "What is the distinction between a \"Logical address\" and a \"Physical address\" in memory management?",
+                        options: [
+                            "A logical address is an actual location in main memory, while a physical address is relative to the program.",
+                            "A logical address is expressed as a location relative to the beginning of the program, while a physical address is an actual location in main memory.",
+                            "Both refer to the same actual location in main memory.",
+                            "A logical address is used for I/O devices, and a physical address is for CPU access."
+                        ],
+                        correct: 1,
+                        explanation: "The document defines \"Logical address\" as \"expressed as a location relative to the beginning of the program\" and \"Physical address\" as \"an actual location in main memory\"."
+                    },
+                    {
+                        id: 12,
+                        text: "Which memory management technique brings each page of a process into main memory only when it is needed, leveraging the principle of locality?",
+                        options: [
+                            "Swapping",
+                            "Fixed Partitioning",
+                            "Demand Paging (Virtual Memory)",
+                            "Dynamic Partitioning"
+                        ],
+                        correct: 2,
+                        explanation: "The section on \"Demand Paging Virtual Memory\" explicitly states that \"Each page of a process is brought in only when it is needed\" and that it benefits from the \"Principle of locality\"."
+                    },
+                    {
+                        id: 13,
+                        text: "What is \"Thrashing\" in the context of Demand Paging?",
+                        options: [
+                            "When the processor spends most of its time executing instructions.",
+                            "When the processor spends most of its time swapping pages rather than executing instructions.",
+                            "A high cache hit rate.",
+                            "The process of initially loading all pages of a program into memory."
+                        ],
+                        correct: 1,
+                        explanation: "The document defines \"Thrashing\" as a disadvantage of Demand Paging, occurring \"When the processor spends most of its time swapping pages rather than executing instructions\"."
+                    },
+                    {
+                        id: 14,
+                        text: "In the operation of Paging and Translation Lookaside Buffer (TLB) (Figure 9.18), what happens if the CPU generates a virtual address and the page table entry is NOT in the TLB (TLB miss)?",
+                        options: [
+                            "The CPU immediately generates a physical address.",
+                            "The OS instructs the CPU to read the page from disk.",
+                            "The system accesses the Page Table.",
+                            "A page fault handling routine is immediately returned."
+                        ],
+                        correct: 2,
+                        explanation: "Figure 9.18, \"Operation of Paging and Translation Lookaside Buffer (TLB),\" shows that if a \"Page table entry in TLB?\" is \"No,\" the next step is to \"Access Page Table\"."
+                    },
+                    {
+                        id: 15,
+                        text: "Which type of memory management is \"visible to the programmer\" and allows them to view memory as consisting of multiple address spaces?",
+                        options: [
+                            "Paging",
+                            "Fixed Partitioning",
+                            "Segmentation",
+                            "Swapping"
+                        ],
+                        correct: 2,
+                        explanation: "The document states that \"Segmentation\" is \"Usually visible to the programmer\" and \"Allows the programmer to view memory as consisting of multiple address spaces or segments\"."
+                    }
+                ]
+            },
+            {
+                section: "Advanced Memory Management",
+                questions: [
+                    {
+                        id: 16,
+                        text: "In Intel x86 memory management, what is the characteristic of \"Unsegmented unpaged memory\"?",
+                        options: [
+                            "Memory is viewed as a paged linear address space.",
+                            "The virtual address is the same as the physical address.",
+                            "Memory is viewed as a collection of logical address spaces.",
+                            "Segmentation and paging are both used."
+                        ],
+                        correct: 1,
+                        explanation: "For \"Unsegmented unpaged memory,\" the document states, \"Virtual address is the same as the physical address\"."
+                    },
+                    {
+                        id: 17,
+                        text: "An Intel x86 virtual address consists of a 16-bit segment reference and a 32-bit offset. What is the maximum size of the \"segmented virtual memory\" that can be addressed?",
+                        options: [
+                            "2^32 = 4 Gbytes",
+                            "2^46 = 64 terabytes (Tbytes)",
+                            "2^16 = 64 Kbytes",
+                            "2^64 = 16 exabytes"
+                        ],
+                        correct: 1,
+                        explanation: "The document states that with a 16-bit segment reference and a 32-bit offset, the \"Segmented virtual memory is 2^46=64 terabytes (Tbytes)\"."
+                    },
+                    {
+                        id: 18,
+                        text: "In Intel x86 segment protection, what is the \"clearance\" associated with a program segment?",
+                        options: [
+                            "Its classification.",
+                            "Its privilege level.",
+                            "Its access attribute.",
+                            "Its read/write status."
+                        ],
+                        correct: 1,
+                        explanation: "The document specifies that \"Privilege level associated with a program segment is its 'clearance'\"."
+                    },
+                    {
+                        id: 19,
+                        text: "According to Table 9.5 (x86 Memory Management Parameters), what does the \"Granularity bit (G)\" in a Segment Descriptor indicate?",
+                        options: [
+                            "Whether the segment is present in main memory.",
+                            "Whether operands and addressing modes are 16 or 32 bits.",
+                            "Whether the Limit field is to be interpreted in units of one byte or 4 Kbytes.",
+                            "The privilege level of the segment."
+                        ],
+                        correct: 2,
+                        explanation: "\"Table 9.5: x86 Memory Management Parameters\" states that the \"Granularity bit (G) Indicates whether the Limit field is to be interpreted in units by one byte or 4 Kbytes\"."
+                    },
+                    {
+                        id: 20,
+                        text: "In ARM memory management, what is the size of \"Small pages\"?",
+                        options: [
+                            "16-MB blocks",
+                            "1-MB blocks",
+                            "64-kB blocks",
+                            "4-kB blocks"
+                        ],
+                        correct: 3,
+                        explanation: "The document specifies that \"Small pages\" in ARM memory management \"Consist of 4-kB blocks of main memory\"."
+                    }
+                ]
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            totalQuestions: 20
+        };
+
+        function generateQuiz() {
+            const content = document.getElementById('quizContent');
+            content.innerHTML = '';
+
+            quizData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.section;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <div class="question-header">Question ${question.id}</div>
+                        <div class="question-content">
+                            <div class="question-text">${question.text}</div>
+                            <ul class="options">
+                                ${question.options.map((option, index) => `
+                                    <li class="option" data-index="${index}">
+                                        <label>
+                                            <input type="radio" name="q${question.id}" value="${index}">
+                                            ${String.fromCharCode(65 + index)}. ${option}
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="explanation">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                    
+                    sectionDiv.appendChild(questionDiv);
+                });
+
+                content.appendChild(sectionDiv);
+            });
+
+            // Add event listeners to all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            const questionId = parseInt(event.target.name.replace('q', ''));
+            const selectedIndex = parseInt(event.target.value);
+            
+            // Find the question data
+            let questionData = null;
+            for (let section of quizData) {
+                questionData = section.questions.find(q => q.id === questionId);
+                if (questionData) break;
+            }
+
+            if (!questionData) return;
+
+            // Get the question element
+            const questionElement = event.target.closest('.question');
+            const options = questionElement.querySelectorAll('.option');
+            const explanation = questionElement.querySelector('.explanation');
+
+            // Disable all radio buttons for this question
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                if (index === questionData.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update stats
+            if (selectedIndex === questionData.correct) {
+                stats.correct++;
+            } else {
+                stats.incorrect++;
+            }
+            stats.answered++;
+
+            updateStats();
+            
+            // Check if quiz is complete
+            if (stats.answered === stats.totalQuestions) {
+                setTimeout(showFinalStats, 1000);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${stats.answered}/${stats.totalQuestions}`;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+            
+            const percentage = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+            document.getElementById('score').textContent = `${percentage}%`;
+            
+            const progressPercentage = (stats.answered / stats.totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        }
+
+        function showFinalStats() {
+            const finalScore = Math.round((stats.correct / stats.totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = `${finalScore}%`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🎉 Excellent! You have mastered operating system concepts!';
+            } else if (finalScore >= 80) {
+                message = '👍 Great job! You have a good understanding of OS fundamentals!';
+            } else if (finalScore >= 70) {
+                message = '👌 Good work! Consider reviewing some concepts to improve further.';
+            } else if (finalScore >= 60) {
+                message = '📚 Keep studying! You\'re on the right track but need more practice.';
+            } else {
+                message = '💪 Don\'t give up! Review the material and try again.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalStats').classList.add('show');
+        }
+
+        function restartQuiz() {
+            stats = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                totalQuestions: 20
+            };
+            
+            document.getElementById('finalStats').classList.remove('show');
+            updateStats();
+            generateQuiz();
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            updateStats();
+        });
+    </script>
+</body>
+</html>

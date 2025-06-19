@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I/O Systems Review Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff6b35;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #ff6b35;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .option label:hover {
+            border-color: #ff6b35;
+            background: #fff7f3;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .option.correct label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect label {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff7f3;
+            border-left: 4px solid #ff6b35;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .final-stats.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .final-stats h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stat-item {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔌 I/O Systems Review Quiz</h1>
+            <p>Test your knowledge of input/output systems and peripheral communication</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Progress:</strong> <span id="progress">0/20</span>
+            </div>
+            <div class="stat-item">
+                <strong>Correct:</strong> <span id="correct">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Incorrect:</strong> <span id="incorrect">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Score:</strong> <span id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content" id="quizContent">
+            <!-- Quiz content will be generated by JavaScript -->
+        </div>
+
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <p id="finalMessage">Great job completing the quiz!</p>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                section: "I/O Modules and External Devices",
+                questions: [
+                    {
+                        id: 1,
+                        text: "What is the primary role of an I/O Module in a computer system?",
+                        options: [
+                            "To process arithmetic and logical operations for the CPU.",
+                            "To manage internal memory allocation and deallocation.",
+                            "To exchange data between external devices and the computer.",
+                            "To execute user applications and system programs."
+                        ],
+                        correct: 2,
+                        explanation: "The document states that external devices \"Attach to the computer by a link to an I/O module\" and that \"The link is used to exchange control, status, and data between the I/O module and the external device.\" This indicates the primary role of the I/O module is to facilitate data exchange between external devices and the computer."
+                    },
+                    {
+                        id: 2,
+                        text: "External devices are categorized into three types based on their communication purpose. Which of the following is NOT one of these categories?",
+                        options: [
+                            "Human readable",
+                            "Machine readable",
+                            "Processor readable",
+                            "Communication"
+                        ],
+                        correct: 2,
+                        explanation: "The document categorizes external devices into \"Human readable,\" \"Machine readable,\" and \"Communication.\" \"Processor readable\" is not listed as a category."
+                    },
+                    {
+                        id: 3,
+                        text: "What is the basic unit of exchange in the International Reference Alphabet (IRA) for keyboard/monitor interaction?",
+                        options: [
+                            "Bit",
+                            "Byte",
+                            "Character",
+                            "Word"
+                        ],
+                        correct: 2,
+                        explanation: "The document specifies that for Keyboard/Monitor, the \"Basic unit of exchange is the character\" in the International Reference Alphabet (IRA)."
+                    },
+                    {
+                        id: 4,
+                        text: "How many different characters can be represented by a unique 7-bit binary code in the International Reference Alphabet (IRA)?",
+                        options: [
+                            "64",
+                            "128",
+                            "256",
+                            "512"
+                        ],
+                        correct: 1,
+                        explanation: "The IRA uses a \"unique 7-bit binary code\" for each character, which allows for 2^7 = 128 different characters to be represented."
+                    },
+                    {
+                        id: 5,
+                        text: "Which of the following is a major function of an I/O module?",
+                        options: [
+                            "Power supply management",
+                            "Operating system kernel execution",
+                            "Data buffering",
+                            "Network routing"
+                        ],
+                        correct: 2,
+                        explanation: "The document lists \"Data buffering\" as one of the major functions of an I/O module, stating it \"Performs the needed buffering operation to balance device and memory speeds\"."
+                    }
+                ]
+            },
+            {
+                section: "Programmed I/O and Interrupt-Driven I/O",
+                questions: [
+                    {
+                        id: 6,
+                        text: "In Programmed I/O, what is the main drawback for processor time efficiency?",
+                        options: [
+                            "The processor is interrupted too frequently.",
+                            "The I/O module is too slow for the processor to keep up.",
+                            "The processor must wait until the I/O operation is complete.",
+                            "Data transfer occurs directly between I/O module and memory."
+                        ],
+                        correct: 2,
+                        explanation: "Programmed I/O requires the \"Processor executes a program that gives it direct control of the I/O operation\" and \"When the processor issues a command it must wait until the I/O operation is complete.\" This waiting is \"wasteful of processor time\" if the processor is faster than the I/O module."
+                    },
+                    {
+                        id: 7,
+                        text: "Which I/O command is used to test various status conditions associated with an I/O module and its peripherals?",
+                        options: [
+                            "Control",
+                            "Test",
+                            "Read",
+                            "Write"
+                        ],
+                        correct: 1,
+                        explanation: "The \"Test\" command is described as being \"used to test various status conditions associated with an I/O module and its peripherals\"."
+                    },
+                    {
+                        id: 8,
+                        text: "According to Figure 8.4, what is the main difference in CPU activity between Programmed I/O and Interrupt-driven I/O after issuing a Read command?",
+                        options: [
+                            "In Programmed I/O, the CPU performs \"Do something else,\" while in Interrupt-driven I/O, it directly reads data.",
+                            "In Programmed I/O, the CPU loops, checking status, while in Interrupt-driven I/O, it can \"Do something else\" until an interrupt.",
+                            "Programmed I/O uses DMA, while Interrupt-driven I/O uses polling.",
+                            "Both have the CPU constantly checking status."
+                        ],
+                        correct: 1,
+                        explanation: "Figure 8.4 illustrates that in Programmed I/O (a), the CPU enters a loop checking the I/O module's status until it's ready. In contrast, in Interrupt-driven I/O (b), after issuing the command, the CPU can \"Do something else\" and is only interrupted when the I/O module is ready."
+                    },
+                    {
+                        id: 9,
+                        text: "What is the primary problem that Interrupt-Driven I/O aims to solve, which is inherent in Programmed I/O?",
+                        options: [
+                            "The complexity of hardware implementation.",
+                            "The processor having to wait a long time for the I/O module.",
+                            "The inability to handle multiple I/O devices simultaneously.",
+                            "The high cost of I/O modules."
+                        ],
+                        correct: 1,
+                        explanation: "The document states, \"The problem with programmed I/O is that the processor has to wait a long time for the I/O module to be ready for either reception or transmission of data. An alternative is for the processor to issue an I/O command to a module and then go on to do some other useful work\"."
+                    },
+                    {
+                        id: 10,
+                        text: "When an interrupt occurs, what is one of the immediate actions taken by the processor according to the \"Simple Interrupt Processing\" diagram?",
+                        options: [
+                            "It immediately transfers data to memory.",
+                            "It signals acknowledgment of the interrupt.",
+                            "It saves the entire process state information.",
+                            "It starts executing a new user program."
+                        ],
+                        correct: 1,
+                        explanation: "Figure 8.6, \"Simple Interrupt Processing,\" shows that after a device issues an interrupt and the processor finishes its current instruction, the \"Processor signals acknowledgment of interrupt\" as the next hardware action."
+                    }
+                ]
+            },
+            {
+                section: "DMA and Advanced I/O Techniques",
+                questions: [
+                    {
+                        id: 11,
+                        text: "If multiple I/O modules can issue interrupts, how does the processor typically determine which device issued the interrupt?",
+                        options: [
+                            "By randomly selecting a device to poll.",
+                            "By directly accessing the device's memory.",
+                            "By relying on a software poll, daisy chain (hardware poll/vectored), or bus arbitration (vectored) technique.",
+                            "By continuously monitoring all I/O lines for activity."
+                        ],
+                        correct: 2,
+                        explanation: "The document identifies two design issues for interrupt I/O: determining which device issued the interrupt and deciding which one to process if multiple have occurred. It then lists \"Multiple interrupt lines,\" \"Software poll,\" \"Daisy chain (hardware poll, vectored),\" and \"Bus arbitration (vectored)\" as four general categories of techniques for device identification."
+                    },
+                    {
+                        id: 12,
+                        text: "Which interrupt device identification technique is described as \"time consuming\" due to the processor having to check each I/O module?",
+                        options: [
+                            "Multiple interrupt lines",
+                            "Software poll",
+                            "Daisy chain (hardware poll, vectored)",
+                            "Bus arbitration (vectored)"
+                        ],
+                        correct: 1,
+                        explanation: "The \"Software poll\" technique is explicitly described as \"Time consuming\" because the processor's interrupt-service routine must \"poll each I/O module to determine which module caused the interrupt\"."
+                    },
+                    {
+                        id: 13,
+                        text: "What is the main advantage of using Direct Memory Access (DMA) compared to Programmed I/O and Interrupt-Driven I/O for large data transfers?",
+                        options: [
+                            "It simplifies the programming of I/O operations.",
+                            "It increases the I/O transfer rate by directly involving the CPU in every byte transfer.",
+                            "It allows the I/O module and main memory to exchange data directly without continuous processor involvement.",
+                            "It eliminates the need for an I/O module."
+                        ],
+                        correct: 2,
+                        explanation: "The document states that \"When large volumes of data are to be moved a more efficient technique is direct memory access (DMA),\" where \"The I/O module and main memory exchange data directly without processor involvement\"."
+                    },
+                    {
+                        id: 14,
+                        text: "In a typical DMA operation, when does the CPU typically get involved in the data transfer process?",
+                        options: [
+                            "Continuously throughout the entire block transfer.",
+                            "Only at the beginning and end of the transfer.",
+                            "Only when an error occurs during transfer.",
+                            "Never, as DMA is completely independent of the CPU."
+                        ],
+                        correct: 1,
+                        explanation: "The \"Evolution of the I/O Function\" lists a stage where \"The I/O module is given direct access to memory via DMA. It can now move a block of data to or from memory without involving the CPU, except at the beginning and end of the transfer\"."
+                    },
+                    {
+                        id: 15,
+                        text: "What is a characteristic limitation of a \"Fly-By DMA Controller\" as described in the text?",
+                        options: [
+                            "It can only transfer data between two memory locations.",
+                            "It can only transfer data between two I/O ports.",
+                            "Data does not pass through and is not stored in the DMA chip, and it can only transfer data between an I/O port and a memory address.",
+                            "It requires constant CPU intervention for data transfer."
+                        ],
+                        correct: 2,
+                        explanation: "The document describes the \"Fly-By DMA Controller\" by stating \"Data does not pass through and is not stored in DMA chip\" and that it \"can only transfer data between an I/O port and a memory address\"."
+                    }
+                ]
+            },
+            {
+                section: "I/O Addressing and Modern Interfaces",
+                questions: [
+                    {
+                        id: 16,
+                        text: "In Memory-mapped I/O, how do devices and memory share an address space?",
+                        options: [
+                            "They use entirely separate address lines.",
+                            "There is a single address space for both memory locations and I/O devices.",
+                            "I/O devices have dedicated, non-overlapping address ranges.",
+                            "Special I/O select lines are required to distinguish them."
+                        ],
+                        correct: 1,
+                        explanation: "The document defines Memory-mapped I/O as having \"a single address space for memory locations and I/O devices\"."
+                    },
+                    {
+                        id: 17,
+                        text: "What is a key characteristic of Isolated I/O, as opposed to Memory-mapped I/O?",
+                        options: [
+                            "Devices and memory share a single address space.",
+                            "I/O operations look exactly like memory read/write operations.",
+                            "Special commands are needed for I/O operations.",
+                            "A large selection of memory access commands is available for I/O."
+                        ],
+                        correct: 2,
+                        explanation: "The \"I/O Mapping Summary\" table highlights that for Isolated I/O, there are \"Separate address spaces\" and \"Special commands for I/O\" are needed, with a \"Limited set\" of such commands."
+                    },
+                    {
+                        id: 18,
+                        text: "What is the main reason for the increased demand on network I/O, leading to the development of Direct Cache Access (DCA)?",
+                        options: [
+                            "Decreased processor speeds.",
+                            "The widespread deployment of high-speed Ethernet switches (e.g., 10-Gbps and 100-Gbps) and gigabit Wi-Fi devices.",
+                            "A reduction in the amount of data transferred to and from database servers.",
+                            "The shift from packet-based to stream-based network traffic."
+                        ],
+                        correct: 1,
+                        explanation: "The document states that \"DMA is not able to scale to meet the increased demand due to dramatic increases in data rates for network I/O\" and that \"Demand is coming primarily from the widespread deployment of 10-Gbps and 100-Gbps Ethernet switches... Another source of traffic comes from Wi-Fi in the gigabit range\"."
+                    },
+                    {
+                        id: 19,
+                        text: "Which peripheral connection technology is described as providing up to 10 Gbps throughput in each direction and combining data, video, audio, and power into a single high-speed connection?",
+                        options: [
+                            "USB 3.1",
+                            "FireWire",
+                            "SCSI",
+                            "Thunderbolt"
+                        ],
+                        correct: 3,
+                        explanation: "\"Thunderbolt\" is described as providing \"up to 10 Gbps throughput in each direction and up to 10 Watts of power to connected peripherals\" and combining \"data, video, audio, and power into a single high-speed connection\"."
+                    },
+                    {
+                        id: 20,
+                        text: "Which high-speed bus system is specifically mentioned as an interface for disk storage systems, providing data rates of up to 6 Gbps?",
+                        options: [
+                            "PCI Express",
+                            "Thunderbolt",
+                            "SATA",
+                            "InfiniBand"
+                        ],
+                        correct: 2,
+                        explanation: "\"SATA\" (Serial Advanced Technology Attachment) is identified as \"An interface for disk storage systems\" that \"Provides data rates of up to 6 Gbps\"."
+                    }
+                ]
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            totalQuestions: 20
+        };
+
+        function generateQuiz() {
+            const content = document.getElementById('quizContent');
+            content.innerHTML = '';
+
+            quizData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.section;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <div class="question-header">Question ${question.id}</div>
+                        <div class="question-content">
+                            <div class="question-text">${question.text}</div>
+                            <ul class="options">
+                                ${question.options.map((option, index) => `
+                                    <li class="option" data-index="${index}">
+                                        <label>
+                                            <input type="radio" name="q${question.id}" value="${index}">
+                                            ${String.fromCharCode(65 + index)}. ${option}
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="explanation">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                    
+                    sectionDiv.appendChild(questionDiv);
+                });
+
+                content.appendChild(sectionDiv);
+            });
+
+            // Add event listeners to all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            const questionId = parseInt(event.target.name.replace('q', ''));
+            const selectedIndex = parseInt(event.target.value);
+            
+            // Find the question data
+            let questionData = null;
+            for (let section of quizData) {
+                questionData = section.questions.find(q => q.id === questionId);
+                if (questionData) break;
+            }
+
+            if (!questionData) return;
+
+            // Get the question element
+            const questionElement = event.target.closest('.question');
+            const options = questionElement.querySelectorAll('.option');
+            const explanation = questionElement.querySelector('.explanation');
+
+            // Disable all radio buttons for this question
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                if (index === questionData.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update stats
+            if (selectedIndex === questionData.correct) {
+                stats.correct++;
+            } else {
+                stats.incorrect++;
+            }
+            stats.answered++;
+
+            updateStats();
+            
+            // Check if quiz is complete
+            if (stats.answered === stats.totalQuestions) {
+                setTimeout(showFinalStats, 1000);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${stats.answered}/${stats.totalQuestions}`;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+            
+            const percentage = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+            document.getElementById('score').textContent = `${percentage}%`;
+            
+            const progressPercentage = (stats.answered / stats.totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        }
+
+        function showFinalStats() {
+            const finalScore = Math.round((stats.correct / stats.totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = `${finalScore}%`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🎉 Excellent! You have mastered I/O systems concepts!';
+            } else if (finalScore >= 80) {
+                message = '👍 Great job! You have a good understanding of I/O operations!';
+            } else if (finalScore >= 70) {
+                message = '👌 Good work! Consider reviewing some concepts to improve further.';
+            } else if (finalScore >= 60) {
+                message = '📚 Keep studying! You\'re on the right track but need more practice.';
+            } else {
+                message = '💪 Don\'t give up! Review the material and try again.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalStats').classList.add('show');
+        }
+
+        function restartQuiz() {
+            stats = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                totalQuestions: 20
+            };
+            
+            document.getElementById('finalStats').classList.remove('show');
+            updateStats();
+            generateQuiz();
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            updateStats();
+        });
+    </script>
+</body>
+</html>

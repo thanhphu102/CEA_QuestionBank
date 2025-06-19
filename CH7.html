@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I/O Systems Review Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #8e44ad;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #8e44ad;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .option label:hover {
+            border-color: #8e44ad;
+            background: #f8f5ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .option.correct label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect label {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f3e8ff;
+            border-left: 4px solid #8e44ad;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8e44ad, #9b59b6);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .final-stats.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .final-stats h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stat-item {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 I/O Systems Review Quiz</h1>
+            <p>Test your knowledge of input/output systems and storage technologies</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Progress:</strong> <span id="progress">0/20</span>
+            </div>
+            <div class="stat-item">
+                <strong>Correct:</strong> <span id="correct">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Incorrect:</strong> <span id="incorrect">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Score:</strong> <span id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content" id="quizContent">
+            <!-- Quiz content will be generated by JavaScript -->
+        </div>
+
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <p id="finalMessage">Great job completing the quiz!</p>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                section: "Magnetic Disk Storage Systems",
+                questions: [
+                    {
+                        id: 1,
+                        text: "Which material is traditionally used as the substrate for magnetic disks?",
+                        options: [
+                            "Glass",
+                            "Polycarbonate",
+                            "Aluminum or aluminum alloy",
+                            "Magnetizable material"
+                        ],
+                        correct: 2,
+                        explanation: "Traditionally, the substrate for magnetic disks has been an aluminum or aluminum alloy material. Glass substrates have been introduced more recently for their benefits but are not the traditional material."
+                    },
+                    {
+                        id: 2,
+                        text: "What is one of the benefits of introducing glass substrates in magnetic disks?",
+                        options: [
+                            "Reduced data density",
+                            "Increased read-write errors",
+                            "Greater ability to withstand shock and damage",
+                            "Higher power consumption"
+                        ],
+                        correct: 2,
+                        explanation: "Glass substrates offer better stiffness and a greater ability to withstand shock and damage, along with improvements in uniformity, reduced surface defects, and support for lower fly heights."
+                    },
+                    {
+                        id: 3,
+                        text: "In a movable-head disk system, what does 'seek time' refer to?",
+                        options: [
+                            "The time it takes for the beginning of the sector to reach the head",
+                            "The time it takes to position the head at the desired track",
+                            "The time taken for the read or write operation as the sector moves under the head",
+                            "The sum of seek time, latency time, and transfer time"
+                        ],
+                        correct: 1,
+                        explanation: "Seek time is specifically defined as the time required to position the read-write head at the desired track in a movable-head disk system."
+                    },
+                    {
+                        id: 4,
+                        text: "A Toshiba L200 hard disk drive has a spindle speed of 7200 rpm. What is its average latency?",
+                        options: [
+                            "2.9 ms",
+                            "4.16 ms",
+                            "5.6 ms",
+                            "8.0 ms"
+                        ],
+                        correct: 1,
+                        explanation: "Based on the provided typical hard disk drive parameters, the Toshiba L200 has an average latency of 4.16 ms. 2.9 ms is its average read seek time."
+                    },
+                    {
+                        id: 5,
+                        text: "What distinguishes a fixed-head disk from a movable-head disk?",
+                        options: [
+                            "A fixed-head disk has a single read-write head for all tracks, while a movable-head disk has one per surface",
+                            "Fixed-head disks are permanently mounted, while movable-head disks are removable",
+                            "A fixed-head disk has one read-write head per track, while a movable-head disk has one read-write head that moves across tracks",
+                            "Fixed-head disks use aerodynamic gaps, while movable-head disks use contact mechanisms"
+                        ],
+                        correct: 2,
+                        explanation: "The primary distinction is in the head mechanism. A fixed-head disk has a dedicated read-write head for each track, providing very fast access. In contrast, a movable-head disk uses a single read-write head that moves radially across the platters."
+                    },
+                    {
+                        id: 6,
+                        text: "What is the typical range for the number of platters in a hard disk drive?",
+                        options: [
+                            "1 to 2",
+                            "3 to 5",
+                            "6 to 10",
+                            "12 to 15"
+                        ],
+                        correct: 1,
+                        explanation: "A typical hard disk drive usually contains multiple platters, ranging from 3 to 5. Each platter requires its own read-write head for each surface."
+                    },
+                    {
+                        id: 7,
+                        text: "How is data typically recorded on a magnetic disk platter?",
+                        options: [
+                            "As continuous analog signals",
+                            "As discrete magnetic spots on concentric tracks",
+                            "As optical patterns burned onto the surface",
+                            "As pits and lands organized spirally"
+                        ],
+                        correct: 1,
+                        explanation: "Data is recorded on magnetic disks by magnetizing discrete spots on the surface. These spots are arranged along concentric circles called tracks."
+                    }
+                ]
+            },
+            {
+                section: "RAID and Storage Technologies",
+                questions: [
+                    {
+                        id: 8,
+                        text: "Which RAID level distributes data across physical drives using striping but without redundancy, making it prone to data loss if a single drive fails?",
+                        options: [
+                            "RAID Level 1",
+                            "RAID Level 5",
+                            "RAID Level 0",
+                            "RAID Level 6"
+                        ],
+                        correct: 2,
+                        explanation: "RAID Level 0 employs nonredundant striping, which enhances performance by distributing data across multiple disks. However, it offers no fault tolerance; if any disk in the array fails, all data is lost."
+                    },
+                    {
+                        id: 9,
+                        text: "What is a key characteristic of RAID Level 1 (Mirrored)?",
+                        options: [
+                            "Data is distributed across physical drives in a nonredundant manner",
+                            "Redundancy is achieved through Hamming code",
+                            "Each logical strip is mapped to two separate physical disks for duplication",
+                            "It requires only a single redundant disk regardless of array size"
+                        ],
+                        correct: 2,
+                        explanation: "RAID Level 1, or mirroring, achieves redundancy by maintaining an exact duplicate of data. Each logical strip of data is written to two separate physical disks simultaneously."
+                    },
+                    {
+                        id: 10,
+                        text: "What is the main advantage of RAID Level 5 over RAID Level 4?",
+                        options: [
+                            "RAID 5 provides higher data security",
+                            "RAID 5 uses mirroring, which is faster",
+                            "RAID 5 distributes parity across all disks, avoiding a bottleneck",
+                            "RAID 5 requires fewer disks than RAID 4"
+                        ],
+                        correct: 2,
+                        explanation: "RAID 4 keeps all parity information on a single, dedicated parity disk, which can become a bottleneck during write operations. RAID 5 distributes the parity information across all the data disks, resolving this bottleneck issue."
+                    },
+                    {
+                        id: 11,
+                        text: "What is a primary disadvantage of Solid State Drives (SSDs) compared to Hard Disk Drives (HDDs)?",
+                        options: [
+                            "Higher access times and latency rates",
+                            "Quieter operation",
+                            "Tendency for performance to slow down as the device is used",
+                            "Lower power consumption"
+                        ],
+                        correct: 2,
+                        explanation: "While SSDs offer advantages like lower access times, quieter operation, and lower power consumption, a significant practical issue is that their performance can degrade over time, especially with repeated write and erase operations."
+                    },
+                    {
+                        id: 12,
+                        text: "Why are SSDs generally preferred over HDDs in portable devices like laptops for durability?",
+                        options: [
+                            "SSDs have a larger storage capacity",
+                            "SSDs consume more power",
+                            "SSDs have no moving parts, making them more resistant to shock and vibration",
+                            "SSDs are significantly cheaper than HDDs"
+                        ],
+                        correct: 2,
+                        explanation: "The primary reason SSDs are more durable for portable devices is their lack of moving mechanical parts. This makes them highly resistant to physical shock and vibration, unlike HDDs with their spinning platters and read/write heads."
+                    },
+                    {
+                        id: 13,
+                        text: "Which of the following is NOT a typical component of a hard disk drive?",
+                        options: [
+                            "Platters",
+                            "Read/write heads",
+                            "Spindle motor",
+                            "Laser diode"
+                        ],
+                        correct: 3,
+                        explanation: "Hard disk drives (HDDs) use magnetic technology, which involves platters, read/write heads, and a spindle motor. A laser diode is a component typically found in optical disc drives for reading and writing data using light."
+                    }
+                ]
+            },
+            {
+                section: "Optical Storage and Magnetic Tape",
+                questions: [
+                    {
+                        id: 14,
+                        text: "A CD-ROM has a capacity of approximately 650 Mbytes. How does a single-sided, dual-layer DVD-ROM's capacity compare to this?",
+                        options: [
+                            "It is approximately the same capacity",
+                            "It is slightly less than a CD-ROM",
+                            "It can hold up to 17 GB, significantly more than a CD-ROM",
+                            "It is limited to audio information only"
+                        ],
+                        correct: 2,
+                        explanation: "A single-sided, dual-layer DVD-ROM can hold 8.5 GB, and a double-sided, dual-layer DVD-ROM can hold up to 17 GB. Both capacities are significantly higher than the 650 Mbytes of a standard CD-ROM."
+                    },
+                    {
+                        id: 15,
+                        text: "Which optical disk type allows the user to write to the disk only once?",
+                        options: [
+                            "CD-RW",
+                            "DVD-RW",
+                            "Blu-ray DVD",
+                            "CD-R"
+                        ],
+                        correct: 3,
+                        explanation: "CD-R (Compact Disc-Recordable) is a write-once, read-many (WORM) medium, meaning data can be written to it only once, but read many times. CD-RW and DVD-RW are re-writable formats."
+                    },
+                    {
+                        id: 16,
+                        text: "What type of information is typically stored on a Blu-ray disc, emphasizing its high capacity?",
+                        options: [
+                            "Standard definition audio files",
+                            "Low-resolution images",
+                            "High-definition video (e.g., movies)",
+                            "Basic text documents"
+                        ],
+                        correct: 2,
+                        explanation: "Blu-ray discs were specifically developed to store and play back high-definition video and high-density data. Their significantly larger storage capacity (up to 25 GB for single-layer, 50 GB for dual-layer) makes them ideal for full-length high-definition movies."
+                    },
+                    {
+                        id: 17,
+                        text: "In magnetic tape systems, what are the contiguous blocks of data that are read and written called?",
+                        options: [
+                            "Inter-record gaps",
+                            "Tracks",
+                            "Physical records",
+                            "Serial recordings"
+                        ],
+                        correct: 2,
+                        explanation: "On magnetic tape, data is organized and accessed in contiguous blocks known as physical records. Inter-record gaps are empty spaces between these blocks, tracks are the paths on the tape."
+                    },
+                    {
+                        id: 18,
+                        text: "What is the purpose of an inter-record gap (IRG) in magnetic tape?",
+                        options: [
+                            "To store metadata about the tape content",
+                            "To provide space for the tape drive to accelerate and decelerate between blocks",
+                            "To prevent data corruption during read/write operations",
+                            "To mark the end of a tape volume"
+                        ],
+                        correct: 1,
+                        explanation: "An inter-record gap (IRG) is a blank space deliberately left between physical records on a magnetic tape. This gap allows the tape drive enough time to accelerate to the required speed for reading/writing or to decelerate to a stop between operations."
+                    },
+                    {
+                        id: 19,
+                        text: "An HGST Ultrastar C15K600 drive has a spindle speed of 15,030 rpm. What is its maximum sustained transfer rate?",
+                        options: [
+                            "255 MB/s",
+                            "1.2 GB/s",
+                            "3 GB/s",
+                            "788 MB/s"
+                        ],
+                        correct: 1,
+                        explanation: "According to the provided specifications, the HGST Ultrastar C15K600 drive has a maximum sustained transfer rate of 1.2 GB/s."
+                    },
+                    {
+                        id: 20,
+                        text: "In the context of disk performance, what is the significance of the transfer rate?",
+                        options: [
+                            "It indicates how quickly the head can move to a specific track",
+                            "It measures the time taken to rotate the disk to the desired sector",
+                            "It represents the rate at which data can be read from or written to the disk surface",
+                            "It is the total time required to access a block of data"
+                        ],
+                        correct: 2,
+                        explanation: "Transfer rate refers to the rate at which data bits can be transferred between the disk and the computer system once the head is positioned over the desired sector. It quantifies how fast data flows during the actual read or write operation."
+                    }
+                ]
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            totalQuestions: 20
+        };
+
+        function generateQuiz() {
+            const content = document.getElementById('quizContent');
+            content.innerHTML = '';
+
+            quizData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.section;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <div class="question-header">Question ${question.id}</div>
+                        <div class="question-content">
+                            <div class="question-text">${question.text}</div>
+                            <ul class="options">
+                                ${question.options.map((option, index) => `
+                                    <li class="option" data-index="${index}">
+                                        <label>
+                                            <input type="radio" name="q${question.id}" value="${index}">
+                                            ${String.fromCharCode(65 + index)}. ${option}
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="explanation">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                    
+                    sectionDiv.appendChild(questionDiv);
+                });
+
+                content.appendChild(sectionDiv);
+            });
+
+            // Add event listeners to all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            const questionId = parseInt(event.target.name.replace('q', ''));
+            const selectedIndex = parseInt(event.target.value);
+            
+            // Find the question data
+            let questionData = null;
+            for (let section of quizData) {
+                questionData = section.questions.find(q => q.id === questionId);
+                if (questionData) break;
+            }
+
+            if (!questionData) return;
+
+            // Get the question element
+            const questionElement = event.target.closest('.question');
+            const options = questionElement.querySelectorAll('.option');
+            const explanation = questionElement.querySelector('.explanation');
+
+            // Disable all radio buttons for this question
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                if (index === questionData.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update stats
+            if (selectedIndex === questionData.correct) {
+                stats.correct++;
+            } else {
+                stats.incorrect++;
+            }
+            stats.answered++;
+
+            updateStats();
+            
+            // Check if quiz is complete
+            if (stats.answered === stats.totalQuestions) {
+                setTimeout(showFinalStats, 1000);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${stats.answered}/${stats.totalQuestions}`;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+            
+            const percentage = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+            document.getElementById('score').textContent = `${percentage}%`;
+            
+            const progressPercentage = (stats.answered / stats.totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        }
+
+        function showFinalStats() {
+            const finalScore = Math.round((stats.correct / stats.totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = `${finalScore}%`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🎉 Excellent! You have mastered I/O systems concepts!';
+            } else if (finalScore >= 80) {
+                message = '👍 Great job! You have a good understanding of storage technologies!';
+            } else if (finalScore >= 70) {
+                message = '👌 Good work! Consider reviewing some concepts to improve further.';
+            } else if (finalScore >= 60) {
+                message = '📚 Keep studying! You\'re on the right track but need more practice.';
+            } else {
+                message = '💪 Don\'t give up! Review the material and try again.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalStats').classList.add('show');
+        }
+
+        function restartQuiz() {
+            stats = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                totalQuestions: 20
+            };
+            
+            document.getElementById('finalStats').classList.remove('show');
+            updateStats();
+            generateQuiz();
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
