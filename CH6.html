@@ -293,233 +293,257 @@
         // TODO: Replace this placeholder data with actual questions from 6.md
         const quizData = [
             {
-                section: "Magnetic Disk Storage",
+                section: "Semiconductor Memory Types",
                 questions: [
                     {
                         id: 1,
-                        text: "What is the primary advantage of magnetic disk storage over other storage technologies?",
+                        text: "Which type of semiconductor memory is characterized by being \"Volatile\" and having an \"Electrically, byte-level\" erasure mechanism?",
                         options: [
-                            "Lowest cost per bit",
-                            "Fastest access time",
-                            "Most reliable storage medium",
-                            "Best combination of large capacity and reasonable access time"
+                            "Read-only memory (ROM)",
+                            "Programmable ROM (PROM)",
+                            "Random-access memory (RAM)",
+                            "Erasable PROM (EPROM)"
                         ],
-                        correct: 3,
-                        explanation: "Magnetic disk storage provides the best combination of large capacity and reasonable access time, making it ideal for secondary storage in computer systems."
+                        correct: 2,
+                        explanation: "According to Table 6.1 \"Semiconductor Memory Types\", Random-access memory (RAM) is classified as \"Read-write memory\", with \"Electrically, byte-level\" erasure, and is \"Volatile\"."
                     },
                     {
                         id: 2,
-                        text: "What determines the data transfer rate in magnetic disk systems?",
+                        text: "Dynamic RAM (DRAM) stores data as charge on capacitors. What is the primary reason it is called \"dynamic\"?",
                         options: [
-                            "Rotational speed only",
-                            "Track density only",
-                            "Both rotational speed and track density",
-                            "Seek time only"
+                            "Its contents can be changed rapidly.",
+                            "It requires periodic charge refreshing to maintain data storage.",
+                            "It is typically used for high-speed cache memory.",
+                            "Its access time varies depending on the memory location."
                         ],
-                        correct: 2,
-                        explanation: "The data transfer rate in magnetic disk systems is determined by both the rotational speed of the disk and the track density (number of bits per track)."
+                        correct: 1,
+                        explanation: "The document states that DRAM \"Requires periodic charge refreshing to maintain data storage\", and \"The term dynamic refers to tendency of the stored charge to leak away, even with power continuously applied\"."
                     },
                     {
                         id: 3,
-                        text: "Which component of disk access time typically dominates the total access time?",
+                        text: "Which of the following is an advantage of Static RAM (SRAM) compared to Dynamic RAM (DRAM)?",
                         options: [
-                            "Rotational delay",
-                            "Data transfer time",
-                            "Seek time",
-                            "Controller overhead"
+                            "Simpler to build and smaller cell size.",
+                            "Less expensive per bit.",
+                            "Does not require refresh circuitry.",
+                            "Tends to be favored for large memory requirements."
                         ],
                         correct: 2,
-                        explanation: "Seek time, which is the time required to position the read/write head over the desired track, typically dominates the total disk access time."
+                        explanation: "The \"SRAM versus DRAM\" section states that SRAM is \"Faster\" and does not require \"supporting refresh circuitry\", unlike DRAM. DRAM cells are \"Simpler to build, smaller\", \"More dense\", and \"Less expensive\"."
                     },
                     {
                         id: 4,
-                        text: "What is the purpose of disk scheduling algorithms?",
+                        text: "What is a major disadvantage of traditional Read Only Memory (ROM) during its fabrication process?",
                         options: [
-                            "To increase disk capacity",
-                            "To minimize average seek time",
-                            "To improve data reliability",
-                            "To reduce power consumption"
+                            "It requires continuous power to maintain bit values.",
+                            "Data can only be loaded from a secondary storage device.",
+                            "If one bit is wrong, the entire batch of ROMs must be thrown out.",
+                            "It cannot be programmed after manufacturing."
                         ],
-                        correct: 1,
-                        explanation: "Disk scheduling algorithms are designed to minimize the average seek time by optimizing the order in which disk requests are serviced."
+                        correct: 2,
+                        explanation: "The document highlights a disadvantage of ROM: \"No room for error, if one bit is wrong the whole batch of ROMs must be thrown out\"."
                     },
                     {
                         id: 5,
-                        text: "In a magnetic disk system, what is a cylinder?",
+                        text: "Which type of ROM can be written into only once, electrically, after original chip fabrication, and provides flexibility for high volume production runs?",
                         options: [
-                            "A single circular track on one surface",
-                            "All tracks at the same distance from the center across all surfaces",
-                            "The central spindle of the disk drive",
-                            "A group of sectors on the same track"
+                            "ROM",
+                            "EPROM",
+                            "PROM",
+                            "EEPROM"
                         ],
-                        correct: 1,
-                        explanation: "A cylinder consists of all tracks that are at the same distance from the center of the disk across all surfaces in a multi-platter disk drive."
+                        correct: 2,
+                        explanation: "Programmable ROM (PROM) is described as \"Nonvolatile and may be written into only once\", with the \"Writing process... performed electrically\", and is \"Attractive for high volume production runs\"."
                     },
                     {
                         id: 6,
-                        text: "What is the main advantage of Constant Linear Velocity (CLV) over Constant Angular Velocity (CAV)?",
+                        text: "Erasable Programmable Read-Only Memory (EPROM) utilizes what method for its erasure process?",
                         options: [
-                            "Faster access time",
-                            "Higher storage capacity",
-                            "Lower manufacturing cost",
-                            "Better reliability"
+                            "Electrical erasure at byte-level",
+                            "UV light, chip-level erasure",
+                            "Masks",
+                            "Electrical erasure at block-level"
                         ],
                         correct: 1,
-                        explanation: "CLV allows for higher storage capacity because it maintains constant data density across all tracks, unlike CAV where outer tracks have lower density."
+                        explanation: "According to Table 6.1 \"Semiconductor Memory Types\" and the EPROM description, EPROM uses \"UV light, chip-level\" erasure."
                     }
                 ]
             },
             {
-                section: "Optical Storage Systems",
+                section: "Memory Organization and Error Correction",
                 questions: [
                     {
                         id: 7,
-                        text: "What technology is used to read data from a CD-ROM?",
+                        text: "What is a distinguishing feature of Flash memory compared to EEPROM?",
                         options: [
-                            "Magnetic field detection",
-                            "Electrical conductivity measurement",
-                            "Laser light reflection",
-                            "Radio frequency scanning"
+                            "Flash memory allows byte-level erasure.",
+                            "Flash memory is more expensive than EEPROM.",
+                            "Flash memory erases a section of memory cells in a single action (\"flash\").",
+                            "Flash memory is volatile."
                         ],
                         correct: 2,
-                        explanation: "CD-ROM uses laser light reflection to read data. The laser detects differences in reflectivity between pits and lands on the disc surface."
+                        explanation: "The document states that Flash memory \"Uses an electrical erasing technology, does not provide byte-level erasure\" and that the \"Microchip is organized so that a section of memory cells are erased in a single action or 'flash'\"."
                     },
                     {
                         id: 8,
-                        text: "Which optical storage format typically provides the highest storage capacity?",
+                        text: "A 16-Mbit DRAM chip is organized as 4M x 4. What does the \"4M\" represent in this organization?",
                         options: [
-                            "CD-ROM",
-                            "DVD",
-                            "Blu-ray Disc",
-                            "HD-DVD"
+                            "The number of data output lines.",
+                            "The number of memory cells in each array.",
+                            "The number of words (or unique addresses) in the memory array.",
+                            "The number of memory banks."
                         ],
                         correct: 2,
-                        explanation: "Blu-ray Disc typically provides the highest storage capacity among common optical storage formats, with capacities of 25GB or more per layer."
+                        explanation: "A 16-Mbit DRAM (4M x 4) means it has 4 million words, each 4 bits wide. Figure 6.3 shows \"Memory array (2048 x 2048 x 4)\". This indicates the overall capacity and organization, with 4M referring to the number of addressable locations (words)."
                     },
                     {
                         id: 9,
-                        text: "What is the main difference between CD-R and CD-RW?",
+                        text: "For a memory module with 256 KBytes of storage, using chips organized as 512 words by 512 bits, how many such chips are required?",
                         options: [
-                            "Storage capacity",
-                            "Read speed",
-                            "Write-once vs. rewritable capability",
-                            "Physical size"
+                            "1",
+                            "2",
+                            "4",
+                            "8"
                         ],
-                        correct: 2,
-                        explanation: "CD-R (Compact Disc-Recordable) can be written to only once, while CD-RW (Compact Disc-ReWritable) can be erased and rewritten multiple times."
+                        correct: 3,
+                        explanation: "Total bits required = 256 KB = 256×1024×8 bits = 2,097,152 bits. Capacity of one chip = 512 words * 512 bits/word = 262,144 bits. Number of chips = Total bits required / Capacity per chip = 2,097,152 bits / 262,144 bits/chip = 8 chips."
                     },
                     {
                         id: 10,
-                        text: "What enables DVD to store more data than CD-ROM despite having the same physical dimensions?",
+                        text: "What is the primary benefit of using \"Interleaved Memory\" in a computer system?",
                         options: [
-                            "Higher rotational speed",
-                            "Smaller pit size and shorter wavelength laser",
-                            "Multiple recording layers only",
-                            "Better compression algorithms"
+                            "It simplifies memory chip fabrication.",
+                            "It reduces the power consumption of memory modules.",
+                            "It allows for simultaneous service of multiple memory requests, speeding up block transfers.",
+                            "It improves the reliability of memory by providing redundancy."
                         ],
-                        correct: 1,
-                        explanation: "DVD uses smaller pit sizes and a shorter wavelength laser (typically 650nm vs 780nm for CD), allowing for higher data density on the same physical disc size."
+                        correct: 2,
+                        explanation: "The document states that in interleaved memory, \"Each bank is independently able to service a memory read or write request\" and \"K banks can service K requests simultaneously, increasing memory read or write rates by a factor of K\"."
                     },
                     {
                         id: 11,
-                        text: "What is the primary advantage of dual-layer optical discs?",
+                        text: "Which type of memory error is described as a \"Permanent physical defect\" where memory cells cannot reliably store data?",
                         options: [
-                            "Faster data transfer rates",
-                            "Increased storage capacity",
-                            "Better error correction",
-                            "Lower manufacturing cost"
+                            "Soft Error",
+                            "Transient Error",
+                            "Hard Failure",
+                            "Logic Error"
                         ],
-                        correct: 1,
-                        explanation: "Dual-layer optical discs provide increased storage capacity by having two data layers that can be read by adjusting the laser focus, effectively doubling the storage capacity."
+                        correct: 2,
+                        explanation: "The document defines \"Hard Failure\" as a \"Permanent physical defect\" where \"Memory cell or cells affected cannot reliably store data but become stuck at 0 or 1 or switch erratically between 0 and 1\"."
+                    },
+                    {
+                        id: 12,
+                        text: "A \"Soft Error\" in memory is typically caused by what kind of event?",
+                        options: [
+                            "Manufacturing defects in the memory chip.",
+                            "Wear and tear on the memory cells over time.",
+                            "Random, non-destructive events like power supply problems or alpha particles.",
+                            "Physical damage to the memory module."
+                        ],
+                        correct: 2,
+                        explanation: "The document defines a \"Soft Error\" as a \"Random, non-destructive event that alters the contents of one or more memory cells\" and lists \"Power supply problems\" and \"Alpha particles\" as causes."
                     }
                 ]
             },
             {
-                section: "Solid State Drives and RAID",
+                section: "Advanced Memory Technologies",
                 questions: [
                     {
-                        id: 12,
-                        text: "What is the primary advantage of SSDs over traditional magnetic hard drives?",
-                        options: [
-                            "Lower cost per gigabyte",
-                            "Higher storage capacity",
-                            "Much faster access times and no moving parts",
-                            "Better long-term data retention"
-                        ],
-                        correct: 2,
-                        explanation: "SSDs have much faster access times due to no mechanical moving parts, and they're more resistant to physical shock and vibration compared to traditional hard drives."
-                    },
-                    {
                         id: 13,
-                        text: "What does RAID stand for?",
+                        text: "If a system uses \"Single-Error Correction\" with 32 data bits, how many check bits are required, and what is the percentage increase in word length?",
                         options: [
-                            "Rapid Access Independent Disks",
-                            "Redundant Array of Independent Disks",
-                            "Random Array of Integrated Drives",
-                            "Reliable Array of Internal Devices"
+                            "6 check bits, 18.75% increase",
+                            "7 check bits, 21.875% increase",
+                            "5 check bits, 31.25% increase",
+                            "8 check bits, 12.5% increase"
                         ],
                         correct: 1,
-                        explanation: "RAID stands for Redundant Array of Independent Disks, a technology that combines multiple physical disk drives into a single logical unit."
+                        explanation: "According to Table 6.2 \"Increase in Word Length with Error Correction\", for \"Single-Error Correction\" with 32 data bits, 7 check bits are needed, resulting in a 21.875% increase."
                     },
                     {
                         id: 14,
-                        text: "Which RAID level provides the best fault tolerance for critical data?",
+                        text: "In the Hamming error-correcting code for a 12-bit word shown in Figure 6.9, which bit positions are designated as \"Check Bits\"?",
                         options: [
-                            "RAID 0",
-                            "RAID 1",
-                            "RAID 5",
-                            "RAID 6"
+                            "1, 2, 3, 4",
+                            "1, 2, 4, 8",
+                            "3, 5, 6, 7",
+                            "9, 10, 11, 12"
                         ],
-                        correct: 3,
-                        explanation: "RAID 6 provides the best fault tolerance as it can survive the failure of any two drives simultaneously, while RAID 1 can only survive one drive failure."
+                        correct: 1,
+                        explanation: "Figure 6.9, \"Layout of Data Bits and Check Bits\", clearly shows that check bits C1, C2, C4, and C8 are located at bit positions 1, 2, 4, and 8 respectively."
                     },
                     {
                         id: 15,
-                        text: "What is the main purpose of RAID 0?",
+                        text: "Synchronous DRAM (SDRAM) exchanges data with the processor synchronized to an external clock signal. What is a key advantage of this synchronization?",
                         options: [
-                            "Data redundancy",
-                            "Improved performance through striping",
-                            "Error correction",
-                            "Power efficiency"
+                            "It requires less power than asynchronous DRAM.",
+                            "It eliminates the need for a memory controller.",
+                            "It runs at the full speed of the processor/memory bus without imposing wait states.",
+                            "It simplifies the internal refresh circuitry."
                         ],
-                        correct: 1,
-                        explanation: "RAID 0 is designed to improve performance through data striping across multiple drives, but it provides no redundancy or fault tolerance."
+                        correct: 2,
+                        explanation: "The document states that SDRAM \"Exchanges data with the processor synchronized to an external clock signal and running at the full speed of the processor/memory bus without imposing wait states\"."
                     },
                     {
                         id: 16,
-                        text: "What happens to data in RAID 1 configuration?",
+                        text: "Double Data Rate SDRAM (DDR SDRAM) achieves higher data rates in multiple ways. Which of the following is NOT one of the methods mentioned?",
                         options: [
-                            "Data is striped across multiple drives",
-                            "Data is compressed before storage",
-                            "Data is mirrored on two or more drives",
-                            "Data is distributed with parity information"
+                            "Data transfer synchronized to both the rising and falling edge of the clock.",
+                            "Using a lower clock rate on the bus to reduce power consumption.",
+                            "Using a buffering scheme.",
+                            "Using higher clock rate on the bus to increase the transfer rate."
                         ],
-                        correct: 2,
-                        explanation: "In RAID 1, data is mirrored (duplicated) on two or more drives, providing redundancy and fault tolerance."
+                        correct: 1,
+                        explanation: "DDR achieves higher data rates by synchronizing to both rising and falling edges, using a higher clock rate on the bus, and employing a buffering scheme. Using a lower clock rate is contrary to its design for higher data rates."
                     },
                     {
                         id: 17,
-                        text: "What is the main limitation of SSD technology?",
+                        text: "According to Table 6.4 \"DDR Characteristics\", which DDR generation has a Prefetch buffer of 8 bits and a Voltage level of 1.2 V?",
                         options: [
-                            "Slow access times",
-                            "High power consumption",
-                            "Limited write/erase cycles",
-                            "Large physical size"
+                            "DDR1",
+                            "DDR2",
+                            "DDR3",
+                            "DDR4"
                         ],
-                        correct: 2,
-                        explanation: "The main limitation of SSD technology is that flash memory cells have a limited number of write/erase cycles before they wear out, though modern SSDs have wear leveling algorithms to mitigate this."
+                        correct: 3,
+                        explanation: "Table 6.4 \"DDR Characteristics\" shows that DDR4 has a \"Prefetch buffer (bits)\" of 8 and a \"Voltage level (V)\" of 1.2."
                     },
                     {
                         id: 18,
-                        text: "Which interface standard is commonly used for modern high-performance SSDs?",
+                        text: "What is Embedded DRAM (eDRAM)?",
                         options: [
-                            "PATA",
-                            "SATA",
-                            "NVMe",
-                            "SCSI"
+                            "A type of external memory connected via a high-speed bus.",
+                            "A DRAM integrated on the same chip or Multi-Chip Module (MCM) of an ASIC or microprocessor.",
+                            "A specialized type of SRAM used for on-chip cache only.",
+                            "A nonvolatile memory technology used in SSDs."
+                        ],
+                        correct: 1,
+                        explanation: "The document defines eDRAM as \"a DRAM integrated on the same chip or MCM of an application-specific integrated circuit (ASIC) or microprocessor\"."
+                    },
+                    {
+                        id: 19,
+                        text: "Which of the following statements accurately describes Flash memory's characteristics?",
+                        options: [
+                            "It provides byte-level erasure.",
+                            "It is intermediate between EPROM and EEPROM in cost and functionality.",
+                            "It uses two transistors per bit, leading to lower density.",
+                            "It is a volatile memory type."
+                        ],
+                        correct: 1,
+                        explanation: "Flash memory is described as \"intermediate between EPROM and EEPROM in both cost and functionality\". It \"does not provide byte-level erasure\", and \"Uses only one transistor per bit so it achieves the high density of EPROM\". It is also nonvolatile."
+                    },
+                    {
+                        id: 20,
+                        text: "Which of the following nonvolatile RAM technologies uses a thin insulating layer between a free layer and a reference layer, with data stored based on the direction of magnetization?",
+                        options: [
+                            "PCRAM (Phase Change RAM)",
+                            "ReRAM (Resistive RAM)",
+                            "STT-RAM (Spin-Transfer Torque RAM)",
+                            "DDR-DRAM"
                         ],
                         correct: 2,
-                        explanation: "NVMe (Non-Volatile Memory Express) is the modern interface standard designed specifically for SSDs, providing much higher performance than traditional SATA interfaces."
+                        explanation: "Figure 6.21(a) \"STT-RAM\" shows a structure with a \"Free layer,\" \"Reference layer,\" and \"Insulating layer\". The \"Direction of magnetization\" is shown to change between binary 0 and binary 1, which corresponds to the description of STT-RAM."
                     }
                 ]
             }
@@ -529,7 +553,7 @@
             answered: 0,
             correct: 0,
             incorrect: 0,
-            totalQuestions: 18
+            totalQuestions: 20
         };
 
         function generateQuiz() {
@@ -669,7 +693,7 @@
                 answered: 0,
                 correct: 0,
                 incorrect: 0,
-                totalQuestions: 18
+                totalQuestions: 20
             };
             
             document.getElementById('finalStats').classList.remove('show');

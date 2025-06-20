@@ -292,14 +292,91 @@
     <script>
         const quizData = [
             {
-                section: "Magnetic Disk Storage Systems",
+                section: "Memory Types and Characteristics",
                 questions: [
                     {
                         id: 1,
+                        text: "Which of the following memory types is classified as \"Read-write memory\" and is volatile?",
+                        options: [
+                            "PROM",
+                            "EPROM",
+                            "RAM",
+                            "ROM"
+                        ],
+                        correct: 2,
+                        explanation: "According to Table 6.1 \"Semiconductor Memory Types\", Random-access memory (RAM) is categorized as Read-write memory and is volatile."
+                    },
+                    {
+                        id: 2,
+                        text: "What is the primary method of erasure for Erasable PROM (EPROM)?",
+                        options: [
+                            "Electrically, byte-level",
+                            "UV light, chip-level",
+                            "Electrically, block-level",
+                            "Not possible"
+                        ],
+                        correct: 1,
+                        explanation: "Table 6.1 states that EPROM uses UV light, chip-level for erasure."
+                    },
+                    {
+                        id: 3,
+                        text: "Dynamic RAM (DRAM) stores data as charge on which components?",
+                        options: [
+                            "Transistors",
+                            "Resistors",
+                            "Capacitors",
+                            "Inductors"
+                        ],
+                        correct: 2,
+                        explanation: "DRAM is made with cells that store data as charge on capacitors."
+                    },
+                    {
+                        id: 4,
+                        text: "What characteristic defines Static RAM (SRAM) regarding data retention?",
+                        options: [
+                            "It loses data when power is removed.",
+                            "It requires periodic refreshing to maintain data.",
+                            "It holds its data as long as power is supplied to it.",
+                            "It stores data using magnetic fields."
+                        ],
+                        correct: 2,
+                        explanation: "SRAM is a digital device that will hold its data as long as power is supplied to it."
+                    },
+                    {
+                        id: 5,
+                        text: "Which type of RAM is generally favored for large memory requirements due to being simpler to build, smaller, and more dense?",
+                        options: [
+                            "SRAM",
+                            "DRAM",
+                            "Both SRAM and DRAM equally",
+                            "Neither SRAM nor DRAM"
+                        ],
+                        correct: 1,
+                        explanation: "DRAM is simpler to build, smaller, more dense, and less expensive, making it favored for large memory requirements."
+                    },
+                    {
+                        id: 6,
+                        text: "What is a disadvantage of Read Only Memory (ROM) regarding fabrication errors?",
+                        options: [
+                            "Errors can be easily corrected after fabrication.",
+                            "If one bit is wrong, the entire batch of ROMs must be discarded.",
+                            "Data can be changed post-fabrication with special equipment.",
+                            "The data insertion step has a relatively small fixed cost."
+                        ],
+                        correct: 1,
+                        explanation: "A disadvantage of ROM is that if one bit is wrong, the whole batch of ROMs must be thrown out."
+                    }
+                ]
+            },
+            {
+                section: "Magnetic Disk Storage Systems",
+                questions: [
+                    {
+                        id: 7,
                         text: "Which material is traditionally used as the substrate for magnetic disks?",
                         options: [
                             "Glass",
-                            "Polycarbonate",
+                            "Polycarbonate", 
                             "Aluminum or aluminum alloy",
                             "Magnetizable material"
                         ],
@@ -307,7 +384,7 @@
                         explanation: "Traditionally, the substrate for magnetic disks has been an aluminum or aluminum alloy material. Glass substrates have been introduced more recently for their benefits but are not the traditional material."
                     },
                     {
-                        id: 2,
+                        id: 8,
                         text: "What is one of the benefits of introducing glass substrates in magnetic disks?",
                         options: [
                             "Reduced data density",
@@ -319,7 +396,7 @@
                         explanation: "Glass substrates offer better stiffness and a greater ability to withstand shock and damage, along with improvements in uniformity, reduced surface defects, and support for lower fly heights."
                     },
                     {
-                        id: 3,
+                        id: 9,
                         text: "In a movable-head disk system, what does 'seek time' refer to?",
                         options: [
                             "The time it takes for the beginning of the sector to reach the head",
@@ -331,7 +408,7 @@
                         explanation: "Seek time is specifically defined as the time required to position the read-write head at the desired track in a movable-head disk system."
                     },
                     {
-                        id: 4,
+                        id: 10,
                         text: "A Toshiba L200 hard disk drive has a spindle speed of 7200 rpm. What is its average latency?",
                         options: [
                             "2.9 ms",
@@ -343,7 +420,7 @@
                         explanation: "Based on the provided typical hard disk drive parameters, the Toshiba L200 has an average latency of 4.16 ms. 2.9 ms is its average read seek time."
                     },
                     {
-                        id: 5,
+                        id: 11,
                         text: "What distinguishes a fixed-head disk from a movable-head disk?",
                         options: [
                             "A fixed-head disk has a single read-write head for all tracks, while a movable-head disk has one per surface",
@@ -355,7 +432,7 @@
                         explanation: "The primary distinction is in the head mechanism. A fixed-head disk has a dedicated read-write head for each track, providing very fast access. In contrast, a movable-head disk uses a single read-write head that moves radially across the platters."
                     },
                     {
-                        id: 6,
+                        id: 12,
                         text: "What is the typical range for the number of platters in a hard disk drive?",
                         options: [
                             "1 to 2",
@@ -365,26 +442,14 @@
                         ],
                         correct: 1,
                         explanation: "A typical hard disk drive usually contains multiple platters, ranging from 3 to 5. Each platter requires its own read-write head for each surface."
-                    },
-                    {
-                        id: 7,
-                        text: "How is data typically recorded on a magnetic disk platter?",
-                        options: [
-                            "As continuous analog signals",
-                            "As discrete magnetic spots on concentric tracks",
-                            "As optical patterns burned onto the surface",
-                            "As pits and lands organized spirally"
-                        ],
-                        correct: 1,
-                        explanation: "Data is recorded on magnetic disks by magnetizing discrete spots on the surface. These spots are arranged along concentric circles called tracks."
                     }
                 ]
             },
             {
-                section: "RAID and Storage Technologies",
+                section: "Advanced Storage Technologies",
                 questions: [
                     {
-                        id: 8,
+                        id: 13,
                         text: "Which RAID level distributes data across physical drives using striping but without redundancy, making it prone to data loss if a single drive fails?",
                         options: [
                             "RAID Level 1",
@@ -396,7 +461,7 @@
                         explanation: "RAID Level 0 employs nonredundant striping, which enhances performance by distributing data across multiple disks. However, it offers no fault tolerance; if any disk in the array fails, all data is lost."
                     },
                     {
-                        id: 9,
+                        id: 14,
                         text: "What is a key characteristic of RAID Level 1 (Mirrored)?",
                         options: [
                             "Data is distributed across physical drives in a nonredundant manner",
@@ -408,7 +473,7 @@
                         explanation: "RAID Level 1, or mirroring, achieves redundancy by maintaining an exact duplicate of data. Each logical strip of data is written to two separate physical disks simultaneously."
                     },
                     {
-                        id: 10,
+                        id: 15,
                         text: "What is the main advantage of RAID Level 5 over RAID Level 4?",
                         options: [
                             "RAID 5 provides higher data security",
@@ -420,7 +485,7 @@
                         explanation: "RAID 4 keeps all parity information on a single, dedicated parity disk, which can become a bottleneck during write operations. RAID 5 distributes the parity information across all the data disks, resolving this bottleneck issue."
                     },
                     {
-                        id: 11,
+                        id: 16,
                         text: "What is a primary disadvantage of Solid State Drives (SSDs) compared to Hard Disk Drives (HDDs)?",
                         options: [
                             "Higher access times and latency rates",
@@ -432,7 +497,7 @@
                         explanation: "While SSDs offer advantages like lower access times, quieter operation, and lower power consumption, a significant practical issue is that their performance can degrade over time, especially with repeated write and erase operations."
                     },
                     {
-                        id: 12,
+                        id: 17,
                         text: "Why are SSDs generally preferred over HDDs in portable devices like laptops for durability?",
                         options: [
                             "SSDs have a larger storage capacity",
@@ -444,24 +509,7 @@
                         explanation: "The primary reason SSDs are more durable for portable devices is their lack of moving mechanical parts. This makes them highly resistant to physical shock and vibration, unlike HDDs with their spinning platters and read/write heads."
                     },
                     {
-                        id: 13,
-                        text: "Which of the following is NOT a typical component of a hard disk drive?",
-                        options: [
-                            "Platters",
-                            "Read/write heads",
-                            "Spindle motor",
-                            "Laser diode"
-                        ],
-                        correct: 3,
-                        explanation: "Hard disk drives (HDDs) use magnetic technology, which involves platters, read/write heads, and a spindle motor. A laser diode is a component typically found in optical disc drives for reading and writing data using light."
-                    }
-                ]
-            },
-            {
-                section: "Optical Storage and Magnetic Tape",
-                questions: [
-                    {
-                        id: 14,
+                        id: 18,
                         text: "A CD-ROM has a capacity of approximately 650 Mbytes. How does a single-sided, dual-layer DVD-ROM's capacity compare to this?",
                         options: [
                             "It is approximately the same capacity",
@@ -473,7 +521,7 @@
                         explanation: "A single-sided, dual-layer DVD-ROM can hold 8.5 GB, and a double-sided, dual-layer DVD-ROM can hold up to 17 GB. Both capacities are significantly higher than the 650 Mbytes of a standard CD-ROM."
                     },
                     {
-                        id: 15,
+                        id: 19,
                         text: "Which optical disk type allows the user to write to the disk only once?",
                         options: [
                             "CD-RW",
@@ -485,31 +533,7 @@
                         explanation: "CD-R (Compact Disc-Recordable) is a write-once, read-many (WORM) medium, meaning data can be written to it only once, but read many times. CD-RW and DVD-RW are re-writable formats."
                     },
                     {
-                        id: 16,
-                        text: "What type of information is typically stored on a Blu-ray disc, emphasizing its high capacity?",
-                        options: [
-                            "Standard definition audio files",
-                            "Low-resolution images",
-                            "High-definition video (e.g., movies)",
-                            "Basic text documents"
-                        ],
-                        correct: 2,
-                        explanation: "Blu-ray discs were specifically developed to store and play back high-definition video and high-density data. Their significantly larger storage capacity (up to 25 GB for single-layer, 50 GB for dual-layer) makes them ideal for full-length high-definition movies."
-                    },
-                    {
-                        id: 17,
-                        text: "In magnetic tape systems, what are the contiguous blocks of data that are read and written called?",
-                        options: [
-                            "Inter-record gaps",
-                            "Tracks",
-                            "Physical records",
-                            "Serial recordings"
-                        ],
-                        correct: 2,
-                        explanation: "On magnetic tape, data is organized and accessed in contiguous blocks known as physical records. Inter-record gaps are empty spaces between these blocks, tracks are the paths on the tape."
-                    },
-                    {
-                        id: 18,
+                        id: 20,
                         text: "What is the purpose of an inter-record gap (IRG) in magnetic tape?",
                         options: [
                             "To store metadata about the tape content",
@@ -519,30 +543,6 @@
                         ],
                         correct: 1,
                         explanation: "An inter-record gap (IRG) is a blank space deliberately left between physical records on a magnetic tape. This gap allows the tape drive enough time to accelerate to the required speed for reading/writing or to decelerate to a stop between operations."
-                    },
-                    {
-                        id: 19,
-                        text: "An HGST Ultrastar C15K600 drive has a spindle speed of 15,030 rpm. What is its maximum sustained transfer rate?",
-                        options: [
-                            "255 MB/s",
-                            "1.2 GB/s",
-                            "3 GB/s",
-                            "788 MB/s"
-                        ],
-                        correct: 1,
-                        explanation: "According to the provided specifications, the HGST Ultrastar C15K600 drive has a maximum sustained transfer rate of 1.2 GB/s."
-                    },
-                    {
-                        id: 20,
-                        text: "In the context of disk performance, what is the significance of the transfer rate?",
-                        options: [
-                            "It indicates how quickly the head can move to a specific track",
-                            "It measures the time taken to rotate the disk to the desired sector",
-                            "It represents the rate at which data can be read from or written to the disk surface",
-                            "It is the total time required to access a block of data"
-                        ],
-                        correct: 2,
-                        explanation: "Transfer rate refers to the rate at which data bits can be transferred between the disk and the computer system once the head is positioned over the desired sector. It quantifies how fast data flows during the actual read or write operation."
                     }
                 ]
             }
