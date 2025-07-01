@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instruction Sets Review Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #e74c3c;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .option label:hover {
+            border-color: #e74c3c;
+            background: #fff5f5;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .option.correct label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect label {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #ffebee;
+            border-left: 4px solid #e74c3c;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .final-stats.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .final-stats h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stat-item {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Instruction Sets Review Quiz</h1>
+            <p>Test your knowledge of processor instruction sets and machine architecture</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Progress:</strong> <span id="progress">0/20</span>
+            </div>
+            <div class="stat-item">
+                <strong>Correct:</strong> <span id="correct">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Incorrect:</strong> <span id="incorrect">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Score:</strong> <span id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content" id="quizContent">
+            <!-- Quiz content will be generated by JavaScript -->
+        </div>
+
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <p id="finalMessage">Great job completing the quiz!</p>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                section: "Instruction Fundamentals and Formats",
+                questions: [
+                    {
+                        id: 1,
+                        text: "What is the collection of different instructions that a processor can execute called?",
+                        options: [
+                            "A computer program",
+                            "The processor's instruction set",
+                            "Machine instructions",
+                            "An opcode list"
+                        ],
+                        correct: 1,
+                        explanation: "Page 2 of the presentation defines the processor's instruction set as \"The collection of different instructions that the processor can execute.\" Options A, C, and D are related concepts but do not accurately define the entire collection of executable instructions."
+                    },
+                    {
+                        id: 2,
+                        text: "According to the Instruction Cycle State Diagram in Figure 13.1, what is the initial state of the instruction cycle?",
+                        options: [
+                            "Instruction address calculation",
+                            "Instruction fetch",
+                            "Data Operation",
+                            "Instruction operation decoding"
+                        ],
+                        correct: 0,
+                        explanation: "The diagram on page 3 shows that the cycle begins with \"Instruction address calculation\" to determine the address of the instruction to be executed next. This is followed by \"Instruction fetch,\" where the instruction is retrieved from that address."
+                    },
+                    {
+                        id: 3,
+                        text: "In the simple 16-bit instruction format shown in Figure 13.2, how many distinct operations can be specified by the opcode field?",
+                        options: [
+                            "4",
+                            "16",
+                            "32",
+                            "64"
+                        ],
+                        correct: 1,
+                        explanation: "The diagram on page 5 shows the opcode field is 4 bits long. The number of unique combinations possible with a 4-bit field is 2 to the power of 4 (2^4), which equals 16. Therefore, up to 16 different operations can be specified."
+                    },
+                    {
+                        id: 4,
+                        text: "In instruction representation, what do abbreviations like ADD, SUB, and LOAD represent?",
+                        options: [
+                            "Operands",
+                            "Opcodes (mnemonics)",
+                            "Memory addresses",
+                            "Data types"
+                        ],
+                        correct: 1,
+                        explanation: "Page 6 explains that opcodes (the part of an instruction that specifies the operation to be performed) are represented by abbreviations called \"mnemonics\" for ease of programming."
+                    },
+                    {
+                        id: 5,
+                        text: "Which category of instruction types is used to test the value of a data word or to branch to a different set of instructions?",
+                        options: [
+                            "Data processing",
+                            "Data movement",
+                            "Data storage",
+                            "Control"
+                        ],
+                        correct: 3,
+                        explanation: "The diagram on page 7 describes \"Control\" instructions. It explicitly states that \"Test instructions are used to test the value of a data word...\" and \"Branch instructions are used to branch to a different set of instructions...\"."
+                    }
+                ]
+            },
+            {
+                section: "Data Types and Addressing",
+                questions: [
+                    {
+                        id: 6,
+                        text: "What is the \"packed decimal\" representation of numbers?",
+                        options: [
+                            "Each decimal digit is represented by an 8-bit ASCII code.",
+                            "Each decimal digit is represented by a 4-bit code, with two digits stored per byte.",
+                            "A 32-bit or 64-bit binary floating-point number.",
+                            "An unsigned binary integer."
+                        ],
+                        correct: 1,
+                        explanation: "Page 12 defines packed decimal representation as a method where \"Each decimal digit is represented by a 4-bit code with two digits stored per byte.\" This is an efficient way to store decimal numbers for business applications."
+                    },
+                    {
+                        id: 7,
+                        text: "In the United States, the International Reference Alphabet (IRA) is more commonly known by what name?",
+                        options: [
+                            "EBCDIC",
+                            "ASCII",
+                            "Unicode",
+                            "Packed Decimal"
+                        ],
+                        correct: 1,
+                        explanation: "Page 13 states that the \"most commonly used character code is the International Reference Alphabet (IRA)\" and that it is \"Referred to in the United States as the American Standard Code for Information Interchange (ASCII)\"."
+                    },
+                    {
+                        id: 8,
+                        text: "In the x86 architecture, a \"Far pointer\" is a logical address used for memory references in a segmented memory model. What does it consist of?",
+                        options: [
+                            "A 64-bit effective address only.",
+                            "A 16-bit segment selector and an offset of 16, 32, or 64 bits.",
+                            "An unsigned integer in a doubleword.",
+                            "A packed representation of two BCD digits."
+                        ],
+                        correct: 1,
+                        explanation: "Table 13.2 on page 15 provides definitions for x86 data types. \"Far pointer\" is defined as \"A logical address consisting of a 16-bit segment selector and an offset of 16, 32, or 64 bits.\""
+                    },
+                    {
+                        id: 9,
+                        text: "ARM processors support data types of 8 (byte), 16 (halfword), and 32 (word) bits. For which of these types can an unsigned, non-negative integer interpretation be supported?",
+                        options: [
+                            "Only 32-bit words.",
+                            "Only 8-bit bytes and 16-bit halfwords.",
+                            "None, ARM only supports signed integers.",
+                            "For all three data types."
+                        ],
+                        correct: 3,
+                        explanation: "Page 18 contains a box that explicitly states: \"For all three data types an unsigned interpretation is supported in which the value represents an unsigned, nonnegative integer.\""
+                    },
+                    {
+                        id: 10,
+                        text: "What type of operand is contained directly within a field of the instruction being executed?",
+                        options: [
+                            "A processor register",
+                            "A memory operand",
+                            "An I/O operand",
+                            "An immediate operand"
+                        ],
+                        correct: 3,
+                        explanation: "Page 4 defines an \"Immediate\" operand as one where \"The value of the operand is contained in a field in the instruction being executed.\" This avoids an extra memory fetch to get the operand's value."
+                    }
+                ]
+            },
+            {
+                section: "Instruction Set Operations",
+                questions: [
+                    {
+                        id: 11,
+                        text: "In the x86 instruction set, which instruction adds 1 to the destination operand while preserving the state of the CF (Carry) flag?",
+                        options: [
+                            "ADD Dest, 1",
+                            "INC Op",
+                            "ADC Op",
+                            "NEG Op"
+                        ],
+                        correct: 1,
+                        explanation: "Table 13.3 on page 20 describes the `INC Op` instruction as \"Adds 1 to the destination operand, while preserving the state of the CF flag.\" This is different from a standard `ADD` which would modify the carry flag."
+                    },
+                    {
+                        id: 12,
+                        text: "What is the key difference between the `SHR` (Shift Logical Right) and `SAR` (Shift Arithmetic Right) instructions in the x86 instruction set?",
+                        options: [
+                            "`SHR` preserves the sign bit, while `SAR` does not.",
+                            "`SAR` preserves the sign bit, while `SHR` fills empty positions with zeros.",
+                            "`SHR` is for signed integers, and `SAR` is for unsigned integers.",
+                            "There is no functional difference; they are aliases."
+                        ],
+                        correct: 1,
+                        explanation: "According to Table 13.3 on page 21 and the diagrams on page 28, a logical shift (`SHR`) always fills empty bit positions with 0. An arithmetic shift (`SAR`) fills the empty bit positions with a copy of the original sign bit, preserving the number's sign."
+                    },
+                    {
+                        id: 13,
+                        text: "Which x86 instruction transfers program control but does NOT save a return address?",
+                        options: [
+                            "CALL",
+                            "JMP",
+                            "RET",
+                            "INT"
+                        ],
+                        correct: 1,
+                        explanation: "Table 13.3 on page 22 describes `JMP Dest` as an instruction that \"Transfers program control to a different point in the instruction stream without recording return information.\" In contrast, `CALL` is specifically designed to save a return address for later use by a `RET` instruction."
+                    },
+                    {
+                        id: 14,
+                        text: "Based on the table of Basic Logical Operations (Table 13.6), what is the result of `1 P=Q 0`?",
+                        options: [
+                            "1",
+                            "0",
+                            "Undefined",
+                            "True"
+                        ],
+                        correct: 1,
+                        explanation: "The `P=Q` column in Table 13.6 on page 27 represents logical equivalence (also known as XNOR). The result is 1 (true) if P and Q are the same, and 0 (false) if they are different. In the row where P=1 and Q=0, the inputs are different, so the result for `P=Q` is 0."
+                    },
+                    {
+                        id: 15,
+                        text: "Which x86 instruction decrements the stack pointer and then copies the source operand to the new top of the stack?",
+                        options: [
+                            "PUSH",
+                            "POP",
+                            "MOV",
+                            "XCHG"
+                        ],
+                        correct: 0,
+                        explanation: "Table 13.3 on page 20 describes the `PUSH Source` instruction as: \"Decrements stack pointer (ESP register), then copies the source operand to the top of stack.\" This is the fundamental operation for adding an item to the stack in x86 architecture."
+                    }
+                ]
+            },
+            {
+                section: "Advanced Topics and Control Flow",
+                questions: [
+                    {
+                        id: 16,
+                        text: "What are the two principal reasons given for the use of procedures in programming?",
+                        options: [
+                            "Speed and security",
+                            "Economy and modularity",
+                            "Simplicity and compatibility",
+                            "Abstraction and encapsulation"
+                        ],
+                        correct: 1,
+                        explanation: "Page 36 explicitly lists the \"Two principal reasons for use of procedures\" as \"Economy\" (allowing the same piece of code to be used many times) and \"Modularity\" (breaking a task into smaller, manageable pieces)."
+                    },
+                    {
+                        id: 17,
+                        text: "When using a stack to implement nested procedures (Figure 13.9), what essential piece of information is pushed onto the stack when a `CALL` instruction is executed?",
+                        options: [
+                            "The entire procedure being called.",
+                            "The current value of the accumulator.",
+                            "The return address.",
+                            "The parameters for the procedure."
+                        ],
+                        correct: 2,
+                        explanation: "The diagrams in Figures 13.8 and 13.9 on pages 37-38 illustrate that when a `CALL` is made, the return address (the address of the instruction immediately following the `CALL`) is pushed onto the stack. This allows the `RETURN` instruction to pop this address and resume execution at the correct point."
+                    },
+                    {
+                        id: 18,
+                        text: "For an x86 conditional jump instruction, what condition is tested by the `JNE` (or `JNZ`) mnemonic?",
+                        options: [
+                            "Z = 1",
+                            "Z = 0",
+                            "C = 1",
+                            "S = 1"
+                        ],
+                        correct: 1,
+                        explanation: "Table 13.9 on page 42 shows the condition codes. For the symbol `NE, NZ` (Not Equal, Not Zero), the condition tested is `Z = 0`. This means the jump is taken if the Zero flag is not set (i.e., the result of the previous operation was not zero)."
+                    },
+                    {
+                        id: 19,
+                        text: "What does the MMX instruction `PADDUS [B, W]` do?",
+                        options: [
+                            "Parallel add with wraparound.",
+                            "Subtract with saturation.",
+                            "Add unsigned with saturation.",
+                            "Parallel multiply and add."
+                        ],
+                        correct: 2,
+                        explanation: "Table 13.10 on page 44 describes MMX instructions. `PADDUS` stands for Parallel ADD Unsigned with Saturation. Saturation arithmetic means that if a result overflows, it is clamped to the maximum possible value for that data type instead of wrapping around."
+                    },
+                    {
+                        id: 20,
+                        text: "On an ARM processor, which condition is tested for the `MI` (Minus/negative) conditional execution?",
+                        options: [
+                            "Z = 1",
+                            "C = 1",
+                            "V = 1",
+                            "N = 1"
+                        ],
+                        correct: 3,
+                        explanation: "Table 13.11 on page 47 lists the conditions for ARM conditional execution. For the mnemonic `MI`, the condition tested is `N = 1`. The N flag is the Negative (or sign) flag, which is set if the result of an operation is negative."
+                    }
+                ]
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            totalQuestions: 20
+        };
+
+        function generateQuiz() {
+            const content = document.getElementById('quizContent');
+            content.innerHTML = '';
+
+            quizData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.section;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <div class="question-header">Question ${question.id}</div>
+                        <div class="question-content">
+                            <div class="question-text">${question.text}</div>
+                            <ul class="options">
+                                ${question.options.map((option, index) => `
+                                    <li class="option" data-index="${index}">
+                                        <label>
+                                            <input type="radio" name="q${question.id}" value="${index}">
+                                            ${String.fromCharCode(65 + index)}. ${option}
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="explanation">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                    
+                    sectionDiv.appendChild(questionDiv);
+                });
+
+                content.appendChild(sectionDiv);
+            });
+
+            // Add event listeners to all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            const questionId = parseInt(event.target.name.replace('q', ''));
+            const selectedIndex = parseInt(event.target.value);
+            
+            // Find the question data
+            let questionData = null;
+            for (let section of quizData) {
+                questionData = section.questions.find(q => q.id === questionId);
+                if (questionData) break;
+            }
+
+            if (!questionData) return;
+
+            // Get the question element
+            const questionElement = event.target.closest('.question');
+            const options = questionElement.querySelectorAll('.option');
+            const explanation = questionElement.querySelector('.explanation');
+
+            // Disable all radio buttons for this question
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                if (index === questionData.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update stats
+            if (selectedIndex === questionData.correct) {
+                stats.correct++;
+            } else {
+                stats.incorrect++;
+            }
+            stats.answered++;
+
+            updateStats();
+            
+            // Check if quiz is complete
+            if (stats.answered === stats.totalQuestions) {
+                setTimeout(showFinalStats, 1000);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${stats.answered}/${stats.totalQuestions}`;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+            
+            const percentage = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+            document.getElementById('score').textContent = `${percentage}%`;
+            
+            const progressPercentage = (stats.answered / stats.totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        }
+
+        function showFinalStats() {
+            const finalScore = Math.round((stats.correct / stats.totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = `${finalScore}%`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🎉 Excellent! You have mastered instruction set concepts!';
+            } else if (finalScore >= 80) {
+                message = '👍 Great job! You have a solid understanding of processor instructions!';
+            } else if (finalScore >= 70) {
+                message = '👌 Good work! Consider reviewing some concepts to improve further.';
+            } else if (finalScore >= 60) {
+                message = '📚 Keep studying! You\'re on the right track but need more practice.';
+            } else {
+                message = '💪 Don\'t give up! Review the material and try again.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalStats').classList.add('show');
+        }
+
+        function restartQuiz() {
+            stats = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                totalQuestions: 20
+            };
+            
+            document.getElementById('finalStats').classList.remove('show');
+            updateStats();
+            generateQuiz();
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
