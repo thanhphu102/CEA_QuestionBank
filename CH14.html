@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processor Structure and Function Review Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f39c12;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #f39c12;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .option label:hover {
+            border-color: #f39c12;
+            background: #fef9e7;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .option.correct label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect label {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fef9e7;
+            border-left: 4px solid #f39c12;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .final-stats.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .final-stats h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stat-item {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Processor Structure and Function Review Quiz</h1>
+            <p>Test your knowledge of addressing modes and instruction formats</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Progress:</strong> <span id="progress">0/25</span>
+            </div>
+            <div class="stat-item">
+                <strong>Correct:</strong> <span id="correct">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Incorrect:</strong> <span id="incorrect">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Score:</strong> <span id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content" id="quizContent">
+            <!-- Quiz content will be generated by JavaScript -->
+        </div>
+
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <p id="finalMessage">Great job completing the quiz!</p>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                section: "Addressing Modes Fundamentals",
+                questions: [
+                    {
+                        id: 1,
+                        text: "Which of the following addressing modes requires the most memory references to fetch the operand, assuming no multilevel indirection?",
+                        options: [
+                            "Direct Addressing",
+                            "Register Indirect Addressing",
+                            "Indirect Addressing",
+                            "Displacement Addressing"
+                        ],
+                        correct: 2,
+                        explanation: "Based on Table 14.1 and the descriptions on pages 6-9, Indirect Addressing is the most memory-intensive. It requires two memory references to fetch the operand: one to fetch the address of the operand from the memory location specified in the instruction, and a second to fetch the operand itself from that address."
+                    },
+                    {
+                        id: 2,
+                        text: "According to the summary table of Basic Addressing Modes (Table 14.1), what is the principal advantage of Immediate Addressing?",
+                        options: [
+                            "Large address space",
+                            "No memory reference to fetch the operand",
+                            "Flexibility",
+                            "Simplicity"
+                        ],
+                        correct: 1,
+                        explanation: "As shown in Table 14.1 on page 4, the principal advantage of Immediate Addressing is \"No memory reference\". This is because the operand value is part of the instruction itself. This saves a memory or cache cycle that would otherwise be needed to fetch the operand, speeding up execution."
+                    },
+                    {
+                        id: 3,
+                        text: "In the diagram for Displacement Addressing (Figure 14.1f), how is the effective address of the operand calculated?",
+                        options: [
+                            "The operand is located at the address specified by the contents of register R.",
+                            "The operand is located at the memory address A specified in the instruction.",
+                            "The operand is located at the address found in memory location A, which is then added to the contents of register R.",
+                            "The effective address is the sum of the value A from the instruction and the contents of register R."
+                        ],
+                        correct: 3,
+                        explanation: "Figure 14.1f on page 3 and the formula on page 10, EA = A + (R), clearly show that Displacement Addressing calculates the effective address by adding a displacement value (A) contained in the instruction to the contents of a specified register (R)."
+                    },
+                    {
+                        id: 4,
+                        text: "What is the primary disadvantage of Direct Addressing?",
+                        options: [
+                            "Limited address space",
+                            "Multiple memory references",
+                            "High complexity",
+                            "Inability to use registers"
+                        ],
+                        correct: 0,
+                        explanation: "As stated on page 6 and in Table 14.1, the main limitation of Direct Addressing is that it provides a limited address space. The size of the address field within the instruction itself determines the maximum memory address that can be referenced."
+                    },
+                    {
+                        id: 5,
+                        text: "Which type of addressing is most suitable for handling iterative operations on arrays?",
+                        options: [
+                            "Relative Addressing",
+                            "Base-Register Addressing",
+                            "Indexing",
+                            "Stack Addressing"
+                        ],
+                        correct: 2,
+                        explanation: "Page 13 states that an important use of Indexing is \"to provide an efficient mechanism for performing iterative operations.\" In array processing, the base address of the array can be held in the instruction's address field (A), while a register (R) holds the index."
+                    },
+                    {
+                        id: 6,
+                        text: "In Relative Addressing, the displacement value in the instruction is added to the contents of which register to calculate the effective address?",
+                        options: [
+                            "A general-purpose register specified in the instruction",
+                            "The Program Counter (PC)",
+                            "The Stack Pointer (SP)",
+                            "A base register holding the start of a memory segment"
+                        ],
+                        correct: 1,
+                        explanation: "As defined on page 11, Relative Addressing is a form of displacement addressing where \"the implicitly referenced register is the program counter (PC).\" The effective address is calculated as a displacement relative to the address of the current instruction."
+                    }
+                ]
+            },
+            {
+                section: "Advanced Addressing and Architecture-Specific Features",
+                questions: [
+                    {
+                        id: 7,
+                        text: "What is the key difference between preindexing and postindexing as described on page 13?",
+                        options: [
+                            "Preindexing updates the register before the memory access, while postindexing updates it after.",
+                            "Preindexing uses a base register, while postindexing uses an index register.",
+                            "Preindexing is used for loads, and postindexing is used for stores.",
+                            "Preindexing performs indexing before indirection, while postindexing performs it after indirection."
+                        ],
+                        correct: 3,
+                        explanation: "Page 13 defines the two modes based on when the indexing operation occurs relative to the indirection. Preindexing: EA = (A + (R)) - indexing happens first. Postindexing: EA = (A) + (R) - indirection happens first to get a base address, then the index register is added."
+                    },
+                    {
+                        id: 8,
+                        text: "In the x86 addressing mode calculation shown in Figure 14.2, what are the three components that can be combined to form the \"Effective Address\"?",
+                        options: [
+                            "Base Register, Index Register, and Displacement",
+                            "Segment Register, Base Register, and Index Register",
+                            "Selector, Scale, and Limit",
+                            "Base Address, Linear Address, and Displacement"
+                        ],
+                        correct: 0,
+                        explanation: "Figure 14.2 on page 15 shows that the Effective Address is calculated by summing the contents of a Base Register, the scaled contents of an Index Register (Index Register * Scale), and a Displacement value from the instruction."
+                    },
+                    {
+                        id: 9,
+                        text: "Based on the ARM Indexing Methods in Figure 14.3, which instruction will update the base register `r1` with the new address after the memory access?",
+                        options: [
+                            "`STRB r0, [r1, #12]`",
+                            "`STRB r0, [r1], #12`",
+                            "`STRB r0, [r1, #12]!`",
+                            "Both B and C"
+                        ],
+                        correct: 2,
+                        explanation: "Figure 14.3 on page 17 shows that the preindex instruction `STRB r0, [r1, #12]!` uses the address `(r1) + 12` and then updates `r1` to this new address. The `!` symbol signifies this \"write-back\" or update."
+                    },
+                    {
+                        id: 10,
+                        text: "What is the effective address range of a standard ARM branch instruction?",
+                        options: [
+                            "± 16MB from the program counter",
+                            "± 32MB from the program counter",
+                            "± 64MB from the program counter",
+                            "The full 32-bit address space"
+                        ],
+                        correct: 1,
+                        explanation: "As described on page 18, ARM branch instructions use a 24-bit value that is \"Shifted 2 bits left so that the address is on a word boundary.\" This allows for a range of ±32MB relative to the program counter."
+                    },
+                    {
+                        id: 11,
+                        text: "According to Figure 14.4, an `LDMIA r10!, {r0, r1, r4}` instruction is executed, where `r10` initially contains `0x20C`. Which memory addresses will be read from? (Assume 32-bit words, so each register is 4 bytes).",
+                        options: [
+                            "`0x20C`, `0x210`, `0x214`",
+                            "`0x208`, `0x20C`, `0x210`",
+                            "`0x210`, `0x214`, `0x218`",
+                            "`0x20C`, `0x208`, `0x204`"
+                        ],
+                        correct: 0,
+                        explanation: "The mnemonic `LDMIA` stands for \"Load Multiple Increment After\". According to the diagram for Increment After (IA) on page 19, the transfer starts at the base register's address and the pointer is incremented after each transfer. So, the registers will be loaded from addresses `0x20C`, `0x210`, and `0x214`."
+                    },
+                    {
+                        id: 12,
+                        text: "Stack addressing is considered a form of which other addressing type?",
+                        options: [
+                            "Direct addressing",
+                            "Immediate addressing",
+                            "Index addressing",
+                            "Implied addressing"
+                        ],
+                        correct: 3,
+                        explanation: "Page 14 states that stack addressing \"is a form of implied addressing.\" This is because the machine instructions that operate on the stack do not need to include an explicit memory address or register field for the operand."
+                    }
+                ]
+            },
+            {
+                section: "Instruction Formats and Design Issues",
+                questions: [
+                    {
+                        id: 13,
+                        text: "Which of the following is NOT a primary design issue that affects or is affected by instruction length, as listed on page 21?",
+                        options: [
+                            "The number of floating-point registers",
+                            "Memory size",
+                            "Bus structure",
+                            "Processor speed"
+                        ],
+                        correct: 0,
+                        explanation: "Page 21 lists several factors that influence instruction length design: Memory size, Memory organization, Bus structure, Processor complexity, and Processor speed. The number of floating-point registers specifically is not listed as a primary driver of the overall instruction length."
+                    },
+                    {
+                        id: 14,
+                        text: "What is the main disadvantage of using variable-length instructions?",
+                        options: [
+                            "They are less memory-efficient.",
+                            "They cannot support a large number of addressing modes.",
+                            "They increase the complexity of the processor.",
+                            "They require all instructions to be fetched from a cache."
+                        ],
+                        correct: 2,
+                        explanation: "Page 25 explicitly states that variable-length instructions \"Increase the complexity of the processor.\" The processor's decode unit must first determine the length of the current instruction before it can fetch the next one, which complicates instruction fetching and pipelining."
+                    },
+                    {
+                        id: 15,
+                        text: "In the PDP-8 Memory Reference Instruction format (Figure 14.5), what is the purpose of the `D/I` bit (bit 3)?",
+                        options: [
+                            "To select the device for an I/O operation",
+                            "To specify Direct or Indirect addressing",
+                            "To indicate Displacement or Immediate mode",
+                            "To enable or disable interrupts"
+                        ],
+                        correct: 1,
+                        explanation: "The legend at the bottom of Figure 14.5 on page 23 explicitly states that `D/I = Direct/Indirect address`. This single bit allows the instruction to switch between fetching the operand's address directly from the displacement field or treating it as a pointer."
+                    },
+                    {
+                        id: 16,
+                        text: "In the PDP-10 Instruction Format (Figure 14.6), how many bits are allocated for the main memory address?",
+                        options: [
+                            "18 bits",
+                            "36 bits",
+                            "9 bits",
+                            "4 bits"
+                        ],
+                        correct: 0,
+                        explanation: "The diagram on page 24 clearly shows the fields of the 36-bit PDP-10 instruction format. The \"Memory Address\" field occupies bits 18 through 35, inclusive. This is a total of 35 - 18 + 1 = 18 bits."
+                    },
+                    {
+                        id: 17,
+                        text: "In the context of bit allocation within an instruction, what is the trade-off associated with having more opcodes?",
+                        options: [
+                            "It requires a faster processor clock speed.",
+                            "It reduces the number of general-purpose registers that can be supported.",
+                            "It leaves fewer bits available for addressing.",
+                            "It simplifies the instruction decoding logic."
+                        ],
+                        correct: 2,
+                        explanation: "As described on page 22, if you allocate more bits to the opcode to support a larger number of different instructions, you have fewer bits remaining for other purposes, such as specifying memory addresses or immediate operands."
+                    },
+                    {
+                        id: 18,
+                        text: "A processor has a word length of 32 bits and a word-addressable memory of 2^24 words. An instruction is 32 bits long and includes a 5-bit opcode. In a direct addressing instruction, how many bits are available for the address field?",
+                        options: [
+                            "5",
+                            "24",
+                            "32",
+                            "27"
+                        ],
+                        correct: 3,
+                        explanation: "The instruction length is 32 bits. The opcode uses 5 of these bits. The remaining bits are available for the address field: 32 bits (total) - 5 bits (opcode) = 27 bits."
+                    }
+                ]
+            },
+            {
+                section: "Architecture-Specific Implementation Details",
+                questions: [
+                    {
+                        id: 19,
+                        text: "Based on Table 14.2 (x86 Addressing Modes), what is the formula for calculating the linear address (LA) in \"Base with Scaled Index and Displacement\" mode?",
+                        options: [
+                            "`LA = (SR) + (B) + (I) + A`",
+                            "`LA = (SR) + (I) × S + (B) + A`",
+                            "`LA = (SR) + (B) + A`",
+                            "`LA = (PC) + A`"
+                        ],
+                        correct: 1,
+                        explanation: "The table on page 16 provides the algorithms for various x86 addressing modes. The row for \"Base with Scaled Index and Displacement\" explicitly gives the algorithm as `LA = (SR) + (I) × S + (B) + A`."
+                    },
+                    {
+                        id: 20,
+                        text: "In the VAX instruction `ADDL3 #5, R0, @A[R2]` shown in Figure 14.8, what does the byte `50` represent?",
+                        options: [
+                            "The opcode for the ADD operation",
+                            "The short literal value 5",
+                            "An index prefix for register R2",
+                            "The destination operand, specified in register mode as R0"
+                        ],
+                        correct: 3,
+                        explanation: "Analyzing the example on page 27, the hexadecimal value `50` is the operand specifier for R0. The '5' in `50` indicates register mode, and the '0' indicates register R0. Therefore, `50` specifies the second operand, which is the value in R0."
+                    },
+                    {
+                        id: 21,
+                        text: "In the x86 instruction format (Figure 14.9), what is the function of the SIB (Scale, Index, Base) byte?",
+                        options: [
+                            "To specify an immediate operand value.",
+                            "To specify more complex, register-based addressing modes.",
+                            "To override the default segment register.",
+                            "To indicate the size of the operand (16 or 32 bit)."
+                        ],
+                        correct: 1,
+                        explanation: "As shown in the diagram on page 28, the SIB byte is used when the ModR/M byte alone is not sufficient to describe the addressing mode. The SIB byte allows for addressing modes that involve a scaled index register, such as `[base + index*scale]`."
+                    },
+                    {
+                        id: 22,
+                        text: "In the ARM instruction formats shown in Figure 14.10, what is the purpose of the 'S' bit (bit 20) in data processing instructions?",
+                        options: [
+                            "To signify that the instruction updates the condition codes.",
+                            "To select a source register.",
+                            "To specify a shift operation.",
+                            "To restrict execution to supervisor mode."
+                        ],
+                        correct: 0,
+                        explanation: "The legend at the bottom of Figure 14.10 on page 29 clearly states: \"S = For data processing instructions, signifies that the instruction updates the condition codes\". For example, an `ADD` instruction will just perform addition, while an `ADDS` instruction will perform the addition and update the flags."
+                    },
+                    {
+                        id: 23,
+                        text: "How does the ARM architecture generate a wide range of 32-bit immediate constants using only a 12-bit field in the instruction?",
+                        options: [
+                            "The 12-bit value is sign-extended to 32 bits.",
+                            "The 12-bit value is used as an index into a table of constants in ROM.",
+                            "An 8-bit value is zero-extended to 32 bits and then rotated by an amount specified by a 4-bit field.",
+                            "The 12 bits are combined with the contents of the Program Counter."
+                        ],
+                        correct: 2,
+                        explanation: "Page 30 and Figure 14.11 describe the mechanism for generating immediate values in ARM instructions. The 12-bit immediate field is split into a 4-bit rotate amount and an 8-bit immediate value. The 8-bit value is padded with zeros to 32 bits, then rotated right by an amount equal to `2 * ror`."
+                    },
+                    {
+                        id: 24,
+                        text: "What was the primary motivation for creating the Thumb instruction set for the ARM architecture?",
+                        options: [
+                            "To increase processor performance by using 16-bit instructions.",
+                            "To simplify the processor's decode unit.",
+                            "To add new floating-point capabilities.",
+                            "To improve code density for memory-constrained systems."
+                        ],
+                        correct: 3,
+                        explanation: "As implied by the discussion on pages 31 and 32, the Thumb instruction set uses 16-bit instructions instead of ARM's standard 32-bit instructions. The main benefit of this is increased code density—more instructions can be stored in the same amount of memory."
+                    },
+                    {
+                        id: 25,
+                        text: "What major advantage does the Thumb-2 instruction set offer over the previous choice between ARM and Thumb ISAs?",
+                        options: [
+                            "It provides high code density comparable to Thumb and performance associated with the ARM ISA.",
+                            "It is a pure 64-bit architecture, superseding both ARM and Thumb.",
+                            "It eliminates the need for a register file, simplifying the design.",
+                            "It only supports immediate addressing, making all instructions faster."
+                        ],
+                        correct: 0,
+                        explanation: "Page 32 explicitly states that Thumb-2 \"Delivers overall code density comparable with Thumb, together with the performance levels associated with the ARM ISA.\" Before Thumb-2, developers had to make a trade-off between code density and performance."
+                    }
+                ]
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            totalQuestions: 25
+        };
+
+        function generateQuiz() {
+            const content = document.getElementById('quizContent');
+            content.innerHTML = '';
+
+            quizData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.section;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <div class="question-header">Question ${question.id}</div>
+                        <div class="question-content">
+                            <div class="question-text">${question.text}</div>
+                            <ul class="options">
+                                ${question.options.map((option, index) => `
+                                    <li class="option" data-index="${index}">
+                                        <label>
+                                            <input type="radio" name="q${question.id}" value="${index}">
+                                            ${String.fromCharCode(65 + index)}. ${option}
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="explanation">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                    
+                    sectionDiv.appendChild(questionDiv);
+                });
+
+                content.appendChild(sectionDiv);
+            });
+
+            // Add event listeners to all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            const questionId = parseInt(event.target.name.replace('q', ''));
+            const selectedIndex = parseInt(event.target.value);
+            
+            // Find the question data
+            let questionData = null;
+            for (let section of quizData) {
+                questionData = section.questions.find(q => q.id === questionId);
+                if (questionData) break;
+            }
+
+            if (!questionData) return;
+
+            // Get the question element
+            const questionElement = event.target.closest('.question');
+            const options = questionElement.querySelectorAll('.option');
+            const explanation = questionElement.querySelector('.explanation');
+
+            // Disable all radio buttons for this question
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                if (index === questionData.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update stats
+            if (selectedIndex === questionData.correct) {
+                stats.correct++;
+            } else {
+                stats.incorrect++;
+            }
+            stats.answered++;
+
+            updateStats();
+            
+            // Check if quiz is complete
+            if (stats.answered === stats.totalQuestions) {
+                setTimeout(showFinalStats, 1000);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${stats.answered}/${stats.totalQuestions}`;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+            
+            const percentage = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+            document.getElementById('score').textContent = `${percentage}%`;
+            
+            const progressPercentage = (stats.answered / stats.totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        }
+
+        function showFinalStats() {
+            const finalScore = Math.round((stats.correct / stats.totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = `${finalScore}%`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🎉 Excellent! You have mastered addressing modes and instruction formats!';
+            } else if (finalScore >= 80) {
+                message = '👍 Great job! You have a solid understanding of processor structure concepts!';
+            } else if (finalScore >= 70) {
+                message = '👌 Good work! Consider reviewing some concepts to improve further.';
+            } else if (finalScore >= 60) {
+                message = '📚 Keep studying! You\'re on the right track but need more practice.';
+            } else {
+                message = '💪 Don\'t give up! Review the material and try again.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalStats').classList.add('show');
+        }
+
+        function restartQuiz() {
+            stats = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                totalQuestions: 25
+            };
+            
+            document.getElementById('finalStats').classList.remove('show');
+            updateStats();
+            generateQuiz();
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
