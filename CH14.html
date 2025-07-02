@@ -260,7 +260,7 @@
 
         <div class="stats">
             <div class="stat-item">
-                <strong>Progress:</strong> <span id="progress">0/25</span>
+                <strong>Progress:</strong> <span id="progress">0/50</span>
             </div>
             <div class="stat-item">
                 <strong>Correct:</strong> <span id="correct">0</span>
@@ -365,12 +365,7 @@
                         ],
                         correct: 1,
                         explanation: "As defined on page 11, Relative Addressing is a form of displacement addressing where \"the implicitly referenced register is the program counter (PC).\" The effective address is calculated as a displacement relative to the address of the current instruction."
-                    }
-                ]
-            },
-            {
-                section: "Advanced Addressing and Architecture-Specific Features",
-                questions: [
+                    },
                     {
                         id: 7,
                         text: "What is the key difference between preindexing and postindexing as described on page 13?",
@@ -433,23 +428,6 @@
                     },
                     {
                         id: 12,
-                        text: "Stack addressing is considered a form of which other addressing type?",
-                        options: [
-                            "Direct addressing",
-                            "Immediate addressing",
-                            "Index addressing",
-                            "Implied addressing"
-                        ],
-                        correct: 3,
-                        explanation: "Page 14 states that stack addressing \"is a form of implied addressing.\" This is because the machine instructions that operate on the stack do not need to include an explicit memory address or register field for the operand."
-                    }
-                ]
-            },
-            {
-                section: "Instruction Formats and Design Issues",
-                questions: [
-                    {
-                        id: 13,
                         text: "Which of the following is NOT a primary design issue that affects or is affected by instruction length, as listed on page 21?",
                         options: [
                             "The number of floating-point registers",
@@ -459,6 +437,18 @@
                         ],
                         correct: 0,
                         explanation: "Page 21 lists several factors that influence instruction length design: Memory size, Memory organization, Bus structure, Processor complexity, and Processor speed. The number of floating-point registers specifically is not listed as a primary driver of the overall instruction length."
+                    },
+                    {
+                        id: 13,
+                        text: "In the PDP-8 Memory Reference Instruction format (Figure 14.5), what is the purpose of the `D/I` bit (bit 3)?",
+                        options: [
+                            "To select the device for an I/O operation",
+                            "To specify Direct or Indirect addressing",
+                            "To indicate Displacement or Immediate mode",
+                            "To enable or disable interrupts"
+                        ],
+                        correct: 1,
+                        explanation: "The legend at the bottom of Figure 14.5 on page 23 explicitly states that `D/I = Direct/Indirect address`. This single bit allows the instruction to switch between fetching the operand's address directly from the displacement field or treating it as a pointer."
                     },
                     {
                         id: 14,
@@ -474,71 +464,6 @@
                     },
                     {
                         id: 15,
-                        text: "In the PDP-8 Memory Reference Instruction format (Figure 14.5), what is the purpose of the `D/I` bit (bit 3)?",
-                        options: [
-                            "To select the device for an I/O operation",
-                            "To specify Direct or Indirect addressing",
-                            "To indicate Displacement or Immediate mode",
-                            "To enable or disable interrupts"
-                        ],
-                        correct: 1,
-                        explanation: "The legend at the bottom of Figure 14.5 on page 23 explicitly states that `D/I = Direct/Indirect address`. This single bit allows the instruction to switch between fetching the operand's address directly from the displacement field or treating it as a pointer."
-                    },
-                    {
-                        id: 16,
-                        text: "In the PDP-10 Instruction Format (Figure 14.6), how many bits are allocated for the main memory address?",
-                        options: [
-                            "18 bits",
-                            "36 bits",
-                            "9 bits",
-                            "4 bits"
-                        ],
-                        correct: 0,
-                        explanation: "The diagram on page 24 clearly shows the fields of the 36-bit PDP-10 instruction format. The \"Memory Address\" field occupies bits 18 through 35, inclusive. This is a total of 35 - 18 + 1 = 18 bits."
-                    },
-                    {
-                        id: 17,
-                        text: "In the context of bit allocation within an instruction, what is the trade-off associated with having more opcodes?",
-                        options: [
-                            "It requires a faster processor clock speed.",
-                            "It reduces the number of general-purpose registers that can be supported.",
-                            "It leaves fewer bits available for addressing.",
-                            "It simplifies the instruction decoding logic."
-                        ],
-                        correct: 2,
-                        explanation: "As described on page 22, if you allocate more bits to the opcode to support a larger number of different instructions, you have fewer bits remaining for other purposes, such as specifying memory addresses or immediate operands."
-                    },
-                    {
-                        id: 18,
-                        text: "A processor has a word length of 32 bits and a word-addressable memory of 2^24 words. An instruction is 32 bits long and includes a 5-bit opcode. In a direct addressing instruction, how many bits are available for the address field?",
-                        options: [
-                            "5",
-                            "24",
-                            "32",
-                            "27"
-                        ],
-                        correct: 3,
-                        explanation: "The instruction length is 32 bits. The opcode uses 5 of these bits. The remaining bits are available for the address field: 32 bits (total) - 5 bits (opcode) = 27 bits."
-                    }
-                ]
-            },
-            {
-                section: "Architecture-Specific Implementation Details",
-                questions: [
-                    {
-                        id: 19,
-                        text: "Based on Table 14.2 (x86 Addressing Modes), what is the formula for calculating the linear address (LA) in \"Base with Scaled Index and Displacement\" mode?",
-                        options: [
-                            "`LA = (SR) + (B) + (I) + A`",
-                            "`LA = (SR) + (I) × S + (B) + A`",
-                            "`LA = (SR) + (B) + A`",
-                            "`LA = (PC) + A`"
-                        ],
-                        correct: 1,
-                        explanation: "The table on page 16 provides the algorithms for various x86 addressing modes. The row for \"Base with Scaled Index and Displacement\" explicitly gives the algorithm as `LA = (SR) + (I) × S + (B) + A`."
-                    },
-                    {
-                        id: 20,
                         text: "In the VAX instruction `ADDL3 #5, R0, @A[R2]` shown in Figure 14.8, what does the byte `50` represent?",
                         options: [
                             "The opcode for the ADD operation",
@@ -550,7 +475,7 @@
                         explanation: "Analyzing the example on page 27, the hexadecimal value `50` is the operand specifier for R0. The '5' in `50` indicates register mode, and the '0' indicates register R0. Therefore, `50` specifies the second operand, which is the value in R0."
                     },
                     {
-                        id: 21,
+                        id: 16,
                         text: "In the x86 instruction format (Figure 14.9), what is the function of the SIB (Scale, Index, Base) byte?",
                         options: [
                             "To specify an immediate operand value.",
@@ -562,7 +487,7 @@
                         explanation: "As shown in the diagram on page 28, the SIB byte is used when the ModR/M byte alone is not sufficient to describe the addressing mode. The SIB byte allows for addressing modes that involve a scaled index register, such as `[base + index*scale]`."
                     },
                     {
-                        id: 22,
+                        id: 17,
                         text: "In the ARM instruction formats shown in Figure 14.10, what is the purpose of the 'S' bit (bit 20) in data processing instructions?",
                         options: [
                             "To signify that the instruction updates the condition codes.",
@@ -574,7 +499,7 @@
                         explanation: "The legend at the bottom of Figure 14.10 on page 29 clearly states: \"S = For data processing instructions, signifies that the instruction updates the condition codes\". For example, an `ADD` instruction will just perform addition, while an `ADDS` instruction will perform the addition and update the flags."
                     },
                     {
-                        id: 23,
+                        id: 18,
                         text: "How does the ARM architecture generate a wide range of 32-bit immediate constants using only a 12-bit field in the instruction?",
                         options: [
                             "The 12-bit value is sign-extended to 32 bits.",
@@ -586,7 +511,7 @@
                         explanation: "Page 30 and Figure 14.11 describe the mechanism for generating immediate values in ARM instructions. The 12-bit immediate field is split into a 4-bit rotate amount and an 8-bit immediate value. The 8-bit value is padded with zeros to 32 bits, then rotated right by an amount equal to `2 * ror`."
                     },
                     {
-                        id: 24,
+                        id: 19,
                         text: "What was the primary motivation for creating the Thumb instruction set for the ARM architecture?",
                         options: [
                             "To increase processor performance by using 16-bit instructions.",
@@ -598,7 +523,7 @@
                         explanation: "As implied by the discussion on pages 31 and 32, the Thumb instruction set uses 16-bit instructions instead of ARM's standard 32-bit instructions. The main benefit of this is increased code density—more instructions can be stored in the same amount of memory."
                     },
                     {
-                        id: 25,
+                        id: 20,
                         text: "What major advantage does the Thumb-2 instruction set offer over the previous choice between ARM and Thumb ISAs?",
                         options: [
                             "It provides high code density comparable to Thumb and performance associated with the ARM ISA.",
@@ -608,6 +533,366 @@
                         ],
                         correct: 0,
                         explanation: "Page 32 explicitly states that Thumb-2 \"Delivers overall code density comparable with Thumb, together with the performance levels associated with the ARM ISA.\" Before Thumb-2, developers had to make a trade-off between code density and performance."
+                    },
+                    {
+                        id: 21,
+                        text: "According to the Thumb-2 encoding diagram (Figure 14.13), how does the processor determine that an instruction is a 32-bit Thumb-2 instruction?",
+                        options: [
+                            "The first halfword [15:13] is `111` and the next halfword starts with `00`.",
+                            "The first halfword bits [15:13] are `111` and bits [12:11] are *not* `00`.",
+                            "The first halfword bits [15:13] are `not 111`.",
+                            "The instruction is always 32 bits unless it is a branch."
+                        ],
+                        correct: 1,
+                        explanation: "The table in Figure 14.13 on page 33 provides the decoding rules. For an instruction to be a 32-bit Thumb-2 instruction, two conditions must be met in the first 16-bit halfword: Bits [15:13] must be `111`, and bits [12:11] must be something other than `00`."
+                    },
+                    {
+                        id: 22,
+                        text: "Stack addressing is considered a form of which other addressing type?",
+                        options: [
+                            "Direct addressing",
+                            "Immediate addressing",
+                            "Index addressing",
+                            "Implied addressing"
+                        ],
+                        correct: 3,
+                        explanation: "Page 14 states that stack addressing \"is a form of implied addressing.\" This is because the machine instructions that operate on the stack do not need to include an explicit memory address or register field for the operand."
+                    },
+                    {
+                        id: 23,
+                        text: "In the PDP-10 Instruction Format (Figure 14.6), how many bits are allocated for the main memory address?",
+                        options: [
+                            "18 bits",
+                            "36 bits",
+                            "9 bits",
+                            "4 bits"
+                        ],
+                        correct: 0,
+                        explanation: "The diagram on page 24 clearly shows the fields of the 36-bit PDP-10 instruction format. The \"Memory Address\" field occupies bits 18 through 35, inclusive. This is a total of 35 - 18 + 1 = 18 bits."
+                    },
+                    {
+                        id: 24,
+                        text: "In the context of bit allocation within an instruction, what is the trade-off associated with having more opcodes?",
+                        options: [
+                            "It requires a faster processor clock speed.",
+                            "It reduces the number of general-purpose registers that can be supported.",
+                            "It leaves fewer bits available for addressing.",
+                            "It simplifies the instruction decoding logic."
+                        ],
+                        correct: 2,
+                        explanation: "As described on page 22, if you allocate more bits to the opcode to support a larger number of different instructions, you have fewer bits remaining for other purposes, such as specifying memory addresses or immediate operands."
+                    },
+                    {
+                        id: 25,
+                        text: "A processor has a word length of 32 bits and a word-addressable memory of 2^24 words. An instruction is 32 bits long and includes a 5-bit opcode. In a direct addressing instruction, how many bits are available for the address field?",
+                        options: [
+                            "5",
+                            "24",
+                            "32",
+                            "27"
+                        ],
+                        correct: 3,
+                        explanation: "The instruction length is 32 bits. The opcode uses 5 of these bits. The remaining bits are available for the address field: 32 bits (total) - 5 bits (opcode) = 27 bits."
+                    },
+                    {
+                        id: 26,
+                        text: "Based on Table 14.2 (x86 Addressing Modes), what is the formula for calculating the linear address (LA) in \"Base with Scaled Index and Displacement\" mode?",
+                        options: [
+                            "`LA = (SR) + (B) + (I) + A`",
+                            "`LA = (SR) + (I) × S + (B) + A`",
+                            "`LA = (SR) + (B) + A`",
+                            "`LA = (PC) + A`"
+                        ],
+                        correct: 1,
+                        explanation: "The table on page 16 provides the algorithms for various x86 addressing modes. The row for \"Base with Scaled Index and Displacement\" explicitly gives the algorithm as `LA = (SR) + (I) × S + (B) + A`."
+                    },
+                    {
+                        id: 27,
+                        text: "Which of the following is a key component that an instruction format must define?",
+                        options: [
+                            "The layout of the bits of an instruction in terms of its constituent fields.",
+                            "The clock speed at which the instruction will execute.",
+                            "The number of pipeline stages in the processor.",
+                            "The physical location of the instruction in the cache."
+                        ],
+                        correct: 0,
+                        explanation: "Page 20 defines instruction formats as follows: \"Define the layout of the bits of an instruction, in terms of its constituent fields.\" This includes specifying which bits are the opcode, which bits define the operands, addressing modes, etc."
+                    },
+                    {
+                        id: 28,
+                        text: "Comparing Indirect Addressing (EA = (A)) and Register Indirect Addressing (EA = (R)), what is the main performance difference?",
+                        options: [
+                            "Indirect addressing can access a larger address space.",
+                            "Register indirect addressing requires one less memory reference.",
+                            "Indirect addressing is simpler for the processor to decode.",
+                            "Register indirect addressing cannot be used with displacement."
+                        ],
+                        correct: 1,
+                        explanation: "As explained on page 9, Register Indirect Addressing \"uses one less memory reference than indirect addressing.\" In standard Indirect Addressing, the first memory access fetches the pointer from memory location A. In Register Indirect Addressing, the pointer is already in register R."
+                    },
+                    {
+                        id: 29,
+                        text: "What is a defining characteristic of Base-Register Addressing?",
+                        options: [
+                            "The referenced register contains a main memory address, and the instruction's address field contains a displacement from that address.",
+                            "The referenced register contains a displacement, and the instruction's address field contains a main memory address.",
+                            "It is only used for branching instructions relative to the Program Counter.",
+                            "The base register is always implicitly the Stack Pointer."
+                        ],
+                        correct: 0,
+                        explanation: "Page 12 defines Base-Register Addressing as a mode where \"The referenced register contains a main memory address and the address field contains a displacement from that address.\" This is particularly useful for segmentation."
+                    },
+                    {
+                        id: 30,
+                        text: "What is the purpose of the condition code field (`cond`) in most 32-bit ARM instructions?",
+                        options: [
+                            "To specify the condition of the carry flag.",
+                            "To define the length of the instruction.",
+                            "To allow an instruction to execute conditionally based on the processor status flags.",
+                            "To distinguish between a data processing and a load/store instruction."
+                        ],
+                        correct: 2,
+                        explanation: "The ARM instruction format diagram on page 29 shows a 4-bit `cond` field at the beginning of many instruction types. This field allows almost every ARM instruction to be executed conditionally based on processor status flags."
+                    },
+                    {
+                        id: 31,
+                        text: "According to the PDP-11 instruction formats on page 26, how are the source and destination operands specified in a standard two-operand instruction like the one labeled as format '1'?",
+                        options: [
+                            "They are specified by a 6-bit memory address each.",
+                            "They are specified by an 8-bit opcode followed by two 4-bit register numbers.",
+                            "Each is specified by a 6-bit field containing a 3-bit addressing mode and a 3-bit register number.",
+                            "The source is specified by a 6-bit field, but the destination is always an implicit accumulator."
+                        ],
+                        correct: 2,
+                        explanation: "The notes below Figure 14.7 on page 26 state: \"Source and Destination each contain a 3-bit addressing mode field and a 3-bit register number\". This means each 6-bit operand field specifies both which register to use and how to use it."
+                    },
+                    {
+                        id: 32,
+                        text: "In the ARM Load/Store Multiple Addressing diagram (Figure 14.4), consider an `STMDB r10!, {r0, r1, r4}` instruction where `r10` initially holds `0x20C`. At which memory address will the contents of register `r4` be stored?",
+                        options: [
+                            "`0x20C`",
+                            "`0x208`",
+                            "`0x204`",
+                            "`0x200`"
+                        ],
+                        correct: 1,
+                        explanation: "The mnemonic `STMDB` stands for \"Store Multiple Decrement Before\". According to ARM convention, the lowest-numbered register is stored at the lowest address, and the highest-numbered register at the highest address. For the instruction storing three registers, the addresses used are `0x200`, `0x204`, `0x208`. Following ARM convention: r0 goes to `0x200`, r1 to `0x204`, and r4 to `0x208`."
+                    },
+                    {
+                        id: 33,
+                        text: "Based on the VAX instruction example on page 27, what is the function of the instruction `MOVW 356(R4), 25(R11)`?",
+                        options: [
+                            "Move a word from register R4 to register R11, using 356 and 25 as status flags.",
+                            "Move a word from the memory address calculated by `(R4) + 356` to the memory address calculated by `(R11) + 25`.",
+                            "Move the 16-bit value `356` into the memory address `(R11) + 25`, using R4 as an index.",
+                            "Add the contents of memory at `(R4) + 356` and `(R11) + 25` and store the result in R4."
+                        ],
+                        correct: 1,
+                        explanation: "The description provided on page 27 for this instruction is: \"Move a word from address that is 356 plus contents of R4 to address that is 25 plus contents of R11\". This is a memory-to-memory move operation using displacement addressing."
+                    },
+                    {
+                        id: 34,
+                        text: "In the full x86 instruction format shown on page 28, what is the purpose of the optional prefix bytes like \"Segment override\"?",
+                        options: [
+                            "To increase the value of the immediate operand.",
+                            "To specify the instruction is part of a 64-bit extension.",
+                            "To change the default behavior of the instruction, such as using a non-default segment register for a memory access.",
+                            "To tell the processor to halt after the instruction completes."
+                        ],
+                        correct: 2,
+                        explanation: "The diagram on page 28 shows several optional prefix bytes at the beginning of an x86 instruction. The \"Segment override\" prefix allows the programmer to specify that a memory access should use a different segment register than the default one for that particular instruction."
+                    },
+                    {
+                        id: 35,
+                        text: "In the PDP-8 Register Reference Instructions (Figure 14.5), how are multiple operations like CLA (Clear Accumulator) and CMA (Complement Accumulator) combined in one instruction?",
+                        options: [
+                            "Each operation has its own separate instruction word.",
+                            "Bits in a single instruction word are used as flags, allowing multiple compatible operations to be specified and executed in sequence within one instruction cycle.",
+                            "The processor automatically combines sequential CLA and CMA instructions into a single micro-op.",
+                            "A 3-bit field selects one of eight possible combined operations."
+                        ],
+                        correct: 1,
+                        explanation: "The PDP-8 used a clever encoding for its \"microprogrammed\" register reference instructions. As shown in the \"Group 1 Microinstructions\" format on page 23, a single instruction word has individual bits dedicated to specific operations. If a bit is set to 1, that operation is performed."
+                    },
+                    {
+                        id: 36,
+                        text: "What does the term \"address granularity\" refer to in the context of instruction set design?",
+                        options: [
+                            "The number of different addressing modes available.",
+                            "The trade-off between register and memory operands.",
+                            "The fundamental unit of memory that can be addressed by an instruction, e.g., byte vs. word.",
+                            "The physical size of the address bus."
+                        ],
+                        correct: 2,
+                        explanation: "Address granularity, a key design choice mentioned on page 22, refers to the size of the memory unit that a single address points to. In a byte-addressable machine, each unique address refers to a single byte. In a word-addressable machine, each address refers to a multi-byte word."
+                    },
+                    {
+                        id: 37,
+                        text: "When a processor encounters variable-length instructions, what is a typical strategy for instruction fetching, as described on page 25?",
+                        options: [
+                            "Fetch one byte at a time and decode it to determine the instruction length.",
+                            "Fetch a fixed-size block of bytes or words that is equal to or greater than the longest possible instruction.",
+                            "Only allow variable-length instructions if they are aligned to a 16-byte cache line boundary.",
+                            "Read the first two bits of every instruction, which always encode the length."
+                        ],
+                        correct: 1,
+                        explanation: "Page 25 states: \"Because the processor does not know the length of the next instruction to be fetched a typical strategy is to fetch a number of bytes or words equal to at least the longest possible instruction.\" The processor fetches a \"chunk\" of the instruction stream into a prefetch buffer."
+                    },
+                    {
+                        id: 38,
+                        text: "What functionality does the `IT` (If-Then) instruction add to the Thumb-2 instruction set?",
+                        options: [
+                            "It allows for the conditional execution of a block of subsequent instructions without using traditional branches.",
+                            "It provides a way to perform 32-bit integer arithmetic.",
+                            "It allows an instruction to access a table of immediate values.",
+                            "It initiates a trap to the operating system for interrupt handling."
+                        ],
+                        correct: 0,
+                        explanation: "As mentioned on page 32, the Thumb-2 instruction set \"Introduces a new If-Then (IT) instruction that delivers much of the functionality of the condition field in ARM instructions.\" The `IT` instruction makes the next one to four instructions conditional."
+                    },
+                    {
+                        id: 39,
+                        text: "In the ARM load/store instruction format (page 29), what is the function of the L bit (bit 20)?",
+                        options: [
+                            "It indicates that a Long value (64-bit) should be transferred.",
+                            "It distinguishes between a Load (L=1) and a Store (L=0) operation.",
+                            "It signifies that the address should be loaded into the Link Register.",
+                            "It enables a legacy addressing mode for older ARM cores."
+                        ],
+                        correct: 1,
+                        explanation: "The legend at the bottom of page 29 explains the meaning of the various flag bits. For load/store instructions, \"L = For load/store instructions, distinguishes between a Load (L==1) and a Store (L==0)\"."
+                    },
+                    {
+                        id: 40,
+                        text: "In the expansion of the Thumb instruction `ADD r3, #19` to its 32-bit ARM equivalent `ADDS r3, r3, #19` (Figure 14.12), why is the `rotate` field in the ARM instruction set to zero?",
+                        options: [
+                            "A zero rotation is required for all ADD instructions.",
+                            "The immediate value 19 can be represented directly within an 8-bit field, so no rotation is needed.",
+                            "The Thumb instruction set does not support rotated immediates.",
+                            "The rotate field is used to hold the source register, which is also `r3`."
+                        ],
+                        correct: 1,
+                        explanation: "The ARM immediate encoding scheme (page 30) uses an 8-bit value and a 4-bit rotate. The value 19 (or `0x13`) fits entirely within the 8-bit immediate field. Therefore, no rotation is necessary to generate the value."
+                    },
+                    {
+                        id: 41,
+                        text: "What is the primary difference between a CISC (Complex Instruction Set Computer) and a RISC (Reduced Instruction Set Computer) philosophy regarding instruction formats and addressing?",
+                        options: [
+                            "CISC processors always use variable-length instructions and many addressing modes, while RISC processors use fixed-length instructions and fewer, simpler addressing modes.",
+                            "RISC processors do not have a memory addressing mode; all operands must be in registers.",
+                            "CISC processors are always faster than RISC processors because their instructions do more work.",
+                            "RISC instructions are always 16-bit, while CISC instructions are always 32-bit."
+                        ],
+                        correct: 0,
+                        explanation: "The chapter's examples illustrate this key difference. Architectures like the VAX and x86 (classic CISC examples on pages 27-28) feature numerous complex addressing modes and highly variable instruction lengths. In contrast, architectures like ARM have more regular, fixed-length instructions."
+                    },
+                    {
+                        id: 42,
+                        text: "A computer uses 16-bit instructions and 16-bit memory words. The instruction format provides 4 bits for the opcode, and the rest for an address. What is the maximum number of directly addressable memory words?",
+                        options: [
+                            "16 words",
+                            "4096 words",
+                            "65,536 words",
+                            "12 words"
+                        ],
+                        correct: 1,
+                        explanation: "This is a calculation question based on instruction format principles. Total instruction length = 16 bits. Opcode length = 4 bits. Bits available for address = 16 - 4 = 12 bits. With 12 bits for the address field, the maximum addressable words = 2^12 = 4096 words."
+                    },
+                    {
+                        id: 43,
+                        text: "How does the typical use of Base-Register addressing conceptually differ from Indexing, given that the effective address calculation can be the same?",
+                        options: [
+                            "Base-register addressing is only for read operations, while indexing is for both read and write.",
+                            "In base-register addressing the register holds a displacement and A is an address, while in indexing the register holds an address and A is a displacement.",
+                            "In base-register addressing, the register holds a main memory base address and A is a small displacement; in indexing, A is typically a base memory address and the register holds a variable displacement (the index).",
+                            "Base-register addressing is used by the operating system, while indexing is used by user programs."
+                        ],
+                        correct: 2,
+                        explanation: "Pages 12 and 13 describe the subtle but important conceptual difference. In Base-Register addressing, the register (R) holds a pointer to a base address, and the instruction's address part (A) is a small offset. In Indexing, the instruction's address part (A) often holds the base address of a data structure, and the register (R) holds a variable index."
+                    },
+                    {
+                        id: 44,
+                        text: "An ARM branch instruction contains the 24-bit immediate value 0x00000A. What is the resulting byte offset that will be added to the program counter?",
+                        options: [
+                            "+10 bytes",
+                            "+20 bytes",
+                            "+40 bytes",
+                            "+16 bytes"
+                        ],
+                        correct: 2,
+                        explanation: "As stated on page 18, the 24-bit value in an ARM branch instruction is \"Shifted 2 bits left so that the address is on a word boundary.\" A left shift by 2 bits is equivalent to multiplying by 4. The immediate value 0x00000A is 10 in decimal. The byte offset is calculated as 10 * 4 = 40 bytes."
+                    },
+                    {
+                        id: 45,
+                        text: "In the PDP-8 Memory Reference Instruction format shown in Figure 14.5, what is the purpose of the Z/C bit?",
+                        options: [
+                            "It indicates whether to skip on a Zero or Carry condition.",
+                            "It selects whether the displacement is relative to memory page 0 or the current memory page.",
+                            "It determines if the accumulator should be cleared after the operation.",
+                            "It specifies whether the operand is a character or a numeric value."
+                        ],
+                        correct: 1,
+                        explanation: "The legend at the bottom of Figure 14.5 on page 23 defines the Z/C bit as \"Page 0 or Current page\". The PDP-8 had a 4K-word memory space divided into 32 pages of 128 words each. This bit allowed memory reference instructions to access either the base page (page 0) or the current page."
+                    },
+                    {
+                        id: 46,
+                        text: "In the ARM load/store instruction formats shown in Figure 14.10, what is the role of the P, U, and W bits?",
+                        options: [
+                            "They define the Priority, User-mode access, and Wait-states for the memory operation.",
+                            "They specify the details of the addressing mode, such as pre- vs. post-indexing, up vs. down offset, and whether to write back the new address to the base register.",
+                            "They indicate whether the operand is Packed, Unsigned, or a Word.",
+                            "They select which part of the processor (Pipeline, ALU, Write-buffer) should handle the instruction."
+                        ],
+                        correct: 1,
+                        explanation: "The legend at the bottom of page 29 states: \"P, U, W = bits that distinguish among different types of addressing_mode\". P (Pre/Post), U (Up/Down), and W (Write-back) control the behavior of ARM's powerful load/store addressing modes."
+                    },
+                    {
+                        id: 47,
+                        text: "According to the description on page 14, references to stack locations in memory are technically implemented as which type of addressing?",
+                        options: [
+                            "Direct addressing",
+                            "Index addressing",
+                            "Register indirect addressing",
+                            "Immediate addressing"
+                        ],
+                        correct: 2,
+                        explanation: "Page 14 explains that \"Associated with the stack is a pointer whose value is the address of the top of the stack.\" It continues, \"The stack pointer is maintained in a register. Thus references to stack locations in memory are in fact register indirect addresses.\""
+                    },
+                    {
+                        id: 48,
+                        text: "What is the principal disadvantage of Stack addressing as listed in Table 14.1?",
+                        options: [
+                            "Multiple memory references",
+                            "Limited address space",
+                            "Limited applicability",
+                            "High complexity"
+                        ],
+                        correct: 2,
+                        explanation: "Table 14.1 on page 4 summarizes the basic addressing modes. For Stack addressing, the \"Principal Disadvantage\" is listed as \"Limited applicability.\" While a stack is extremely efficient for specific tasks like managing procedure calls, it is not a flexible, general-purpose mechanism."
+                    },
+                    {
+                        id: 49,
+                        text: "An ARM data processing instruction needs to generate an immediate constant. The 4-bit rotate field is 0100 and the 8-bit immediate field is 0xFF. What is the final 32-bit immediate value?",
+                        options: [
+                            "0x0000FF00",
+                            "0xFF000000",
+                            "0x00FF0000",
+                            "0x000000FF"
+                        ],
+                        correct: 1,
+                        explanation: "This question tests the ARM immediate constant generation mechanism described on page 30. The 8-bit immediate value 0xFF is zero-extended to 32 bits, resulting in 0x000000FF. The 4-bit rotate field 0100 has a decimal value of 4. The rotation amount is twice the value: 2 * 4 = 8 bits. Rotating 0x000000FF right by 8 bits results in 0xFF000000."
+                    },
+                    {
+                        id: 50,
+                        text: "In the x86 instruction format (Figure 14.9), the ModR/M byte is central to specifying operands. What information is provided by the Mod (Mode) field within this byte?",
+                        options: [
+                            "It specifies the scale factor (1, 2, 4, or 8) for the index register.",
+                            "It works with the R/M field to specify whether an operand is in a register or in memory and, if in memory, the size of the displacement field.",
+                            "It indicates if the operation is a modification of a register or a memory location.",
+                            "It selects one of four possible segment registers to override the default."
+                        ],
+                        correct: 1,
+                        explanation: "The Mod field (bits 7-6) of the ModR/M byte is critical for decoding the operand. Its primary role is to specify how the R/M field is to be interpreted. If Mod is 11, the R/M field specifies a register operand. If Mod is 00, 01, or 10, it specifies a memory addressing mode with different displacement sizes."
                     }
                 ]
             }
@@ -617,7 +902,7 @@
             answered: 0,
             correct: 0,
             incorrect: 0,
-            totalQuestions: 25
+            totalQuestions: 50
         };
 
         function generateQuiz() {
@@ -757,7 +1042,7 @@
                 answered: 0,
                 correct: 0,
                 incorrect: 0,
-                totalQuestions: 25
+                totalQuestions: 50
             };
             
             document.getElementById('finalStats').classList.remove('show');
