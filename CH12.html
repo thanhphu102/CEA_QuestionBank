@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Logic and Boolean Algebra Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #16a085;
+        }
+
+        .question {
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #16a085;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .option label:hover {
+            border-color: #16a085;
+            background: #e8fffe;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .option.correct label {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect label {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8fffe;
+            border-left: 4px solid #16a085;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #16a085, #1abc9c);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .final-stats.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .final-stats h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #28a745;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stat-item {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 Digital Logic and Boolean Algebra Quiz</h1>
+            <p>Test your knowledge of Boolean algebra, logic gates, and digital circuit design</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <strong>Progress:</strong> <span id="progress">0/50</span>
+            </div>
+            <div class="stat-item">
+                <strong>Correct:</strong> <span id="correct">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Incorrect:</strong> <span id="incorrect">0</span>
+            </div>
+            <div class="stat-item">
+                <strong>Score:</strong> <span id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content" id="quizContent">
+            <!-- Quiz content will be generated by JavaScript -->
+        </div>
+
+        <div class="final-stats" id="finalStats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <p id="finalMessage">Great job completing the quiz!</p>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                section: "Boolean Algebra Fundamentals",
+                questions: [
+                    {
+                        id: 1,
+                        text: "Who is credited with proposing the basic principles of the mathematical discipline used to design and analyze digital circuitry, known as Boolean algebra?",
+                        options: [
+                            "Claude Shannon",
+                            "William Stallings",
+                            "George Boole",
+                            "Alan Turing"
+                        ],
+                        correct: 2,
+                        explanation: "Slide 2 explicitly states that Boolean Algebra is \"Named after George Boole,\" an English mathematician who \"Proposed basic principles of the algebra in 1854.\" Claude Shannon later suggested its application to circuit design, but George Boole developed the fundamental algebra."
+                    },
+                    {
+                        id: 2,
+                        text: "According to the standard order of operations in Boolean algebra, which operation takes precedence in the absence of parentheses?",
+                        options: [
+                            "NOT",
+                            "OR",
+                            "XOR",
+                            "AND"
+                        ],
+                        correct: 3,
+                        explanation: "As mentioned on slide 4, \"In the absence of parentheses the AND operation takes precedence over the OR operation.\" The NOT operation is unary and typically has the highest precedence, but among the binary operators listed, AND is performed before OR."
+                    },
+                    {
+                        id: 3,
+                        text: "In the correspondence between Boolean algebra and set theory, what set operation is equivalent to the Boolean OR function?",
+                        options: [
+                            "Intersection",
+                            "Union",
+                            "Complement",
+                            "Cartesian Product"
+                        ],
+                        correct: 1,
+                        explanation: "Table 12.2 on slide 3 shows the correspondence between Boolean algebra and set operations. The Boolean 'A OR B' function corresponds to the 'Set of elements that belong to A or B or both,' which is the definition of the set union (A ∪ B). Intersection corresponds to AND, and complement corresponds to NOT."
+                    },
+                    {
+                        id: 4,
+                        text: "According to Table 12.1(b), what is the condition for a multi-input XOR gate to have an output of 1?",
+                        options: [
+                            "All inputs must be 1.",
+                            "At least one input must be 1.",
+                            "The set of inputs contains an even number of ones.",
+                            "The set of inputs contains an odd number of ones."
+                        ],
+                        correct: 3,
+                        explanation: "Slide 5, in the table \"(b) Boolean Operators Extended to More than Two Inputs,\" specifies the condition for the XOR operation. The output is 1 if \"The set {A, B, ...} contains an odd number of ones.\""
+                    },
+                    {
+                        id: 5,
+                        text: "Using DeMorgan's Theorem, what is the equivalent Boolean expression for (A + B)'?",
+                        options: [
+                            "A' + B'",
+                            "A' · B'",
+                            "A · B",
+                            "A + B"
+                        ],
+                        correct: 1,
+                        explanation: "DeMorgan's Theorem, shown in Table 12.3 on slide 8, provides rules for complementing Boolean expressions. One of the rules is (A + B)' = A' · B'. The theorem states that the complement of a sum is the product of the complements."
+                    },
+                    {
+                        id: 6,
+                        text: "Which Venn diagram in Figure 12.1 correctly represents the Boolean function A AND B?",
+                        options: [
+                            "The diagram labeled \"NOT A\"",
+                            "The diagram labeled \"A OR B\"",
+                            "The diagram labeled \"A AND B\"",
+                            "The diagram labeled \"A XOR B\""
+                        ],
+                        correct: 2,
+                        explanation: "The Venn diagram for A AND B (intersection) on slide 6 shows the shaded region where the circles for A and B overlap. The diagram labeled \"A AND B\" correctly depicts this. \"A OR B\" shows both circles fully shaded (union), and \"A XOR B\" shows the areas of A and B that do not overlap shaded."
+                    },
+                    {
+                        id: 7,
+                        text: "In the Venn diagram for three Boolean variables shown in Figure 12.2, what does the region labeled '010' represent?",
+                        options: [
+                            "A'BC'",
+                            "A'B'C",
+                            "A'BC",
+                            "AB'C"
+                        ],
+                        correct: 0,
+                        explanation: "The Venn diagram on slide 7 shows three overlapping circles representing variables A, B, and C inside a box. A region being inside the 'B' circle but outside the 'A' and 'C' circles corresponds to the Boolean term where B is true (1) and A and C are false (0). This is represented as A'BC'. The binary value 010 corresponds to A=0, B=1, C=0."
+                    },
+                    {
+                        id: 8,
+                        text: "Which of the basic identities of Boolean algebra, listed in Table 12.3, demonstrates the distributive law?",
+                        options: [
+                            "A · (B + C) = (A · B) + (A · C)",
+                            "A + (B + C) = (A + B) + C",
+                            "A · (B · C) = (A · B) · C",
+                            "A + B = B + A"
+                        ],
+                        correct: 0,
+                        explanation: "Slide 8 lists the basic identities. The distributive law allows for multiplying or factoring out an expression. The identity A · (B + C) = (A · B) + (A · C) shows the distribution of the AND operation over the OR operation. Option B and C are associative laws, and D is a commutative law."
+                    }
+                ]
+            },
+            {
+                section: "Logic Gates and Implementation",
+                questions: [
+                    {
+                        id: 9,
+                        text: "Based on Figure 12.3, what is the output of a NOR gate when both inputs A and B are 0?",
+                        options: [
+                            "0",
+                            "1",
+                            "Undefined",
+                            "Qn (previous state)"
+                        ],
+                        correct: 1,
+                        explanation: "The truth table for the NOR gate in Figure 12.3 on slide 9 shows the inputs and the corresponding output F. For the input combination A=0, B=0, the output F is 1. A NOR gate's output is 1 only when all its inputs are 0."
+                    },
+                    {
+                        id: 10,
+                        text: "Figure 12.4 illustrates how NAND gates can be used to construct other logic functions. How can a NOT gate (inverter) be created using a single two-input NAND gate?",
+                        options: [
+                            "Connect one input to A and the other to 1.",
+                            "Connect one input to A and the other to 0.",
+                            "Connect both inputs together to A.",
+                            "It is not possible to create a NOT gate from a NAND gate."
+                        ],
+                        correct: 2,
+                        explanation: "The top diagram in Figure 12.4 on slide 10 shows how to create a NOT gate. The input signal A is connected to both inputs of the NAND gate. The output is (A · A)', which simplifies to A'. This configuration effectively inverts the input signal."
+                    },
+                    {
+                        id: 11,
+                        text: "As shown in Figure 12.5, how can an AND gate be constructed using only NOR gates?",
+                        options: [
+                            "By inverting the inputs of a NOR gate.",
+                            "By connecting the output of one NOR gate to the input of another.",
+                            "By inverting the inputs with two NOR gates, then feeding those results into a third NOR gate.",
+                            "By connecting the inputs of two NOR gates in parallel."
+                        ],
+                        correct: 2,
+                        explanation: "Slide 11 shows how to create other logic gates from NOR gates. To create an AND gate (A · B), you first invert A using a NOR gate (to get A') and invert B using another NOR gate (to get B'). These two outputs (A' and B') are then fed into a third NOR gate. The output is (A' + B')', which by DeMorgan's theorem is equivalent to (A')' · (B')' = A · B."
+                    },
+                    {
+                        id: 12,
+                        text: "Based on the logic constructions shown on slide 10, how would you create a two-input OR gate using only two-input NAND gates?",
+                        options: [
+                            "Use one NAND gate to invert A, a second to invert B, and feed the results into a third NAND gate.",
+                            "Connect the two inputs to a single NAND gate, then feed its output into a second NAND gate.",
+                            "It is impossible to create an OR gate from only NAND gates.",
+                            "Use a single NAND gate with both inputs tied together."
+                        ],
+                        correct: 0,
+                        explanation: "An OR gate implements the function F = A + B. Using NAND gates, this can be achieved by applying DeMorgan's theorem. The expression A+B is equivalent to ((A+B)')'. We can also see that A+B = (A' · B')'. To implement this, we need to first generate A' and B'. This is done by using one NAND gate for A (as an inverter) and a second NAND gate for B (as an inverter). The outputs of these two inverters (A' and B') are then fed into a third NAND gate. The output of this third gate is (A' · B')', which simplifies to A + B."
+                    },
+                    {
+                        id: 13,
+                        text: "What logic function is implemented by the two-level NAND gate circuit in Figure 12.13?",
+                        options: [
+                            "Sum-of-Products (SOP)",
+                            "Product-of-Sums (POS)",
+                            "A single XOR gate",
+                            "A single AND gate"
+                        ],
+                        correct: 0,
+                        explanation: "The circuit on slide 24 consists of NAND gates feeding into another NAND gate. This is a classic two-level NAND-NAND implementation. By DeMorgan's theorem, a NAND gate at the second level is equivalent to an OR gate with inverted inputs. So, ( (A'B)' · (BC')' )' = (A'B)'' + (BC')'' = A'B + BC'. This is a Sum-of-Products (SOP) expression. Therefore, a two-level NAND-NAND circuit implements an SOP function."
+                    }
+                ]
+            },
+            {
+                section: "Combinational and Sequential Circuits",
+                questions: [
+                    {
+                        id: 14,
+                        text: "What is the defining characteristic of a combinational circuit?",
+                        options: [
+                            "Its output depends on both the current input and the past history of inputs.",
+                            "It contains memory elements like flip-flops to store state.",
+                            "Its output at any time is a function only of the input at that time.",
+                            "It requires a clock signal to synchronize its operations."
+                        ],
+                        correct: 2,
+                        explanation: "Slide 12 defines a combinational circuit as \"An interconnected set of gates whose output at any time is a function only of the input at that time.\" This means it is \"memoryless\" and does not depend on past inputs or a stored state, distinguishing it from a sequential circuit."
+                    },
+                    {
+                        id: 15,
+                        text: "What is the Boolean expression for the output F of the sum-of-products circuit shown in Figure 12.6?",
+                        options: [
+                            "F = (A' + B + C') · (A' + B + C) · (A + B + C')",
+                            "F = A'BC' + A'BC + ABC'",
+                            "F = (A'B) + C",
+                            "F = A' + B + C'"
+                        ],
+                        correct: 1,
+                        explanation: "Figure 12.6 on slide 14 shows a sum-of-products implementation. There are three AND gates whose outputs are fed into an OR gate. The inputs to the AND gates are (A', B, C'), (A', B, C), and (A, B, C'). The OR gate sums these products, resulting in the expression F = A'BC' + A'BC + ABC'."
+                    },
+                    {
+                        id: 16,
+                        text: "The circuit in Figure 12.8 is described as a \"Simplified Implementation of Table 12.4\". What Boolean function does this circuit implement?",
+                        options: [
+                            "F = B + (A' · C')",
+                            "F = B · (A' + C')",
+                            "F = (B + A') · (B + C')",
+                            "F = A'B + BC"
+                        ],
+                        correct: 1,
+                        explanation: "The circuit on slide 16 shows an OR gate with inputs A' and C', producing the term (A' + C'). This result is then fed into an AND gate along with the input B. The final function is therefore F = B AND (A' OR C'), which is written as F = B · (A' + C'). Expanding this gives F = A'B + BC', which is the correctly simplified sum-of-products form of the function in Table 12.4."
+                    },
+                    {
+                        id: 17,
+                        text: "What is the key difference between a sequential circuit and a combinational circuit?",
+                        options: [
+                            "Sequential circuits use AND/OR gates, while combinational circuits use NAND/NOR gates.",
+                            "Sequential circuits are faster because they use a clock.",
+                            "A sequential circuit's output depends on past inputs, while a combinational circuit's does not.",
+                            "Combinational circuits are used for memory, while sequential circuits are used for processing."
+                        ],
+                        correct: 2,
+                        explanation: "As defined on slide 39, a sequential circuit's \"Current output depends not only on the current input, but also on the past history of inputs.\" This is achieved by including memory elements (like flip-flops) that store a \"state,\" which contrasts with combinational circuits whose outputs depend only on their current inputs (slide 12)."
+                    },
+                    {
+                        id: 18,
+                        text: "Which of the following components is classified as a sequential circuit element?",
+                        options: [
+                            "Multiplexer",
+                            "Decoder",
+                            "ROM",
+                            "Register"
+                        ],
+                        correct: 3,
+                        explanation: "The summary on slide 56 categorizes the different digital logic components. Multiplexers, Decoders, and ROMs are listed under \"Combinational Circuits.\" Registers, along with Flip-Flops and Counters, are listed under \"Sequential Circuits.\" This is because a register is made of flip-flops and its state (stored value) depends on previous inputs and clock events."
+                    }
+                ]
+            },
+            {
+                section: "Karnaugh Maps and Logic Simplification",
+                questions: [
+                    {
+                        id: 19,
+                        text: "What is the simplified Boolean expression derived from the Karnaugh map in Figure 12.11(a)?",
+                        options: [
+                            "F = A'B'C + A'BC + ABC'",
+                            "F = A'B + BC'",
+                            "F = AB + BC",
+                            "F = A'C + B'C"
+                        ],
+                        correct: 1,
+                        explanation: "In the K-map on slide 19, Figure 12.11(a), there are two overlapping groups of '1's. The horizontal group covers the two cells where A=0 and B=1 (A'B). The vertical group covers the two cells where B=1 and C=0 (BC'). The simplified sum-of-products expression is the sum of these terms: F = A'B + BC'."
+                    },
+                    {
+                        id: 20,
+                        text: "What is the primary reason for using overlapping groups when simplifying a Boolean function with a Karnaugh map?",
+                        options: [
+                            "To ensure every '1' is covered at least once.",
+                            "To create the largest possible groups of '1's, even if it means re-using a '1'.",
+                            "To reduce the number of logic gates by minimizing the number of terms.",
+                            "To avoid using \"don't care\" conditions."
+                        ],
+                        correct: 1,
+                        explanation: "As demonstrated in Figure 12.11 on slide 19, the goal of K-map simplification is to cover all the '1's with the largest possible rectangular groups (of size 2^n). Overlapping is allowed and encouraged because it can help form larger groups than would otherwise be possible, leading to a more simplified expression with fewer literals. While this does reduce gates (C) and covers every '1' (A), the fundamental strategy to achieve this is by making the largest possible groups (B)."
+                    },
+                    {
+                        id: 21,
+                        text: "In the context of logic design, such as the decimal incrementer in Table 12.5, what does a \"don't care\" condition (represented by 'd') signify?",
+                        options: [
+                            "An output that is always 1.",
+                            "An output that is always 0.",
+                            "An input combination that will never occur in normal operation.",
+                            "An error state that must be handled by special circuitry."
+                        ],
+                        correct: 2,
+                        explanation: "Slide 20 introduces \"don't care\" conditions for the one-digit packed decimal incrementer. These conditions arise for input values (1010 through 1111) that do not represent valid BCD digits (0-9). Because these input combinations are not expected to occur, the designer does not care what the output is. This flexibility can be exploited during simplification (e.g., in a K-map) to achieve a simpler circuit."
+                    },
+                    {
+                        id: 22,
+                        text: "From the Karnaugh map for the output 'Z' of the decimal incrementer in Figure 12.12(d), what is the simplified Boolean expression for Z?",
+                        options: [
+                            "Z = D",
+                            "Z = D'",
+                            "Z = C ⊕ D",
+                            "Z = CD + C'D'"
+                        ],
+                        correct: 1,
+                        explanation: "The K-map for Z on slide 21 shows '1's in the columns where D=0 (CD=00 and CD=10) and '0's in the columns where D=1 (CD=01 and CD=11). By grouping all the '1's (treating the 'd's as '1's where it helps), we can form a large rectangle covering the two columns where D is 0. This simplifies to the expression Z = D'. This makes sense, as an incrementer flips the least significant bit."
+                    },
+                    {
+                        id: 23,
+                        text: "What is the primary purpose of the Quine-McCluskey method, as illustrated in Tables 12.6 and 12.7?",
+                        options: [
+                            "To provide a graphical method for logic simplification.",
+                            "To find the product-of-sums form of a Boolean function.",
+                            "To provide a tabular, algorithmic method for logic simplification that can be automated.",
+                            "To design sequential circuits from a state table."
+                        ],
+                        correct: 2,
+                        explanation: "The Quine-McCluskey method (slides 22 and 23) is an alternative to Karnaugh maps for simplifying Boolean functions. Unlike K-maps, which are graphical and become unwieldy for more than 4-5 variables, the Quine-McCluskey method is a tabular algorithm. This makes it suitable for computer programming and automating the simplification process for any number of variables."
+                    }
+                ]
+            },
+            {
+                section: "Multiplexers and Decoders",
+                questions: [
+                    {
+                        id: 24,
+                        text: "What is the function of a multiplexer (MUX), as depicted in Figure 12.14?",
+                        options: [
+                            "It routes a single data input to one of several possible output lines.",
+                            "It selects one of several data inputs and routes it to a single output line.",
+                            "It generates a unique output code for each possible input combination.",
+                            "It performs an arithmetic operation on multiple data inputs."
+                        ],
+                        correct: 1,
+                        explanation: "A multiplexer, often called a data selector, has multiple data input lines, a set of selection lines, and a single output line. As shown in slides 25-27, the value on the selection lines determines which of the data input lines is connected to the output."
+                    },
+                    {
+                        id: 25,
+                        text: "For the 4-to-1 multiplexer implementation in Figure 12.15, what is the complete Boolean expression for the output F?",
+                        options: [
+                            "F = D0 + D1 + D2 + D3",
+                            "F = (D0+S2'+S1') · (D1+S2'+S1) · (D2+S2+S1') · (D3+S2+S1)",
+                            "F = S2'S1'D0 + S2'S1D1 + S2S1'D2 + S2S1D3",
+                            "F = (S2' + S1' + D0) · (S2' + S1 + D1) · (S2 + S1' + D2) · (S2 + S1 + D3)"
+                        ],
+                        correct: 2,
+                        explanation: "The circuit on slide 27 implements a 4-to-1 MUX. It consists of four 3-input AND gates and one 4-input OR gate. Each AND gate combines one data input (D0, D1, D2, or D3) with a specific combination of the select lines (S2, S1) and their complements. The OR gate sums the outputs of the AND gates. This structure directly translates to the sum-of-products expression: F = S2'S1'D0 + S2'S1D1 + S2S1'D2 + S2S1D3."
+                    },
+                    {
+                        id: 26,
+                        text: "What is the primary purpose of the bank of multiplexers shown in Figure 12.16, which provides input to a Program Counter (PC)?",
+                        options: [
+                            "To perform an arithmetic calculation on the PC value.",
+                            "To allow the Program Counter to be loaded with a value from one of several different sources.",
+                            "To store the PC value in a temporary buffer.",
+                            "To increment the Program Counter by 1."
+                        ],
+                        correct: 1,
+                        explanation: "The diagram on slide 28 shows multiple 4-to-1 multiplexers, one for each bit of the Program Counter (PC0 to PC15). Each MUX can select an input from one of four sources (labeled C, IR, ALU, etc., which might represent a constant, instruction register, or ALU output). The output of the MUX bank is then loaded into the PC. This architecture allows the control unit to determine the next program address by selecting the appropriate source, which is essential for handling jumps, branches, and sequential instruction fetching."
+                    },
+                    {
+                        id: 27,
+                        text: "Consider the 3-to-8 decoder in Figure 12.17. If the inputs are A=1, B=0, C=1, which output line will be active (equal to 1)?",
+                        options: [
+                            "D1",
+                            "D3",
+                            "D5",
+                            "D6"
+                        ],
+                        correct: 2,
+                        explanation: "A decoder activates the single output line corresponding to the binary value of its input. The input combination (A, B, C) = (1, 0, 1) represents the binary number 101, which is decimal 5. Therefore, the output line D5 will be active (high), as shown in the diagram on slide 29. All other output lines will be inactive (low)."
+                    },
+                    {
+                        id: 28,
+                        text: "Figure 12.18 shows a 2-to-4 decoder used for address decoding. If this circuit is part of a memory system with a 10-bit address (A9-A0), what is the total addressable memory capacity?",
+                        options: [
+                            "256 bytes",
+                            "512 bytes",
+                            "1024 bytes (1 KB)",
+                            "2048 bytes (2 KB)"
+                        ],
+                        correct: 2,
+                        explanation: "The circuit on slide 30 uses address lines A9 and A8 as input to a 2-to-4 decoder. This decoder selects one of four 256x8 RAM chips. Address lines A7 through A0 are connected to all chips in parallel to select a byte within the chosen chip. Total capacity is 4 chips * 256 bytes/chip = 1024 bytes, or 1 KB. The full 10-bit address space (2^10 = 1024) is utilized."
+                    },
+                    {
+                        id: 29,
+                        text: "As shown in Figure 12.19, how can a decoder be used to function as a demultiplexer?",
+                        options: [
+                            "The decoder's inputs are used as the data lines, and the enable line is used as the address.",
+                            "The decoder's address lines are used as the destination address, and the decoder's enable input is used as the data input line.",
+                            "By connecting the decoder's outputs to a multiplexer.",
+                            "A decoder cannot function as a demultiplexer."
+                        ],
+                        correct: 1,
+                        explanation: "A demultiplexer routes a single data input to one of 2^n outputs, selected by an n-bit address. A decoder activates one of 2^n outputs based on an n-bit address. To make a decoder act as a demultiplexer, the decoder's address inputs serve as the demultiplexer's destination address. The single data input signal is connected to the decoder's 'enable' line. When the enable line is active (e.g., high), the selected output line will go high. When the enable line is inactive (low), all outputs will be low. Thus, the data input is routed to the selected output line."
+                    }
+                ]
+            },
+            {
+                section: "ROM and Memory Circuits",
+                questions: [
+                    {
+                        id: 30,
+                        text: "Why is a Read-Only Memory (ROM) considered a combinational circuit?",
+                        options: [
+                            "Because it can only be written to once during fabrication.",
+                            "Because it uses flip-flops to store data permanently.",
+                            "Because its output is determined solely by its current inputs (address lines), with no dependency on past inputs.",
+                            "Because it is much slower than RAM."
+                        ],
+                        correct: 2,
+                        explanation: "Slide 32 explains that a ROM is a combinational circuit. Although it is a form of memory, its operation fits the definition of a combinational circuit: \"A given input to the ROM (address lines) always produces the same output (data lines).\" The outputs are a function only of the present inputs, and there is no memory of previous states in the way a sequential circuit has."
+                    },
+                    {
+                        id: 31,
+                        text: "The ROM depicted in Figure 12.20 has 4 input lines (X1-X4) and 4 output lines (Z1-Z4). What is the total storage capacity of this ROM in bits?",
+                        options: [
+                            "16 bits",
+                            "32 bits",
+                            "64 bits",
+                            "128 bits"
+                        ],
+                        correct: 2,
+                        explanation: "The ROM on slide 34 has 4 input address lines, which means it can address 2^4 = 16 unique memory locations. Each location stores a word that is 4 bits wide (determined by the 4 output lines). Therefore, the total capacity is 16 locations × 4 bits/location = 64 bits."
+                    },
+                    {
+                        id: 32,
+                        text: "Using the truth table for the ROM in Table 12.9, what is the 4-bit output (Z1Z2Z3Z4) for the input X1X2X3X4 = 1101?",
+                        options: [
+                            "1110",
+                            "1011",
+                            "1111",
+                            "1101"
+                        ],
+                        correct: 3,
+                        explanation: "To find the output, locate the row in Table 12.9 (slide 33) where the input columns X1, X2, X3, X4 match the values 1, 1, 0, 1 respectively. This is the 14th row in the table (counting from 0). The corresponding output columns Z1, Z2, Z3, Z4 in that row are 1, 1, 0, 1."
+                    }
+                ]
+            },
+            {
+                section: "Adders and Arithmetic Circuits",
+                questions: [
+                    {
+                        id: 33,
+                        text: "Using the truth table for addition with carry input (Table 12.10b), what are the SUM and Cout values for the addition of A=1, B=0, and Cin=1?",
+                        options: [
+                            "SUM = 0, Cout = 0",
+                            "SUM = 1, Cout = 1",
+                            "SUM = 0, Cout = 1",
+                            "SUM = 1, Cout = 0"
+                        ],
+                        correct: 2,
+                        explanation: "This corresponds to the binary addition 1 + 0 + 1. The result is 2 in decimal, which is 10 in binary. The SUM bit is the least significant bit (0), and the carry-out (Cout) bit is the most significant bit (1). The row for Cin=1, A=1, B=0 in Table 12.10(b) on slide 35 confirms that SUM=0 and Cout=1."
+                    },
+                    {
+                        id: 34,
+                        text: "Which pair of Boolean expressions correctly represents the Sum and Carry outputs of a full adder circuit with inputs A, B, and C (carry-in)?",
+                        options: [
+                            "Sum = A ⊕ B ⊕ C, Carry = AB + C",
+                            "Sum = ABC, Carry = A + B + C",
+                            "Sum = A ⊕ B ⊕ C, Carry = AB + BC + AC",
+                            "Sum = A + B + C, Carry = ABC"
+                        ],
+                        correct: 2,
+                        explanation: "The standard expressions for a full adder are Sum = A ⊕ B ⊕ C (the sum is 1 if an odd number of inputs are 1) and Carry = AB + BC + AC (the carry-out is 1 if two or more inputs are 1). The circuit diagram on slide 37 shows a sum-of-products implementation which can be simplified to these expressions."
+                    },
+                    {
+                        id: 35,
+                        text: "In the 4-bit ripple-carry adder shown in Figure 12.21, what is the role of the signal connecting the `Cout` of block C1 to the `Cin` of block C2?",
+                        options: [
+                            "It acts as an overflow signal for the entire addition.",
+                            "It synchronizes the timing between the two adder blocks.",
+                            "It passes the carry generated from the addition of A1 and B1 to the next stage of addition.",
+                            "It represents the sum bit S1."
+                        ],
+                        correct: 2,
+                        explanation: "The structure on slide 36 is a ripple-carry adder, built by cascading full adders. Each block (C0, C1, C2, C3) is a full adder for one bit position. The carry-out from a less significant bit position must be included as the carry-in for the next more significant bit position. Therefore, the connection from the carry-out of block C1 to the carry-in of block C2 is essential for correctly calculating the sum for the bit 2 position (S2)."
+                    }
+                ]
+            },
+            {
+                section: "Flip-Flops and Sequential Elements",
+                questions: [
+                    {
+                        id: 36,
+                        text: "Which of the following is NOT one of the two fundamental properties shared by all flip-flops as described on slide 40?",
+                        options: [
+                            "It is a bistable device, existing in one of two states.",
+                            "In the absence of input, it remains in its current state.",
+                            "It has two outputs that are always complements of each other.",
+                            "It requires a clock input to change state."
+                        ],
+                        correct: 3,
+                        explanation: "Slide 40 lists two key properties of flip-flops. 1) It's a bistable device that can function as a 1-bit memory (covering A and B). 2) It has two complementary outputs (covering C). While many common flip-flops are clocked (e.g., D, J-K, clocked S-R), the basic S-R latch (which is a type of flip-flop) is not. Therefore, requiring a clock input is not a universal property of all flip-flops."
+                    },
+                    {
+                        id: 37,
+                        text: "For a basic S-R latch built from NOR gates (Figure 12.24), what is the state of the outputs (Q, Q') when both inputs S and R are set to 1?",
+                        options: [
+                            "Q=1, Q'=0 (Set)",
+                            "Q=0, Q'=1 (Reset)",
+                            "Q and Q' both become 0, which violates the complementary output rule.",
+                            "The latch holds its previous state."
+                        ],
+                        correct: 2,
+                        explanation: "In a NOR-based S-R latch, if S=1, the bottom NOR gate's output (Q') becomes 0 regardless of the other input. If R=1, the top NOR gate's output (Q) becomes 0 regardless of the other input. Thus, when S=1 and R=1 simultaneously, both Q and Q' are forced to 0. This is an invalid or undefined state because the outputs are no longer complementary. This is detailed in the characteristic table on slide 43 (where SR=11 results in a '-' for the next state, indicating it's disallowed)."
+                    },
+                    {
+                        id: 38,
+                        text: "What is the behavior of a J-K flip-flop when both J and K inputs are 1 and a clock pulse occurs?",
+                        options: [
+                            "It sets the output Q to 1.",
+                            "It resets the output Q to 0.",
+                            "It holds its previous state.",
+                            "It toggles its state (Q becomes Q')."
+                        ],
+                        correct: 3,
+                        explanation: "The truth table for the J-K flip-flop in Figure 12.29 on slide 47 shows the behavior for all input combinations. When J=1 and K=1, the next state (Qn+1) is the complement of the current state (Qn'). This is known as the \"toggle\" state and is the key feature that distinguishes the J-K flip-flop from the S-R flip-flop, as it provides a useful function for the previously invalid input combination."
+                    },
+                    {
+                        id: 39,
+                        text: "What is the primary function of a D flip-flop?",
+                        options: [
+                            "To toggle the output on every clock pulse.",
+                            "To store the value of the D input when the clock is pulsed.",
+                            "To set or reset the output based on two separate inputs.",
+                            "To generate a clock signal."
+                        ],
+                        correct: 1,
+                        explanation: "The D flip-flop, or \"Data\" flip-flop, is designed to be a simple 1-bit memory element. As shown in the truth table in Figure 12.29 (slide 47), the output Q takes on the value of the input D (Qn+1 = D) after the clock pulse. It effectively delays the input D by one clock cycle."
+                    },
+                    {
+                        id: 40,
+                        text: "What is the main function of the 'Clock' input in the clocked S-R flip-flop shown in Figure 12.26?",
+                        options: [
+                            "To reset the flip-flop to a known state.",
+                            "To power the logic gates.",
+                            "To enable the S and R inputs, allowing the flip-flop's state to change only at specific times.",
+                            "To provide the 'Set' signal to the latch."
+                        ],
+                        correct: 2,
+                        explanation: "The circuit on slide 44 shows a basic S-R latch preceded by two AND gates. The S and R inputs are gated by the clock signal. The inputs to the underlying latch will only be active when the clock signal is high (1). This means the flip-flop ignores changes on S and R when the clock is low and only updates its state when the clock is high. This provides synchronization and control over when the state can change."
+                    }
+                ]
+            },
+            {
+                section: "Registers, Counters, and Advanced Topics",
+                questions: [
+                    {
+                        id: 41,
+                        text: "What is the defining operation of a shift register, such as the one in Figure 12.31?",
+                        options: [
+                            "It increments its stored binary value by 1 on each clock pulse.",
+                            "It stores data in parallel and outputs it serially.",
+                            "The stored bits are moved one position to the side on each clock pulse.",
+                            "It performs a bitwise logical operation on the stored data."
+                        ],
+                        correct: 2,
+                        explanation: "A shift register is a chain of flip-flops where the output of one is connected to the input of the next. As shown on slide 49, on each clock pulse, the data stored in the register is shifted one position. Data can be shifted in serially and shifted out serially, making it useful for converting between serial and parallel data formats."
+                    },
+                    {
+                        id: 42,
+                        text: "In the 8-bit parallel register of Figure 12.30, what is the purpose of the 'Load' signal?",
+                        options: [
+                            "It clears the register, setting all D flip-flop outputs to 0.",
+                            "It determines the direction of a data shift.",
+                            "It enables the clock signal to reach the D flip-flops, allowing new data to be stored.",
+                            "It reads the data out from the register onto the output lines."
+                        ],
+                        correct: 2,
+                        explanation: "The circuit on slide 48 shows an 8-bit register made of D flip-flops. The 'Clock' and 'Load' signals are inputs to an AND gate. The output of this AND gate is then connected to the clock input (Clk) of every D flip-flop. For the flip-flops to be clocked and store the new data present on the data lines (D11-D18), the clock signal must pass through the AND gate. This will only happen when the 'Load' signal is high (1). When 'Load' is low, the clock is blocked, and the register holds its current value."
+                    },
+                    {
+                        id: 43,
+                        text: "What is the main advantage of a synchronous counter over an asynchronous (ripple) counter?",
+                        options: [
+                            "Synchronous counters use fewer logic gates.",
+                            "Synchronous counters are simpler to design.",
+                            "All flip-flops in a synchronous counter change state at the same time, making it faster.",
+                            "Asynchronous counters cannot be designed to count in non-binary sequences."
+                        ],
+                        correct: 2,
+                        explanation: "Slide 50 distinguishes between the two types of counters. In an asynchronous counter, the output of one flip-flop triggers the next, creating a ripple effect that introduces a cumulative delay. In a synchronous counter, all flip-flops are connected to a common clock and change state simultaneously. This eliminates the ripple delay, making synchronous counters faster and preferred for use in high-speed applications like CPUs."
+                    },
+                    {
+                        id: 44,
+                        text: "In the design of the synchronous counter in Figure 12.33, what is the primary purpose of using Karnaugh maps?",
+                        options: [
+                            "To determine the number of flip-flops required for the counter.",
+                            "To design the combinational logic that generates the J and K inputs for each flip-flop.",
+                            "To create the state transition table for the counter.",
+                            "To select the type of flip-flop (e.g., D vs J-K) to use."
+                        ],
+                        correct: 1,
+                        explanation: "The design of a synchronous counter involves determining the necessary inputs to each flip-flop (Ja, Ka, Jb, Kb, etc.) to produce the desired sequence of states (the count). As shown in Figure 12.33(b) on slide 51, a truth table (excitation table) is first created that lists the required J-K inputs for each state transition. Karnaugh maps are then used to simplify the Boolean functions for each of these J and K inputs, treating them as functions of the counter's current state (A, B, C). This results in the minimal combinational logic required to drive the counter correctly."
+                    }
+                ]
+            },
+            {
+                section: "Programmable Logic Devices",
+                questions: [
+                    {
+                        id: 45,
+                        text: "What is the key structural difference between a Programmable Logic Array (PLA) and a Programmable Array Logic (PAL)?",
+                        options: [
+                            "A PLA has a programmable AND-plane and a programmable OR-plane, while a PAL has a programmable AND-plane and a fixed OR-plane.",
+                            "A PAL has a programmable AND-plane and a programmable OR-plane, while a PLA has a programmable AND-plane and a fixed OR-plane.",
+                            "PLAs are used for combinational logic, while PALs are used for sequential logic.",
+                            "A PAL is a more complex device than a PLA, consisting of multiple PLA-like blocks."
+                        ],
+                        correct: 0,
+                        explanation: "The terminology on slide 52 clearly defines the difference. A PLA is described as having \"two levels of logic, an AND-plane and an OR-plane, where both levels are programmable.\" A PAL is described as having \"a programmable AND-plane followed by a fixed OR-plane.\" This makes PALs less flexible but often simpler and faster."
+                    },
+                    {
+                        id: 46,
+                        text: "Based on the diagram of the programmed PLA in Figure 12.34(b), what is the Boolean function for the output O1?",
+                        options: [
+                            "O1 = ABC' + AB",
+                            "O1 = AB + AC'",
+                            "O1 = (A+B+C') · (A+B)",
+                            "O1 = ABC' · AB"
+                        ],
+                        correct: 0,
+                        explanation: "In the PLA diagram on slide 53, the output O1 is connected to the outputs of two OR-plane connections, which are in turn fed by the AND-plane. Tracing the connections, O1 is the sum (OR) of two product terms. The first product term is formed by inputs A, B, and C' (ABC'). The second product term is formed by inputs A and B (AB). Therefore, the function is O1 = ABC' + AB."
+                    },
+                    {
+                        id: 47,
+                        text: "According to the PLD terminology on slide 52, how is a Complex PLD (CPLD) described?",
+                        options: [
+                            "A single, large programmable AND-plane and a fixed OR-plane.",
+                            "A device that consists of an arrangement of multiple SPLD-like blocks on a single chip.",
+                            "A PLD featuring a general structure of logic blocks and programmable interconnects for very high capacity.",
+                            "A relatively small circuit block that is replicated in an array in an FPD."
+                        ],
+                        correct: 1,
+                        explanation: "Slide 52 defines a Complex PLD (CPLD) as \"A more complex PLD that consists of an arrangement of multiple SPLD-like blocks on a single chip.\" An SPLD (Simple PLD) is a PLA or PAL. So a CPLD is essentially an integrated collection of smaller, simpler PLDs with a programmable interconnect structure. Option C describes an FPGA, and option A describes a PAL."
+                    },
+                    {
+                        id: 48,
+                        text: "What are the three fundamental components that make up the general structure of a Field-Programmable Gate Array (FPGA), as shown in Figure 12.35?",
+                        options: [
+                            "CPU, Memory, and I/O Ports",
+                            "Logic Blocks, I/O Blocks, and Programmable Interconnects",
+                            "AND-plane, OR-plane, and Flip-Flops",
+                            "Decoders, Multiplexers, and Adders"
+                        ],
+                        correct: 1,
+                        explanation: "Figure 12.35 on slide 54 shows the architecture of an FPGA. It consists of an array of configurable Logic Blocks (which implement logic functions), surrounded by programmable I/O blocks (which connect to the chip's pins), all linked together by a network of programmable interconnects (routing channels)."
+                    },
+                    {
+                        id: 49,
+                        text: "What are the three main components of the simple FPGA logic block shown in Figure 12.36?",
+                        options: [
+                            "AND gate, OR gate, and NOT gate.",
+                            "A lookup table (LUT), a D flip-flop, and a 2-to-1 multiplexer.",
+                            "Two decoders and a shift register.",
+                            "A full adder, a half adder, and a carry-lookahead unit."
+                        ],
+                        correct: 1,
+                        explanation: "Figure 12.36 on slide 55 illustrates a basic FPGA logic block. It clearly shows a \"16x1 lookup table\" which is used to implement any combinational function of its inputs (A0-A3). The output of the LUT can then either be registered (stored) by the D flip-flop or passed directly. The 2-to-1 multiplexer selects whether the final output of the block is the combinational result from the LUT or the registered result from the flip-flop."
+                    },
+                    {
+                        id: 50,
+                        text: "Which of the following is NOT a type of combinational circuit discussed in the presentation?",
+                        options: [
+                            "Adder",
+                            "Decoder",
+                            "Counter",
+                            "Multiplexer"
+                        ],
+                        correct: 2,
+                        explanation: "The summary slide (slide 56) and the preceding slides categorize the various circuits. Adders (slide 37), Decoders (slide 29), and Multiplexers (slide 25) are all discussed as types of combinational circuits because their output is a direct function of their current inputs. A Counter (slide 50), however, is a sequential circuit because it contains state (the current count) which is stored in flip-flops and its next state depends on its current state."
+                    }
+                ]
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            incorrect: 0,
+            totalQuestions: 50
+        };
+
+        function generateQuiz() {
+            const content = document.getElementById('quizContent');
+            content.innerHTML = '';
+
+            quizData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.section;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <div class="question-header">Question ${question.id}</div>
+                        <div class="question-content">
+                            <div class="question-text">${question.text}</div>
+                            <ul class="options">
+                                ${question.options.map((option, index) => `
+                                    <li class="option" data-index="${index}">
+                                        <label>
+                                            <input type="radio" name="q${question.id}" value="${index}">
+                                            ${String.fromCharCode(65 + index)}. ${option}
+                                        </label>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="explanation">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                    
+                    sectionDiv.appendChild(questionDiv);
+                });
+
+                content.appendChild(sectionDiv);
+            });
+
+            // Add event listeners to all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', handleAnswer);
+            });
+        }
+
+        function handleAnswer(event) {
+            const questionId = parseInt(event.target.name.replace('q', ''));
+            const selectedIndex = parseInt(event.target.value);
+            
+            // Find the question data
+            let questionData = null;
+            for (let section of quizData) {
+                questionData = section.questions.find(q => q.id === questionId);
+                if (questionData) break;
+            }
+
+            if (!questionData) return;
+
+            // Get the question element
+            const questionElement = event.target.closest('.question');
+            const options = questionElement.querySelectorAll('.option');
+            const explanation = questionElement.querySelector('.explanation');
+
+            // Disable all radio buttons for this question
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.disabled = true;
+            });
+
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                if (index === questionData.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show explanation
+            explanation.classList.add('show');
+
+            // Update stats
+            if (selectedIndex === questionData.correct) {
+                stats.correct++;
+            } else {
+                stats.incorrect++;
+            }
+            stats.answered++;
+
+            updateStats();
+            
+            // Check if quiz is complete
+            if (stats.answered === stats.totalQuestions) {
+                setTimeout(showFinalStats, 1000);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('progress').textContent = `${stats.answered}/${stats.totalQuestions}`;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('incorrect').textContent = stats.incorrect;
+            
+            const percentage = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+            document.getElementById('score').textContent = `${percentage}%`;
+            
+            const progressPercentage = (stats.answered / stats.totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        }
+
+        function showFinalStats() {
+            const finalScore = Math.round((stats.correct / stats.totalQuestions) * 100);
+            document.getElementById('finalScore').textContent = `${finalScore}%`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = '🎉 Excellent! You have mastered digital logic and Boolean algebra!';
+            } else if (finalScore >= 80) {
+                message = '👍 Great job! You have a solid understanding of digital circuits!';
+            } else if (finalScore >= 70) {
+                message = '👌 Good work! Consider reviewing some concepts to improve further.';
+            } else if (finalScore >= 60) {
+                message = '📚 Keep studying! You\'re on the right track but need more practice.';
+            } else {
+                message = '💪 Don\'t give up! Review the material and try again.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalStats').classList.add('show');
+        }
+
+        function restartQuiz() {
+            stats = {
+                answered: 0,
+                correct: 0,
+                incorrect: 0,
+                totalQuestions: 50
+            };
+            
+            document.getElementById('finalStats').classList.remove('show');
+            updateStats();
+            generateQuiz();
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
